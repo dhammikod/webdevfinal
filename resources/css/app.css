@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer utilities{
+    .animation-delay-2000{
+        animation-delay: 2s;
+    }
+    .animation-delay-4000{
+        animation-delay: 4s;
+    }
+}
+
+::-webkit-scrollbar {
+    margin-left: 22px;
+	float: left;
+	height: 300px;
+	width: 8px;
+	background: #F5F5F5;
+	overflow-y: scroll;
+	margin-bottom: 25px;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #F90;	
+	background-image: -webkit-linear-gradient(45deg,rgba(255, 255, 255, .2) 25%,
+											  transparent 25%,
+											  transparent 50%,
+											  rgba(255, 255, 255, .2) 50%,
+											  rgba(255, 255, 255, .2) 75%,
+											  transparent 75%,
+											  transparent)
+}
+
+html{
+	scroll-behavior: smooth;
+}
+body{
+	overflow: visible;
+}
+@media screen and (min-width:768px) {
+	.terpaksa {
+		max-width: 40%;  
+		height: auto;  
+	}
+	.terpaksa2{
+		max-width: 30%;
+		height: auto;
+	}       
+}
