@@ -2,21 +2,80 @@
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
+//onclick
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+function onPointerMove( event ) {
+
+	// calculate pointer position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+}
+
+function onclick( event ) {
+
+	// calculate pointer position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+	raycaster.setFromCamera( pointer, camera );
+
+	// calculate objects intersecting the picking ray
+	const intersects = raycaster.intersectObjects( scene.children );
+
+	// if(intersects[ i ] == 94){
+
+	// }
+	if(intersects.length > 0){
+		// intersects[ 0 ].object.material.color.set( 0xff0000 );
+		// console.log(intersects[0].object);
+		// console.log(scene.children[2]['children'][96]);
+		// console.log(scene.children[2]['children']);
+		// console.log(scene.children[2]['children'][47]);
+		var tes = 0;
+		while (tes < 100) {
+			if(intersects[0].object == scene.children[2]['children'][tes]){
+				console.log(tes);
+				break;
+			}
+			tes++;
+		  }
+
+		// if(intersects[0].object == scene.children[2]['children'][96]['children'][0] || intersects[0].object == scene.children[2]['children'][96]['children'][1]){
+		// 	console.log('sukses masuk userdashboard');
+		// }
+	}
+
+}
+//scene
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 renderer.shadowMap.enabled = true;
-
 //for helping the development process
 // const axesHelper = new THREE.AxesHelper(5);
 // scene.add(axesHelper);
 
 //orbit camera
 const orbit = new OrbitControls(camera, renderer.domElement);
-camera.position.z = 5;
-camera.position.y = 3;
+camera.position.z = 7;
+camera.position.y = 7;
 //must be declared after camera position declaration
 orbit.update();
+orbit.target.set(0,0,0);
+orbit.enablePan = false;
+orbit.minDistance = 9;
+orbit.maxDistance = 15;
+orbit.maxPolarAngle = Math.PI / 2.2;
+orbit.minPolarAngle = Math.PI / 5;
+
+
 
 //bloommm
 const renderScene = new RenderPass(scene, camera);
@@ -24,13 +83,85 @@ const composer = new EffectComposer(renderer);
 
 composer.addPass(renderScene);
 
+//spotlight
+// const spotlight = new THREE.SpotLight(0x858179);
+// scene.add(spotlight);
+// spotlight.castShadow = true;
+// spotlight.angle = 0.2;
+
+// spotlight.position.set(-100, 100, 100);
+
+// const ambientlight = new THREE.AmbientLight(0x333333);
+// scene.add(ambientlight);
+
+//lampu
+let light1, light2, light3, light4;
+light1 = new THREE.PointLight( 0xff0040, 0.67, 20 );
+light1.position.set( 4.1 , 3, 4.2 );
+scene.add( light1 );
+
+light2 = new THREE.PointLight( 0x0040ff, 1.12, 50 );
+light2.position.set( 1 , 4, -2 );
+scene.add( light2 );
+
+light3 = new THREE.PointLight( 0xede15a, 2, 5 );
+light3.position.set( -1 , 7, -1	 );
+scene.add( light3 );
+
+light4 = new THREE.PointLight( 0x226827, 1.17, 12 );
+light4.position.set( -2 , 2, -1	 );
+scene.add( light4 );
+
+// const helper = new THREE.PointLightHelper(light1);
+// scene.add(helper);
+
+// const helper2 = new THREE.PointLightHelper(light2);
+// scene.add(helper2);
+
+// const helper3 = new THREE.PointLightHelper(light3);
+// scene.add(helper3);
+// const helper4 = new THREE.PointLightHelper(light4);
+// scene.add(helper4);
+// function updateLight() {
+//   helper4.update();
+// }
+
+// class ColorGUIHelper {
+//     constructor(object, prop) {
+//       this.object = object;
+//       this.prop = prop;
+//     }
+//     get value() {
+//       return `#${this.object[this.prop].getHexString()}`;
+//     }
+//     set value(hexString) {
+//       this.object[this.prop].set(hexString);
+//     }
+//   }
+
+// function makeXYZGUI(gui, vector3, name, onChangeFn) {
+//     const folder = gui.addFolder(name);
+//     folder.add(vector3, 'x', -10, 10).onChange(onChangeFn);
+//     folder.add(vector3, 'y', 0, 10).onChange(onChangeFn);
+//     folder.add(vector3, 'z', -10, 10).onChange(onChangeFn);
+//     folder.open();
+//   }
+
+// const gui = new GUI();
+// gui.addColor(new ColorGUIHelper(light4, 'color'), 'value').name('color');
+// gui.add(light4, 'intensity', 0, 2, 0.01);
+// gui.add(light4, 'distance', 0, 40).onChange(updateLight);
+
+// makeXYZGUI(gui, light4.position, 'position');
+
+
 //creating the plane
-// const planeform = new THREE.PlaneGeometry(100,100);
-// const planecolour = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
-// const plane = new THREE.Mesh(planeform, planecolour);
-// scene.add(plane);
-// plane.rotation.x = -0.5 * Math.PI;
-// plane.receiveShadow = true;
+const planeform = new THREE.PlaneGeometry(100,100);
+const planecolour = new THREE.MeshStandardMaterial({color: 0x858179});
+const plane = new THREE.Mesh(planeform, planecolour);
+scene.add(plane);
+plane.rotation.x = -0.5 * Math.PI;
+plane.receiveShadow = true;
 
 
 //BLOOMMMM
@@ -49,25 +180,19 @@ const loader = new GLTFLoader();
         const model = glb.scene;
 
         scene.add( model );
+		var i = 0;
+		// while (i < 99) {
+		// 	scene.children[2]['children'][i].receiveShadow = true;
+		// 	scene.children[2]['children'][i].castShadow = true;
+		// 	i++;
+		//   }
+		
+		console.log(model);
 		model.traverse(function(node){
 			if(node.isMesh){
 				node.castShadow = true;
-				node.receiveShadow = true;
-				// node.geometry = new THREE.Geometry().fromBufferGeometry( child.geometry );  
-                // node.geometry.mergeVertices(); 
-
-                // //assignUVs(child.geometry);
-
-                // node.material = material;
-                // node.verticesNeedUpdate = true;
-                // node.normalsNeedUpdate = true;
-                // node.uvsNeedUpdate = true;
-
-                // node.material.shading = THREE.SmoothShading;
-                // node.geometry.computeVertexNormals(); 
 			}
 		});
-		model.receiveShadow = true;
     }, undefined, function ( error ) {
 
         console.error( error );
@@ -92,23 +217,10 @@ const loader = new GLTFLoader();
 // directionallight1.shadow.camera.bottom = -100;
 // directionallight1.shadow.radius = 10;
 
-// const dlight1shadowHelper = new THREE.CameraHelper(directionallight1.shadow.camera);
+// const dlight1shadowHelper = new THREE.CameraHelper(spotlight.shadow.camera);
 // scene.add(dlight1shadowHelper);
 
-//spotlight
-const spotlight = new THREE.SpotLight(0xFFFFFF);
-scene.add(spotlight);
-spotlight.castShadow = true;
-// spotlight.intensity = 0.75;
-spotlight.angle = 0.2;
 
-spotlight.position.set(-100, 100, 0);
-
-const slighthelper = new THREE.SpotLightHelper(spotlight);
-scene.add(slighthelper);
-
-const ambientlight = new THREE.AmbientLight(0x333333);
-scene.add(ambientlight);
 
 
 // const helper = new THREE.DirectionalLightHelper(directionallight1);
@@ -126,10 +238,24 @@ function animate() {
 	// step += speed;
 	// ril.position.y = 10 * Math.abs(Math.sin(step)); 
 
+	
+
 	renderer.render( scene, camera );
 
 	composer.render();
 	requestAnimationFrame(animate);
 };
 
+function onWindowResize() {
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+addEventListener( 'pointermove', onPointerMove );
+addEventListener( 'click', onclick );
+addEventListener( 'resize', onWindowResize );
 animate();

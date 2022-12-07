@@ -14,6 +14,8 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
+import { GUI } from 'dat.gui'
+
 window.THREE = THREE;
 
 window.Alpine = Alpine;
@@ -27,5 +29,7 @@ window.RenderPass = RenderPass;
 window.EffectComposer = EffectComposer;
 
 window.UnrealBloomPass = UnrealBloomPass;
+
+window.GUI = GUI;
 
 Alpine.start();
