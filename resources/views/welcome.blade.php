@@ -1,15 +1,12 @@
 @extends('layouts.maintemp')
 
-@section('title', $title)
 
 @section('content')
-
-
-@php
-    $i = 0;
-@endphp
-@if ($i == 0)
+<script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+    <script>
+        AOS.init();
+    </script>
 <script src="js/main.js" type="module"></script>
-@endif
+
 
 @endsection
