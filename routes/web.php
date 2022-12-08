@@ -17,10 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
-Route::get('/new', [NewProductController::class, 'index']);
-
-Route::get('/catalog', [ProductController::class, 'index']);
+Route::get('/catalog', [Controller::class, 'catalog']);
 
 Route::get('/', [Controller::class, 'home']);
 

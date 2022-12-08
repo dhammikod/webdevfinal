@@ -13,7 +13,13 @@ class Controller extends BaseController
 
     public function home() {
         return view('welcome', [
-            'title' => 'Home'
+            'pagetitle' => 'Home'
+        ]);
+    }
+
+    public function catalog() {
+        return view('catalog', [
+            'pagetitle' => 'Catalog'
         ]);
     }
 }
