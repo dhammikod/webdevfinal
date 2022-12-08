@@ -2019,7 +2019,8 @@ blockquote.text-white cite span {
     position: relative
 }
 
-.menu.sf-arrows .sf-with-ul::after {
+
+/* .menu.sf-arrows .sf-with-ul::after {
     font-family: 'molla';
     content: '\f110';
     position: absolute;
@@ -2029,7 +2030,7 @@ blockquote.text-white cite span {
     font-size: 1rem;
     line-height: 1;
     margin-top: -.5rem
-}
+} */
 
 .menu.sf-arrows ul .sf-with-ul {
     padding-right: 4rem
@@ -5677,7 +5678,8 @@ p {
     align-content: center;
     flex-direction: column;
     padding-top: 2.1rem;
-    padding-bottom: 2.9rem
+    padding-bottom: 2.9rem;
+    text-align: center
 }
 
 .footer-bottom .container:before,
@@ -5689,7 +5691,8 @@ p {
     top: 0;
     left: 10px;
     right: 10px;
-    background-color: #ebebeb
+    background-color: #ebebeb;
+    text-align: center
 }
 
 .footer-copyright {
@@ -5749,12 +5752,10 @@ p {
 
 @media screen and (min-width: 992px) {
     .footer-bottom .container,
-    .footer-bottom .container-fluid {
-        flex-direction: row
-    }
+    .footer-bottom .container-fluid {}
     .footer-copyright {
         margin-bottom: 0;
-        text-align: left
+        text-align: center
     }
     .footer-payments {
         margin-right: 0

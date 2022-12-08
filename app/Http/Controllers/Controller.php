@@ -22,4 +22,10 @@ class Controller extends BaseController
             'pagetitle' => 'Catalog'
         ]);
     }
+
+    public function login() {
+        return view('login', [
+            'pagetitle' => 'Login'
+        ]);
+    }
 }

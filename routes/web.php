@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/catalog', [Controller::class, 'catalog']);
 
+Route::get('/login', [Controller::class, 'login']);
+
+
 Route::get('/', [Controller::class, 'home']);
 
 Route::get('/dashboard', function () {

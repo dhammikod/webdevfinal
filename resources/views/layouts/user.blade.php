@@ -13,8 +13,6 @@
     <link rel="manifest" href="user/images/icons/site.html">
     <link rel="mask-icon" href="user/images/icons/safari-pinned-tab.svg" color="#666666">
     <link rel="shortcut icon" href="user/images/icons/favicon.ico">
-    <meta name="apple-mobile-web-app-title" content="Molla">
-    <meta name="application-name" content="Molla">
     <meta name="msapplication-TileColor" content="#cc9966">
     <meta name="msapplication-config" content="user/images/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
