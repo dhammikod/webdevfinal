@@ -62,7 +62,7 @@
                         </li>
 
                         <li>
-                            <a href="" class="sf-with-ul">About Us</a>
+                            <a href="/aboutus" class="sf-with-ul">About Us</a>
                         </li>
 
                     </ul><!-- End .menu -->
@@ -107,7 +107,7 @@
 
                         <div class="compare-actions">
                             <a href="#" class="action-link">Clear All</a>
-                            <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i
+                            <a href="/wishlist" class="btn btn-outline-primary-2"><span>View Wishlist</span><i
                                     class="icon-long-arrow-right"></i></a>
                         </div>
                     </div><!-- End .dropdown-menu -->
@@ -172,8 +172,8 @@
                         </div><!-- End .dropdown-cart-total -->
 
                         <div class="dropdown-cart-action">
-                            <a href="cart.html" class="btn btn-primary">View Cart</a>
-                            <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i
+                            <a href="/cart" class="btn btn-primary">View Cart</a>
+                            <a href="/checkout" class="btn btn-outline-primary-2"><span>Checkout</span><i
                                     class="icon-long-arrow-right"></i></a>
                         </div><!-- End .dropdown-cart-total -->
                     </div><!-- End .dropdown-menu -->

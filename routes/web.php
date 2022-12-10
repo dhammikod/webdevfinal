@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\NewProductController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/catalog', [Controller::class, 'catalog']);
 
 Route::get('/login', [Controller::class, 'login']);
+
+Route::get('/signin', [Controller::class, 'signin']);
+
+Route::get('/cart', [Controller::class, 'cart']);
+
+Route::get('/wishlist', [Controller::class, 'wishlist']);
+
 
 
 Route::get('/', [Controller::class, 'home']);

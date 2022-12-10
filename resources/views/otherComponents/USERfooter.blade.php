@@ -45,8 +45,8 @@
 
                         <ul class="widget-list">
                             <li><a href="/login">Sign In</a></li>
-                            <li><a href="cart.html">View Cart</a></li>
-                            <li><a href="#">My Wishlist</a></li>
+                            <li><a href="#">View Cart</a></li>
+                            <li><a href="/wishlist">My Wishlist</a></li>
                             <li><a href="#">Track My Order</a></li>
                         </ul><!-- End .widget-list -->
                     </div><!-- End .widget -->

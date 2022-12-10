@@ -28,4 +28,22 @@ class Controller extends BaseController
             'pagetitle' => 'Login'
         ]);
     }
+
+    public function signin() {
+        return view('signin', [
+            'pagetitle' => 'Sign In'
+        ]);
+    }
+
+    public function wishlist() {
+        return view('wishlist', [
+            'pagetitle' => 'Wishlist'
+        ]);
+    }
+
+    public function cart() {
+        return view('cart', [
+            'pagetitle' => 'Cart'
+        ]);
+    }
 }
