@@ -26,6 +26,23 @@
     <link href="admin/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="admin/vendor/simple-datatables/style.css" rel="stylesheet">
 
+    
+
+    <!-- Template Main CSS File -->
+    <link href="admin/styleAdmin.css" rel="stylesheet">
+
+    <title>{{ $pagetitle }}</title>
+
+</head>
+
+
+<body>
+    @include('otherComponents.ADMINheader&sidebar')
+    @yield('content')
+
+
+
+
     <!-- Vendor JS Files -->
     <script src="admin/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -36,17 +53,6 @@
     <script src="admin/vendor/tinymce/tinymce.min.js"></script>
     <script src="admin/vendor/php-email-form/validate.js"></script>
 
-    <!-- Template Main CSS & JS File -->
-    <link href="admin/styleAdmin.css" rel="stylesheet">
     <script src="admin/mainAdmin.js"></script>
-
-    <title>{{ $pagetitle }}</title>
-
-</head>
-
-
-<body>
-    @include('otherComponents.ADMINheader&sidebar')
-    @yield('content')
 
 </body>

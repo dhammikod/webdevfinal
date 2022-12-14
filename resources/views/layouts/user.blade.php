@@ -23,21 +23,7 @@
     <link rel="stylesheet" href="user/css/plugins/magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="user/css/plugins/nouislider/nouislider.css">
 
-    <!-- Plugins JS File -->
-    <script src="user/js/jquery.min.js"></script>
-    <script src="user/js/bootstrap.bundle.min.js"></script>
-    <script src="user/js/jquery.hoverIntent.min.js"></script>
-    <script src="user/js/jquery.waypoints.min.js"></script>
-    <script src="user/js/superfish.min.js"></script>
-    <script src="user/js/owl.carousel.min.js"></script>
-    <script src="user/js/wNumb.js"></script>
-    <script src="user/js/bootstrap-input-spinner.js"></script>
-    <script src="user/js/jquery.magnific-popup.min.js"></script>
-    <script src="user/js/nouislider.min.js"></script>
-    <script src="user/js/jquery.countTo.js"></script>
-
-    <!-- Main JS File -->
-    <script src="user/js/main.js"></script>
+   
 
     <title>{{ $pagetitle }}</title>
 
@@ -50,4 +36,20 @@
 
 
     @include('otherComponents.USERfooter')
+
+     <!-- Plugins JS File -->
+     <script src="user/js/jquery.min.js"></script>
+     <script src="user/js/bootstrap.bundle.min.js"></script>
+     <script src="user/js/jquery.hoverIntent.min.js"></script>
+     <script src="user/js/jquery.waypoints.min.js"></script>
+     <script src="user/js/superfish.min.js"></script>
+     <script src="user/js/owl.carousel.min.js"></script>
+     <script src="user/js/wNumb.js"></script>
+     <script src="user/js/bootstrap-input-spinner.js"></script>
+     <script src="user/js/jquery.magnific-popup.min.js"></script>
+     <script src="user/js/nouislider.min.js"></script>
+     <script src="user/js/jquery.countTo.js"></script>
+ 
+     <!-- Main JS File -->
+     <script src="user/js/main.js"></script>
 </body>

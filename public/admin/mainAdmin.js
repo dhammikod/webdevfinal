@@ -18,9 +18,6 @@
      * Easy event listener function
      */
     const on = (type, el, listener, all = false) => {
-
-        console.log(type, " " + el + " " + listener + " " + all);
-
         if (all) {
             select(el, all).forEach((e) => e.addEventListener(type, listener));
         } else {
