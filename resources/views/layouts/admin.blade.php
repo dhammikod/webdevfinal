@@ -5,8 +5,6 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Admin</title>
-
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -24,9 +22,22 @@
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
+ <!-- Vendor JS Files -->
+ <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+ <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <script src="assets/vendor/chart.js/chart.min.js"></script>
+ <script src="assets/vendor/echarts/echarts.min.js"></script>
+ <script src="assets/vendor/quill/quill.min.js"></script>
+ <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+ <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+ <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main CSS & JS File -->
   <link href="admin/styleAdmin.css" rel="stylesheet">
   <script src="admin/mainAdmin.js"></script> 
+
+  <title>{{ $pagetitle }}</title>
+
 </head>
 
 

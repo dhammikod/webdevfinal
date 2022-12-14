@@ -1,5 +1,6 @@
 // Main Js File
 $(document).ready(function() {
+
     'use strict';
 
     owlCarousels();
@@ -166,36 +167,6 @@ $(document).ready(function() {
 
             $this.find('.product-footer').css({ 'visibility': 'hidden', 'transform': 'translateY(100%)' });
             $this.find('.product-body').css('transform', 'translateY(0)');
-        });
-    }
-
-    // Slider For category pages / filter price
-    if (typeof noUiSlider === 'object') {
-        var priceSlider = document.getElementById('price-slider');
-
-        // Check if #price-slider elem is exists if not return
-        // to prevent error logs
-        if (priceSlider == null) return;
-
-        noUiSlider.create(priceSlider, {
-            start: [0, 750],
-            connect: true,
-            step: 50,
-            margin: 200,
-            range: {
-                'min': 0,
-                'max': 1000
-            },
-            tooltips: true,
-            format: wNumb({
-                decimals: 0,
-                prefix: '$'
-            })
-        });
-
-        // Update Price Range
-        priceSlider.noUiSlider.on('update', function(values, handle) {
-            $('#filter-price-range').text(values.join(' - '));
         });
     }
 
@@ -425,6 +396,8 @@ $(document).ready(function() {
         });
     }
 
+
+
     // Checkout discount input - toggle label if input is empty etc...
     $('#checkout-discount-input').on('focus', function() {
         // Hide label on focus
@@ -513,6 +486,7 @@ $(document).ready(function() {
             isotopeFilter('.product-filter', '.products-container'); //filterNav - .container
         });
     }
+
 
     // Count
     var $countItem = $('.count');
@@ -782,5 +756,36 @@ $(document).ready(function() {
                 });
             }, 500)
         }, 10000)
+    }
+
+    // ERROR FOR SOME REASON CHECK AGAIN LATER
+    // Slider For category pages / filter price
+    if (typeof noUiSlider === 'object') {
+        var priceSlider = document.getElementById('price-slider');
+
+        // Check if #price-slider elem is exists if not return
+        // to prevent error logs
+        if (priceSlider == null) return;
+
+        noUiSlider.create(priceSlider, {
+            start: [0, 750],
+            connect: true,
+            step: 50,
+            margin: 200,
+            range: {
+                'min': 0,
+                'max': 1000
+            },
+            tooltips: true,
+            format: wNumb({
+                decimals: 0,
+                prefix: '$'
+            })
+        });
+
+        // Update Price Range
+        priceSlider.noUiSlider.on('update', function(values, handle) {
+            $('#filter-price-range').text(values.join(' - '));
+        });
     }
 });

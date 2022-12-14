@@ -36,6 +36,8 @@
     <script src="user/js/bootstrap-input-spinner.js"></script>
     <script src="user/js/jquery.magnific-popup.min.js"></script>
     <script src="user/js/nouislider.min.js"></script>
+    <script src="user/js/jquery.countTo.js"></script>
+
     <!-- Main JS File -->
     <script src="user/js/main.js"></script>
 

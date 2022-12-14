@@ -202,13 +202,13 @@
         <nav class="mobile-nav">
             <ul class="mobile-menu">
                 <li class="active">
-                    <a href="index.html">Home</a>
+                    <a href="/">Home</a>
                 </li>
                 <li>
-                    <a href="category.html">Catalog</a>
+                    <a href="/catalog">Catalog</a>
                 </li>
                 <li>
-                    <a href="product.html" class="sf-with-ul">About Us</a>
+                    <a href="/aboutus" class="sf-with-ul">About Us</a>
                 </li>
             </ul>
         </nav><!-- End .mobile-nav -->

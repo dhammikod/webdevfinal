@@ -15566,6 +15566,10 @@ button:focus {
     margin-bottom: .2rem
 }
 
+.checkout img {
+    width: 30%;
+}
+
 .checkout .form-control {
     margin-bottom: 1.3rem
 }
