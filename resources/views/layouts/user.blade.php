@@ -6,15 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="p-themes">
+
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="user/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="user/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="user/images/icons/favicon-16x16.png">
-    <link rel="manifest" href="user/images/icons/site.html">
-    <link rel="mask-icon" href="user/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="user/images/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logo.jpg">
+    <link rel="icon" href="mg/logo.jpg">
+    <link rel="mask-icon" href="img/logo.jpg" color="#666666">
+    <link rel="shortcut icon" href="img/logo.jpg">
     <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="user/images/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
 
     <!-- Plugins CSS File -->
