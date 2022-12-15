@@ -58,7 +58,7 @@
                                     </div><!-- End .form-footer -->
                                 </form>
                                 
-                                <div class="form-choice">
+                                {{-- <div class="form-choice">
                                     <p class="text-center">or sign in with</p>
                                     <div class="row">
                                         <div class="col-sm-6">
@@ -75,12 +75,18 @@
                                         </div><!-- End .col-6 -->
                                     </div><!-- End .row -->
                                 </div><!-- End .form-choice -->
-                            </div><!-- .End .tab-pane -->
+                            </div><!-- .End .tab-pane --> --}}
 
 
                             <div class="tab-pane fade show active" id="register-2" role="tabpanel"
                                 aria-labelledby="register-tab-2">
                                 <form action="#">
+                                    <div class="form-group">
+                                        <label for="register-email-2">Your Name*</label>
+                                        <input type="text" class="form-control" id="register-name-2"
+                                            name="register-name" required>
+                                    </div><!-- End .form-group -->
+
                                     <div class="form-group">
                                         <label for="register-email-2">Your email address *</label>
                                         <input type="email" class="form-control" id="register-email-2"

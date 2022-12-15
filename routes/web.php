@@ -18,10 +18,6 @@ Route::get('/', [Controller::class, 'home']);
 
 Route::get('/catalog', [Controller::class, 'catalog']);
 
-Route::get('/login', [Controller::class, 'login']);
-
-Route::get('/signin', [Controller::class, 'signin']);
-
 Route::get('/cart', [Controller::class, 'cart']);
 
 Route::get('/checkout', [Controller::class, 'checkout']);
