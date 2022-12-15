@@ -26,7 +26,7 @@ Route::get('/wishlist', [Controller::class, 'wishlist']);
 
 Route::get('/aboutus', [Controller::class, 'aboutus']);
 
-Route::get('/dashboard', [Controller::class, 'dashboard']);
+// Route::get('/dashboard', [Controller::class, 'dashboard']);
 
 Route::get('/admin-dashboard', [Controller::class, 'adminDashboard']);
 
@@ -43,8 +43,10 @@ Route::get('/admin-orders', [Controller::class, 'adminOrders']);
 Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks']);
 
 
-Route::get('/dashboarddd', function () {
-    return view('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard', [
+        'pagetitle' => 'Dashboard'
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';

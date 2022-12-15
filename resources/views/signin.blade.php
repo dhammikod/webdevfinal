@@ -29,7 +29,7 @@
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
+                            <div class="tab-pane fade show active" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
                                 <form action="#">
                                     <div class="form-group">
                                         <label for="singin-email-2">Username or email address *</label>
@@ -75,28 +75,30 @@
                                         </div><!-- End .col-6 -->
                                     </div><!-- End .row -->
                                 </div><!-- End .form-choice -->
-                            </div><!-- .End .tab-pane --> --}}
+                                --}}
+                            </div><!-- .End .tab-pane --> 
 
 
-                            <div class="tab-pane fade show active" id="register-2" role="tabpanel"
+                            <div class="tab-pane fade " id="register-2" role="tabpanel"
                                 aria-labelledby="register-tab-2">
-                                <form action="#">
+                                <form action="{{ route("register") }}" method="POST">
+                                    @csrf
                                     <div class="form-group">
                                         <label for="register-email-2">Your Name*</label>
-                                        <input type="text" class="form-control" id="register-name-2"
-                                            name="register-name" required>
+                                        <input type="text" class="form-control" id="registername"
+                                            name="registername" required>
                                     </div><!-- End .form-group -->
 
                                     <div class="form-group">
                                         <label for="register-email-2">Your email address *</label>
-                                        <input type="email" class="form-control" id="register-email-2"
-                                            name="register-email" required>
+                                        <input type="email" class="form-control" id="registeremail"
+                                            name="registeremail" required>
                                     </div><!-- End .form-group -->
 
                                     <div class="form-group">
                                         <label for="register-password-2">Password *</label>
-                                        <input type="password" class="form-control" id="register-password-2"
-                                            name="register-password" required>
+                                        <input type="password" class="form-control" id="registerpassword"
+                                            name="registerpassword" required>
                                     </div><!-- End .form-group -->
 
                                     <div class="form-footer">
@@ -113,7 +115,8 @@
                                         </div><!-- End .custom-checkbox -->
                                     </div><!-- End .form-footer -->
                                 </form>
-                                <div class="form-choice">
+                                
+                                {{-- <div class="form-choice">
                                     <p class="text-center">or sign in with</p>
                                     <div class="row">
                                         <div class="col-sm-6">
@@ -129,7 +132,7 @@
                                             </a>
                                         </div><!-- End .col-6 -->
                                     </div><!-- End .row -->
-                                </div><!-- End .form-choice -->
+                                </div><!-- End .form-choice --> --}}
                             </div><!-- .End .tab-pane -->
                         </div><!-- End .tab-content -->
                     </div><!-- End .form-tab -->
