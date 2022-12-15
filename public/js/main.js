@@ -38,18 +38,23 @@ function onclick( event ) {
 		// console.log(scene.children[2]['children'][96]);
 		// console.log(scene.children[2]['children']);
 		// console.log(scene.children[2]['children'][47]);
-		var tes = 0;
-		while (tes < 100) {
-			if(intersects[0].object == scene.children[2]['children'][tes]){
-				console.log(tes);
-				break;
-			}
-			tes++;
-		  }
-
-		// if(intersects[0].object == scene.children[2]['children'][96]['children'][0] || intersects[0].object == scene.children[2]['children'][96]['children'][1]){
-		// 	console.log('sukses masuk userdashboard');
-		// }
+		// console.log(scene.children);
+		// console.log(intersects[0]['object']['name']);
+		if(intersects[0]['object']['name'] == "log_in" || intersects[0]['object']['name'] == "Cube054_2" || intersects[0]['object']['name'] == "Cube054_1"){
+			console.log("berhasil masuk page catalog");
+		}
+		// var tes = 0;
+		// while (tes < 100) {
+		// 	if(intersects[0]['object'] == scene.children[5]['children'][tes]){
+		// 		console.log(tes);
+				
+		// 		break;
+		// 	}
+		// 	tes++;
+		//   }
+		
+		
+		
 	}
 
 }
@@ -68,7 +73,7 @@ camera.position.z = 7;
 camera.position.y = 7;
 //must be declared after camera position declaration
 orbit.update();
-orbit.target.set(0,0,0);
+orbit.target.set(0,3,0);
 orbit.enablePan = false;
 orbit.minDistance = 9;
 orbit.maxDistance = 15;
@@ -174,31 +179,53 @@ const bloomPass = new UnrealBloomPass(
 composer.addPass(bloomPass);
 
 //membuat object
-const loader = new GLTFLoader();
+// const loader = new GLTFLoader();
 
-    loader.load( '/3d/CYBER.glb', function ( glb ) {
-        const model = glb.scene;
+//     loader.load( '/3d/CYBER.glb', function ( glb ) {
+//         const model = glb.scene;
 
-        scene.add( model );
-		var i = 0;
-		// while (i < 99) {
-		// 	scene.children[2]['children'][i].receiveShadow = true;
-		// 	scene.children[2]['children'][i].castShadow = true;
-		// 	i++;
-		//   }
+//         scene.add( model );
+// 		var i = 0;
+// 		// while (i < 99) {
+// 		// 	scene.children[2]['children'][i].receiveShadow = true;
+// 		// 	scene.children[2]['children'][i].castShadow = true;
+// 		// 	i++;
+// 		//   }
 		
-		console.log(model);
-		model.traverse(function(node){
-			if(node.isMesh){
-				node.castShadow = true;
-			}
-		});
-    }, undefined, function ( error ) {
+// 		console.log(model);
+// 		model.traverse(function(node){
+// 			if(node.isMesh){
+// 				node.castShadow = true;
+// 			}
+// 		});
+//     }, undefined, function ( error ) {
 
-        console.error( error );
+//         console.error( error );
 
-    } );
+//     } );
 
+//dracoloader
+var loader = new GLTFLoader();
+var dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath("/3d/draco/");
+loader.setDRACOLoader( dracoLoader );
+
+loader.load( '/3d/cybdrc.gltf', function ( GLTF ) {
+	        const model = GLTF.scene;
+	
+	        scene.add( model );
+			
+			// console.log(model);
+			model.traverse(function(node){
+				if(node.isMesh){
+					node.castShadow = true;
+				}
+			});
+	    }, undefined, function ( error ) {
+	
+	        console.error( error );
+	
+	    } );
 
 //tes
 // const sphere = new THREE.SphereGeometry(4);
