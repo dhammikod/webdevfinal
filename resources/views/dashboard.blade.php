@@ -1,4 +1,3 @@
-@dd(auth()->user())
 @extends('layouts.user')
 
 

@@ -30,7 +30,16 @@
                         <a href="#">Links</a>
                         <ul>
                             <li><a href="tel:#"><i class="icon-phone"></i>Call: +62 813 3663 8906</a></li>
-                            <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                            @auth
+                                <form action="/logout" method="POST">
+                                @csrf
+                                <button class="btn" type="submit">Logout</button>
+                            </form>
+                            @endauth
+                            @guest
+                                <li><a href="/signin" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                            @endguest
+                            
                         </ul>
                     </li>
                 </ul><!-- End .top-menu -->
