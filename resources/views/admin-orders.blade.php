@@ -18,10 +18,8 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Bordered Tabs</h5>
 
-                <!-- Bordered Tabs -->
-                <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
+                <ul class="nav nav-tabs nav-tabs-bordered pt-3" id="borderedTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="Pending-tab" data-bs-toggle="tab"
                             data-bs-target="#bordered-Pending" type="button" role="tab" aria-controls="home"

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\order;
 use App\Models\shipping_address;
 use App\Models\User;
@@ -114,7 +115,8 @@ class Controller extends BaseController
     public function adminItem()
     {
         return view('admin-items', [
-            'pagetitle' => 'Admin Item'
+            'pagetitle' => 'Admin Item',
+            'item' => Item::all()          
         ]);
     }
 
