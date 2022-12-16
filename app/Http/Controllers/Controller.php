@@ -50,6 +50,7 @@ class Controller extends BaseController
         ->where('id_item', $id)
         ->get();
 
+
         return view('product-details', [
             'pagetitle' => 'Product Details',
             'items' => $items,
