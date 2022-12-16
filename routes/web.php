@@ -29,17 +29,18 @@ Route::get('/wishlist', [Controller::class, 'wishlist']);
 
 Route::get('/aboutus', [Controller::class, 'aboutus']);
 
-Route::get('/admin-dashboard', [Controller::class, 'adminDashboard']);
+Route::get('/admin-dashboard', [Controller::class, 'adminDashboard'])->middleware(['auth', 'verified'])->name('admin-dashboard');;
 
-Route::get('/admin-profile', [Controller::class, 'adminProfile']);
+Route::get('/admin-profile', [Controller::class, 'adminProfile'])->middleware(['auth', 'verified'])->name('admin-profile');;
+Route::post('admin-profile', [RegisteredUserController::class, 'updateAdmin']);
 
-Route::get('/admin-item_requests', [Controller::class, 'adminItem_requests']);
+Route::get('/admin-item_requests', [Controller::class, 'adminItem_requests'])->middleware(['auth', 'verified'])->name('admin-item_requests');;
 
-Route::get('/admin-billing_options', [Controller::class, 'adminBilling_options']);
+Route::get('/admin-billing_options', [Controller::class, 'adminBilling_options'])->middleware(['auth', 'verified'])->name('admin-billing_options');;
 
-Route::get('/admin-manage_accounts', [Controller::class, 'adminManage_accounts']);
+Route::get('/admin-manage_account', [Controller::class, 'adminManage_account'])->middleware(['auth', 'verified'])->name('admin-manage_account');
 
-Route::get('/admin-orders', [Controller::class, 'adminOrders']);
+Route::get('/admin-orders', [Controller::class, 'adminOrders'])->middleware(['auth', 'verified'])->name('admin-orders');
 
 Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks'])->middleware(['auth', 'verified'])->name('admin-website_feedbacks');
 

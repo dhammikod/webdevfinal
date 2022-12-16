@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\shipping_address;
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -14,19 +15,22 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function home() {
+    public function home()
+    {
         return view('welcome', [
             'pagetitle' => 'Home'
         ]);
     }
 
-    public function catalog() {
+    public function catalog()
+    {
         return view('catalog', [
             'pagetitle' => 'Catalog'
         ]);
     }
 
-    public function login() {
+    public function login()
+    {
         return view('login', [
             'pagetitle' => 'Login'
         ]);
@@ -45,25 +49,29 @@ class Controller extends BaseController
         ]);
     }
 
-    public function wishlist() {
+    public function wishlist()
+    {
         return view('wishlist', [
             'pagetitle' => 'Wishlist'
         ]);
     }
 
-    public function cart() {
+    public function cart()
+    {
         return view('cart', [
             'pagetitle' => 'Cart'
         ]);
     }
 
-    public function checkout() {
+    public function checkout()
+    {
         return view('checkout', [
             'pagetitle' => 'Checkout'
         ]);
     }
 
-    public function aboutus() {
+    public function aboutus()
+    {
         return view('aboutus', [
             'pagetitle' => 'About Us'
         ]);
@@ -81,43 +89,51 @@ class Controller extends BaseController
         ]);
     }
 
-    public function adminDashboard() {
+    public function adminDashboard()
+    {
         return view('admin-dashboard', [
             'pagetitle' => 'Admin Dashboard'
         ]);
     }
 
-    public function adminProfile() {
+    public function adminProfile()
+    {
         return view('admin-profile', [
-            'pagetitle' => 'Admin Profile'
+            'pagetitle' => 'Admin Profile',
         ]);
     }
 
-    public function adminItem_requests() {
+    public function adminItem_requests()
+    {
         return view('admin-item_requests', [
             'pagetitle' => 'Admin Item Requests'
         ]);
     }
 
-    public function adminBilling_options() {
+    public function adminBilling_options()
+    {
         return view('admin-billing_options', [
             'pagetitle' => 'Admin Billing'
         ]);
     }
 
-    public function adminManage_accounts() {
-        return view('admin-manage_accounts', [
-            'pagetitle' => 'Admin Manage Accounts'
+    public function adminManage_account()
+    {
+        return view('admin-manage_account', [
+            'pagetitle' => 'Admin Manage Accounts',
+            'user' => User::all()
         ]);
     }
 
-    public function adminOrders() {
+    public function adminOrders()
+    {
         return view('admin-orders', [
             'pagetitle' => 'Admin Orders'
         ]);
     }
 
-    public function adminWebsite_feedbacks() {
+    public function adminWebsite_feedbacks()
+    {
         return view('admin-website_feedbacks', [
             'pagetitle' => 'Admin Website Feedbacks'
         ]);

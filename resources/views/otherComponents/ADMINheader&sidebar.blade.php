@@ -57,10 +57,11 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
-                            </a>
+                            <form action="/logout" method="POST">
+                                @csrf
+                                <button class="dropdown-item d-flex align-items-center" type="submit"><i
+                                        class="bi bi-box-arrow-right"></i><span>Sign Out</span></button>
+                            </form>
                         </li>
 
                     </ul><!-- End Profile Dropdown Items -->
@@ -77,7 +78,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="/admin-dashboard">
+                <a class="nav-link collapsed" href="/admin-dashboard">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
@@ -92,7 +93,7 @@
             </li><!-- End Profile Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/admin-manage_accounts">
+                <a class="nav-link collapsed" href="/admin-manage_account">
                     <i class="bi bi-people"></i>
                     <span>Manage Accounts</span>
                 </a>

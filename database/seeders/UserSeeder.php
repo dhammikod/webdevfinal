@@ -21,6 +21,8 @@ class UserSeeder extends Seeder
                 'email' => 'h@gmail.com',
                 'password' => Hash::make("password123"),
                 'status' => 'admin',
+                'profile_picture' => 'noimgeplaceholder'
+
             ]
         );
 
@@ -30,6 +32,7 @@ class UserSeeder extends Seeder
                 'email' => 'd@gmail.com',
                 'password' => Hash::make("password123"),
                 'status' => 'admin',
+                'profile_picture' => 'noimgeplaceholder'
             ]
         );
 

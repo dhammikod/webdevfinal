@@ -43,10 +43,10 @@ class RegisteredUserController extends Controller
 
         $user = User::create([
             'name' => $request->registername,
-            'profile_picture'=> "",
+            'profile_picture' => "",
             'email' => $request->registeremail,
             'password' => Hash::make($request->registerpassword),
-            'status'=> 'user',
+            'status' => 'user',
         ]);
         event(new Registered($user));
 
@@ -62,26 +62,53 @@ class RegisteredUserController extends Controller
         $id = $user['id'];
         $user = User::findOrFail($id);
 
-        
-        if($request->oldpassword != ""){
-           if(Hash::check($request->oldpassword, $user['password'])){
-                if($request->newpassword == $request->newpassword2){
+
+        if ($request->oldpassword != "") {
+            if (Hash::check($request->oldpassword, $user['password'])) {
+                if ($request->newpassword == $request->newpassword2) {
                     $user->update([
                         "name" => $request->name,
                         "email" => $request->email,
                         "password" => Hash::make("$request->newpassword"),
                     ]);
                 }
-           }    
-        }else{
+            }
+        } else {
             $user->update([
                 "name" => $request->name,
                 "email" => $request->email,
             ]);
         }
 
-        
+
 
         return redirect("/dashboard");
+    }
+
+    public function updateAdmin(request $request)
+    {
+        //
+        $user = Auth::user();
+        $id = $user['id'];
+        $user = User::findOrFail($id);
+
+
+        if ($request->adminOldPass != "") {
+            if (Hash::check($request->adminOldPass, $user['password'])) {
+
+                $user->update([
+                    "name" => $request->adminName,
+                    "email" => $request->adminEmail,
+                    "password" => Hash::make("$request->adminNewPass"),
+                ]);
+            }
+        } else {
+            $user->update([
+                "name" => $request->adminName,
+                "email" => $request->adminEmail,
+            ]);
+        }
+
+        return redirect("/admin-profile");
     }
 }
