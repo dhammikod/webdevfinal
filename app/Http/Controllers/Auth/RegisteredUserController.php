@@ -54,4 +54,34 @@ class RegisteredUserController extends Controller
 
         return redirect(route('login'));
     }
+
+    public function update(request $request)
+    {
+        //
+        $user = Auth::user();
+        $id = $user['id'];
+        $user = User::findOrFail($id);
+
+        
+        if($request->oldpassword != ""){
+           if(Hash::check($request->oldpassword, $user['password'])){
+                if($request->newpassword == $request->newpassword2){
+                    $user->update([
+                        "name" => $request->name,
+                        "email" => $request->email,
+                        "password" => Hash::make("$request->newpassword"),
+                    ]);
+                }
+           }    
+        }else{
+            $user->update([
+                "name" => $request->name,
+                "email" => $request->email,
+            ]);
+        }
+
+        
+
+        return redirect("/dashboard");
+    }
 }

@@ -31,10 +31,8 @@
                         <ul>
                             <li><a href="tel:#"><i class="icon-phone"></i>Call: +62 813 3663 8906</a></li>
                             @auth
-                                <form action="/logout" method="POST">
-                                @csrf
-                                <button class="btn" type="submit">Logout</button>
-                            </form>
+                                
+                            <li><a href="/dashboard" class="sf-with-ul"><i class="icon-user"></i>dashboard</a></li>
                             @endauth
                             @guest
                                 <li><a href="/signin" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
@@ -122,6 +120,7 @@
                     </div><!-- End .dropdown-menu -->
                 </div><!-- End .Wishlist-dropdown -->
 
+                {{-- shopping carttt --}}
                 <div class="dropdown cart-dropdown">
                     <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false" data-display="static">

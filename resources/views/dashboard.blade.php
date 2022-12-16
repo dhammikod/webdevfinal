@@ -1,6 +1,7 @@
 @extends('layouts.user')
-
-
+@php
+    $user = Auth::user();
+@endphp
 @section('content')
 <main class="main">
     <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
@@ -46,9 +47,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
                             </li>
-                            
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Sign Out</a>
+                                <form action="/logout" method="POST">
+                                @csrf
+                                <button class="btn" type="submit">Logout</button>
+                                </form>
                             </li>
                         </ul>
                     </aside><!-- End .col-lg-3 -->
@@ -56,34 +59,23 @@
                     <div class="col-md-8 col-lg-9">
                         <div class="tab-content">
                             <div class="tab-pane fade  show active" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-                                <form action="#">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <label>First Name *</label>
-                                            <input type="text" class="form-control" required>
-                                        </div><!-- End .col-sm-6 -->
-
-                                        <div class="col-sm-6">
-                                            <label>Last Name *</label>
-                                            <input type="text" class="form-control" required>
-                                        </div><!-- End .col-sm-6 -->
-                                    </div><!-- End .row -->
-
+                                <form action="" method="POST">
+                                    @csrf
                                     <label>Display Name *</label>
-                                    <input type="text" class="form-control" required>
+                                    <input type="text" name="name" class="form-control" value="{{ $user["name"] }}" required>
                                     <small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
 
                                     <label>Email address *</label>
-                                    <input type="email" class="form-control" required>
+                                    <input type="email" name="email" class="form-control" value="{{ $user["email"] }}" required>
 
                                     <label>Current password (leave blank to leave unchanged)</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" name="oldpassword" class="form-control">
 
                                     <label>New password (leave blank to leave unchanged)</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" name="newpassword" class="form-control">
 
                                     <label>Confirm new password</label>
-                                    <input type="password" class="form-control mb-2">
+                                    <input type="password" name="newpassword2" class="form-control mb-2">
 
                                     <button type="submit" class="btn btn-outline-primary-2">
                                         <span>SAVE CHANGES</span>
@@ -92,11 +84,13 @@
                                 </form>
                             </div><!-- .End .tab-pane -->
 
+                            {{-- order minipage --}}
                             <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
                                 <p>No order has been made yet.</p>
                                 <a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
                             </div><!-- .End .tab-pane -->
 
+                            {{-- addresses minipage --}}
                             <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
                                 <p>The following addresses will be used on the checkout page by default.</p>
 

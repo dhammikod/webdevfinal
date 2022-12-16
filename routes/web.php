@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserCOntroller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,11 +44,12 @@ Route::get('/admin-orders', [Controller::class, 'adminOrders']);
 
 Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks']);
 
-
 Route::get('/dashboard', function () {
     return view('dashboard', [
         'pagetitle' => 'Dashboard'
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::post('dashboard', [RegisteredUserController::class, 'update']);
 
 require __DIR__.'/auth.php';
