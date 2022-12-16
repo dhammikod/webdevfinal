@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ItemPictureController;
 use App\Http\Controllers\ItemRequestController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\UserCOntroller;
@@ -63,4 +65,9 @@ Route::get('/makeaddress', [Controller::class, 'makeaddress']);
 Route::resource('shipping_address', ShippingAddressController::class);
 
 Route::resource('item_requests', ItemRequestController::class);
+
+Route::resource('items', ItemController::class);
+
+Route::resource('item_pictures', ItemPictureController::class);
+
 require __DIR__.'/auth.php';

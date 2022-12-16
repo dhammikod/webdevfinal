@@ -13,7 +13,7 @@ class Updateitem_pictureRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

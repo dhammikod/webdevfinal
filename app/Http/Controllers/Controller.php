@@ -146,9 +146,11 @@ class Controller extends BaseController
 
     public function adminItem()
     {
+        $items = DB::table('items')
+        ->get();
         return view('admin-items', [
             'pagetitle' => 'Admin Item',
-            'item' => Item::all()          
+            "items" => $items         
         ]);
     }
 

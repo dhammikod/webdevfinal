@@ -36,7 +36,22 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        //
+        // $this->validate($request, [
+        //     "postal_code" => 'required|integer',
+        //     "shipment_address" => 'required|string|max:155',
+        //     "contact" => 'required|string|max:155',
+        //     "city" => 'required|string|max:155',
+        //     "notes" => 'required|string|max:155',
+        // ]);
+
+        Item::create([
+            'nama' => $request->nama,
+            'price' => $request->price,
+            'sold' => 0,
+            'description' => $request->description,
+            'category' => $request->category,
+        ]);
+        return redirect('/admin-items');
     }
 
     /**
@@ -56,9 +71,12 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Item $item)
+    public function edit($id)
     {
-        //
+        return view("admin-update-items", [
+            "item" =>Item::findOrFail($id),
+            'pagetitle'=>"Update items",
+        ]);
     }
 
     /**
@@ -68,9 +86,20 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateItemRequest $request, Item $item)
+    public function update(UpdateItemRequest $request, $id)
     {
-        //
+        $Item = Item::findOrFail($id);
+
+        $Item->update([
+            'nama' => $request->nama,
+            'price' => $request->price,
+            'description' => $request->description,
+            'category' => $request->category,
+        ]);
+
+        
+
+        return redirect('/admin-items');
     }
 
     /**
@@ -79,8 +108,12 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item)
+    public function destroy($id)
     {
-        //
+        $item = Item::findOrFail($id);
+
+        $item->delete();
+
+        return redirect('/admin-items');
     }
 }

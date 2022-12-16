@@ -144,7 +144,7 @@
 
                                 <figure class="product-image-container">
                                     <a href="product.html" class="product-image">
-                                        <img src="assets/images/products/cart/product-1.jpg" alt="product">
+                                        <img src="assets/images/products/cart/product-1.jpg" alt="logo">
                                     </a>
                                 </figure>
                                 <a href="#" class="btn-remove" title="Remove Product"><i
@@ -165,7 +165,7 @@
 
                                 <figure class="product-image-container">
                                     <a href="product.html" class="product-image">
-                                        <img src="assets/images/products/cart/product-2.jpg" alt="product">
+                                        <img src="assets/images/products/cart/product-2.jpg" alt="logo">
                                     </a>
                                 </figure>
                                 <a href="#" class="btn-remove" title="Remove Product"><i

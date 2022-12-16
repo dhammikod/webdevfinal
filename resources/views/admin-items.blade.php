@@ -26,22 +26,112 @@
         <section class="section">
             <div class="row">
                 <div class="card">
-                    @php($i = 0)
+                    @foreach ($items as $item)
+                        <h3 class="m-3 mb-0">item {{ $item->id }}:</h3>
+                        <div class="card m-3">
+                            <div class="row flex align-items-center">
+                                <div class="col-md-auto">
+                                    @php
+                                        $itempictures = DB::table('item_pictures')
+                                            ->where('id_item', '=', $item->id)
+                                            ->get();
+                                    @endphp
+                                    @if (!DB::table('item_pictures')->where('id_item', '=', $item->id)->exists())
+                                        <p>No pictures Available.</p>
+                                    @else
+                                        @foreach ($itempictures as $picture)
+                                        <img src="img/{{ $picture->picture}}" alt="Picture"
+                                        class="rounded-start" height=100vh>
+                                        @endforeach
+                                    @endif
 
-                    <form action="/admin-" method="POST">
-                        @csrf
-                        @foreach ($item as $item)
-                            @if ($item['status'] == 'admin')
-                                @php($i++)
+                                   
+                                </div>
+                                <div class="col-md-auto">
+                                    <h5 class="card-title">{{ $item->nama }}</h5>
+                                    <p class="card-text ">{{ $item->description }}</p>
+                                    <a href="{{ route('items.edit', $item->id) }}">Edit <i class="icon-edit"></i></a></p>
+                                </div>
+                                <div class="col text-end">
+                                    <form action="{{ route('items.destroy', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="modal fade" id="areyouSureDelete" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Are You Sure?</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Once Deleted it can't be restored
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-danger me-5" data-bs-toggle="modal"
+                                            data-bs-target="#areyouSureDelete"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                    {{-- <button type="button" class="btn btn-danger me-5" data-bs-toggle="modal"
+                                                data-bs-target="#areyouSureDelete"><i class="bi bi-trash"></i></button> --}}
 
-
-                                
-                            @endif
-                        @endforeach
+                                </div>
+                            </div>
+                        </div><!-- End Card with an image on left -->
+                    @endforeach
                     </form>
 
                 </div>
             </div>
         </section>
+
+        <div class="modal fade" id="addNewAdmin" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title">New Item</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-2 col-form-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="name" name="nama" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <input type="Description" name="description" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-2 col-form-label">Category</label>
+                                <div class="col-sm-10">
+                                    <input type="Category" name="category" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputText" class="col-sm-2 col-form-label">Price</label>
+                                <div class="col-sm-10">
+                                    <input type="number" name="price" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
     </main>
 @endsection

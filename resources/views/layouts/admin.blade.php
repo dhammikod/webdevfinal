@@ -6,10 +6,10 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="img/logo.jpg">
-    <link rel="icon" href="mg/logo.jpg">
-    <link rel="mask-icon" href="img/logo.jpg" color="#666666">
-    <link rel="shortcut icon" href="img/logo.jpg">
+    <link href="{{ asset('img/logo.jpg') }}" rel="apple-touch-icon" sizes="180x180">
+    <link href="{{ asset('img/logo.jpg') }}" rel="icon">
+    <link href="{{ asset('img/logo.jpg') }}" rel="mask-icon" color="#666666">
+    <link href="{{ asset('img/logo.jpg') }}" rel="shortcut-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -18,18 +18,18 @@
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="admin/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="admin/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="admin/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="admin/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="admin/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="admin/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/quill/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/simple-datatables/style.css') }}" rel="stylesheet">
 
     
 
     <!-- Template Main CSS File -->
-    <link href="admin/styleAdmin.css" rel="stylesheet">
+    <link href="{{ asset('admin/styleAdmin.css') }}" rel="stylesheet">
 
     <title>{{ $pagetitle }}</title>
 
@@ -44,15 +44,17 @@
 
 
     <!-- Vendor JS Files -->
-    <script src="admin/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="admin/vendor/chart.js/chart.min.js"></script>
-    <script src="admin/vendor/echarts/echarts.min.js"></script>
-    <script src="admin/vendor/quill/quill.min.js"></script>
-    <script src="admin/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="admin/vendor/tinymce/tinymce.min.js"></script>
-    <script src="admin/vendor/php-email-form/validate.js"></script>
+    <script src="{{ asset('admin/vendor/apexcharts/apexcharts.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/chart.js/chart.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/echarts/echarts.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/quill/quill.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/simple-datatables/simple-datatables.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/tinymce/tinymce.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/php-email-form/validate.js') }}" defer></script>
+    <script src="{{ asset('admin/mainAdmin.js') }}" defer></script>
 
-    <script src="admin/mainAdmin.js"></script>
+    <script src="{{ asset('user/js/jquery.min.js') }}" defer></script>
+    
 
 </body>

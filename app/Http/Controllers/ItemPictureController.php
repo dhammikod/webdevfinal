@@ -36,7 +36,11 @@ class ItemPictureController extends Controller
      */
     public function store(Storeitem_pictureRequest $request)
     {
-        //
+        item_picture::create([
+            'id_item' => $request->id,
+            'picture' => $request->file('picture')->store('item_picture', 'public'),
+        ]);
+        return redirect('/admin-items');
     }
 
     /**
@@ -68,9 +72,16 @@ class ItemPictureController extends Controller
      * @param  \App\Models\item_picture  $item_picture
      * @return \Illuminate\Http\Response
      */
-    public function update(Updateitem_pictureRequest $request, item_picture $item_picture)
+    public function update(Updateitem_pictureRequest $request, $id)
     {
-        //
+        $item_picture = item_picture::findOrFail($id);
+        unlink('storage/'.$item_picture->picture);
+        $item_picture->update([
+            'id_item' => $request->id,
+            'picture' => $request->file('picture')->store('item_picture', 'public'),
+        ]);
+        return redirect('/admin-items');
+        
     }
 
     /**

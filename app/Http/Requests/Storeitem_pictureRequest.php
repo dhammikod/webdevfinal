@@ -13,7 +13,7 @@ class Storeitem_pictureRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

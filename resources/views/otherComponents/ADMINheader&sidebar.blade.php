@@ -6,7 +6,7 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="#" class="logo d-flex align-items-center">
-                <img src="img/logo.jpg" alt="">
+                <img src="{{asset('img/logo.jpg')}}" alt="product">
                 <span class="d-none d-lg-block">Admin</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -32,7 +32,7 @@
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                         data-bs-toggle="dropdown">
-                        <img src="img/noimgeplaceholder.jpg" alt="Profile" class="rounded-circle">
+                        <img src="{{asset('img/noimgeplaceholder.jpg')}}" alt="Profile" class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2">H&D Webmaker</span>
                     </a><!-- End Profile Iamge Icon -->
 
