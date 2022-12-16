@@ -40,13 +40,9 @@
 
                             {{-- DASHBOARD IS ITEM REQUESTS --}}
                             <li class="nav-item">
-                                <a class="nav-link" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="false">Dashboard</a>
+                                <a class="nav-link" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="false">Item Requests</a>
                             </li>
 
-                            {{-- DOWNLOAD IS FEEDBACK --}}
-                            <li class="nav-item">
-                                <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
-                            </li>
                             <li class="nav-item">
                                 <form action="/logout" method="POST">
                                 @csrf
@@ -92,7 +88,48 @@
 
                             {{-- addresses minipage --}}
                             <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
-                                <p>The following addresses will be used on the checkout page by default.</p>
+                                @php
+                                    $user = Auth::user();
+                                    $id = $user['id'];
+                                @endphp 
+                                @if (!DB::table('shipping_addresses')
+                                ->where('user_id', '=', $id)->exists())
+                                    <p>No Addresses Registered yet.</p>
+                                @else
+                                <div class="row">
+                                    @foreach ($shipping_addresses as $shipping_address)
+                                    
+                                        <div class="col-lg-6">
+                                            <div class="card card-dashboard">
+                                                <div class="card-body">
+                                                    <h3 class="card-title">Shipping address</h3><!-- End .card-title -->
+                                                    <p>{{ $shipping_address->shipment_address }}<br>
+                                                    {{ $shipping_address->city }}<br>
+                                                    {{ $shipping_address->postal_code }}<br>
+                                                    {{ $shipping_address->contact }}<br>
+                                                    {{ $shipping_address->notes }}<br>
+                                                    <a href="{{ route("shipping_address.edit", $shipping_address ->id) }}">Edit <i class="icon-edit"></i></a></p>
+                                                </div><!-- End .card-body -->
+                                                <div class="row mx-auto" >
+                                                    <div class="col-lg-6 mb-3">
+                                                        <form action="{{ route("shipping_address.destroy", $shipping_address ->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div><!-- End .card-dashboard -->
+                                            
+                                        </div>
+                                        
+                                    
+                                    @endforeach
+                                </div>
+                                @endif
+
+                                <a href="{{ route("shipping_address.create")}}" class="btn btn-outline-primary-2"><span>Link an Address</span><i class="icon-long-arrow-right"></i></a>
+                                {{-- <p>The following addresses will be used on the checkout page by default.</p>
 
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -121,8 +158,8 @@
                                             </div><!-- End .card-body -->
                                         </div><!-- End .card-dashboard -->
                                     </div><!-- End .col-lg-6 -->
-                                </div><!-- End .row -->
-                            </div><!-- .End .tab-pane -->
+                                </div><!-- End .row --> --}}
+                            <!-- .End .tab-pane -->
 
 
                             {{-- ITEM REQUEST - DASHBOARD --}}
@@ -132,11 +169,6 @@
                                 From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
                             </div><!-- .End .tab-pane -->
 
-                            {{-- FEEDBACKS - DOWNLOAD--}}
-                            <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
-                                <p>No downloads available yet.</p>
-                                <a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
-                            </div><!-- .End .tab-pane -->
 
                            
                         </div>

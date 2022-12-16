@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\UserCOntroller;
 use Illuminate\Support\Facades\Route;
 
@@ -42,12 +43,13 @@ Route::get('/admin-orders', [Controller::class, 'adminOrders']);
 
 Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks'])->middleware(['auth', 'verified'])->name('admin-website_feedbacks');
 
-Route::get('/dashboard', function () {
-    return view('dashboard', [
-        'pagetitle' => 'Dashboard'
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [Controller::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::post('dashboard', [RegisteredUserController::class, 'update']);
+
+Route::get('/makeaddress', [Controller::class, 'makeaddress']);
+// Route::post('/makeaddress', [ShippingAddressController::class, 'store']);
+
+Route::resource('shipping_address', ShippingAddressController::class);
 
 require __DIR__.'/auth.php';

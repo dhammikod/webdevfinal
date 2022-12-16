@@ -8,20 +8,21 @@
     <meta name="author" content="p-themes">
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="img/logo.jpg">
-    <link rel="icon" href="mg/logo.jpg">
-    <link rel="mask-icon" href="img/logo.jpg" color="#666666">
-    <link rel="shortcut icon" href="img/logo.jpg">
+    <link href="{{ asset('img/logo.jpg') }}" rel="apple-touch-icon" sizes="180x180">
+    <link href="{{ asset('mg/logo.jpg') }}" rel="icon">
+    <link href="{{ asset('img/logo.jpg') }}" rel="mask-icon" color="#666666">
+    <link href="{{ asset('img/logo.jpg') }}" rel="shortcut-icon">
+
     <meta name="msapplication-TileColor" content="#cc9966">
     <meta name="theme-color" content="#ffffff">
 
     <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="user/css/bootstrap.min.css">
+    <link href="{{ asset('user/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="user/css/style.css">
-    <link rel="stylesheet" href="user/css/plugins/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="user/css/plugins/magnific-popup/magnific-popup.css">
-    <link rel="stylesheet" href="user/css/plugins/nouislider/nouislider.css">
+    <link href="{{ asset('user/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('user/css/plugins/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ asset('user/css/plugins/magnific-popup/magnific-popup.css') }}" rel="stylesheet">
+    <link href="{{ asset('user/css/plugins/nouislider/nouislider.css') }}" rel="stylesheet">
 
    
 
@@ -38,18 +39,18 @@
     @include('otherComponents.USERfooter')
 
      <!-- Plugins JS File -->
-     <script src="user/js/jquery.min.js"></script>
-     <script src="user/js/bootstrap.bundle.min.js"></script>
-     <script src="user/js/jquery.hoverIntent.min.js"></script>
-     <script src="user/js/jquery.waypoints.min.js"></script>
-     <script src="user/js/superfish.min.js"></script>
-     <script src="user/js/owl.carousel.min.js"></script>
-     <script src="user/js/wNumb.js"></script>
-     <script src="user/js/bootstrap-input-spinner.js"></script>
-     <script src="user/js/jquery.magnific-popup.min.js"></script>
-     <script src="user/js/nouislider.min.js"></script>
-     <script src="user/js/jquery.countTo.js"></script>
- 
+     <script src="{{ asset('user/js/jquery.min.js') }}" defer></script>
+     <script src="{{ asset('user/js/bootstrap.bundle.min.js') }}" defer></script>
+     <script src="{{ asset('user/js/jquery.hoverIntent.min.js') }}" defer></script>
+     <script src="{{ asset('user/js/jquery.waypoints.min.js') }}" defer></script>
+     <script src="{{ asset('user/js/superfish.min.js') }}" defer></script>
+     <script src="{{ asset('user/js/owl.carousel.min.js') }}" defer></script>
+     <script src="{{ asset('user/js/wNumb.js') }}" defer></script>
+     <script src="{{ asset('user/js/bootstrap-input-spinner.js') }}" defer></script>
+     <script src="{{ asset('user/js/jquery.magnific-popup.min.js') }}" defer></script>
+     <script src="{{ asset('user/js/nouislider.min.js') }}" defer></script>
+     <script src="{{ asset('user/js/jquery.countTo.js') }}" defer></script>
+
      <!-- Main JS File -->
-     <script src="user/js/main.js"></script>
+     <script src="{{ asset('user/js/main.js') }}" defer></script>
 </body>

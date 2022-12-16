@@ -54,7 +54,7 @@
                 </button>
 
                 <a href="index.html" class="logo">
-                    <img src="img/logo.jpg" alt="Logo" width="105" height="25">
+                    <img src="{{asset('img/logo.jpg')}}" alt="Logo" width="105" height="25">
                 </a>
 
                 <nav class="main-nav">

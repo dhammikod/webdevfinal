@@ -4,7 +4,8 @@
             <div class="row">
                 <div class="col-sm-6 col-lg-3">
                     <div class="widget widget-about">
-                        <img src="img/logo.jpg" class="footer-logo" alt="Footer Logo" width="105" height="25">
+                        
+                        <img src="{{asset('img/logo.jpg')}}" class="footer-logo" alt="Footer Logo" width="105" height="25">
                         <p>Buy Now or Regret Later</p>
 
                         <div class="social-icons">
