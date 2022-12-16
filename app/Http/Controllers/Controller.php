@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\item_picture;
+use App\Models\item_size_stock;
 use App\Models\order;
 use App\Models\shipping_address;
 use App\Models\User;
@@ -27,7 +29,11 @@ class Controller extends BaseController
     public function catalog()
     {
         return view('catalog', [
-            'pagetitle' => 'Catalog'
+            'pagetitle' => 'Catalog',
+            'item' => Item::all(),    
+            'itemPicture' => item_picture::all(),      
+            'itemSizeStock' => item_size_stock::all(),       
+ 
         ]);
     }
 

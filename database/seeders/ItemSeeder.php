@@ -41,5 +41,32 @@ class ItemSeeder extends Seeder
             'category' => 'Watch',
             'statusDelete' => false
         ]);
+
+        Item::create([
+            'nama' => 'Casio',
+            'sold' => 4,
+            'price' => 100000,
+            'description' => 'casioo',
+            'category' => 'Watch',
+            'statusDelete' => false
+        ]);
+
+        Item::create([
+            'nama' => 'Nike Vaporfly',
+            'sold' => 1,
+            'price' => 10000,
+            'description' => 'nikee',
+            'category' => 'Shoes',
+            'statusDelete' => false
+        ]);
+
+        Item::create([
+            'nama' => 'Kenzo Tee',
+            'sold' => 2,
+            'price' => 300000,
+            'description' => 'Kenzio',
+            'category' => 'Clothes',
+            'statusDelete' => false
+        ]);
     }
 }

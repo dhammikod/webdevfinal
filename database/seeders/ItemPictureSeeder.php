@@ -16,22 +16,42 @@ class ItemPictureSeeder extends Seeder
     {
         item_picture::create([
             'id_item' => 1,
-            'picture' => 'picturenya 1',
+            'picture' => 'polo1',
         ]);
 
         item_picture::create([
             'id_item' => 1,
-            'picture' => 'picturenya 2',
+            'picture' => 'polo2',
         ]);
 
         item_picture::create([
             'id_item' => 1,
-            'picture' => 'picturenya 3',
+            'picture' => 'polo3',
         ]);
 
         item_picture::create([
             'id_item' => 2,
-            'picture' => 'picturenya2 1',
+            'picture' => 'yeezy1',
+        ]);
+
+        item_picture::create([
+            'id_item' => 3,
+            'picture' => 'rolex1',
+        ]);
+
+        item_picture::create([
+            'id_item' => 4,
+            'picture' => 'casio1',
+        ]);
+
+        item_picture::create([
+            'id_item' => 5,
+            'picture' => 'nike1',
+        ]);
+
+        item_picture::create([
+            'id_item' => 6,
+            'picture' => 'kenzo1',
         ]);
     }
 }

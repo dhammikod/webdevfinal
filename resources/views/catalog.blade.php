@@ -44,49 +44,63 @@
                     </div><!-- End .toolbox-right -->
                 </div><!-- End .toolbox -->
 
+
                 <div class="products">
                     <div class="row">
-                        <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <span class="product-label label-new">New</span>
-                                    <a href="product.html">
-                                        <img src="assets/images/products/product-1.jpg" alt="Product image"
-                                            class="product-image">
-                                    </a>
 
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
-                                                wishlist</span></a>
-                                    </div><!-- End .product-action -->
+                        @foreach ($item as $item)
+                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                                <div class="product">
+                                    <figure class="product-media">
+                                        <span class="product-label label-new">New</span>
+                                        <a href="product.html">
+                                            <img src="img/products/product-1.jpg" alt="Product image" class="product-image">
+                                        </a>
 
-                                    <div class="product-action action-icon-top">
-                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                    </div><!-- End .product-action -->
-                                </figure><!-- End .product-media -->
+                                        <div class="product-action-vertical">
+                                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add
+                                                    to
+                                                    wishlist</span></a>
+                                        </div><!-- End .product-action -->
 
-                                <div class="product-body">
-                                    <div class="product-cat">
-                                        <a href="#">Women</a>
-                                    </div><!-- End .product-cat -->
-                                    <h3 class="product-title"><a href="product.html">Nunc dignissim risus</a></h3>
-                                    <!-- End .product-title -->
-                                    <div class="product-price">
-                                        $50.00
-                                    </div><!-- End .product-price -->
+                                        <div class="product-action action-icon-top">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </figure><!-- End .product-media -->
 
-                                    <div class="product-nav product-nav-dots">
+                                    <div class="product-body">
+                                        <div class="product-cat">
+                                            <p>{{ $item['category'] }}</p>
+                                        </div><!-- End .product-cat -->
+                                        <h3 class="product-title"><a href="#">{{ $item['nama'] }}</a></h3>
+                                        <!-- End .product-title -->
+                                        <div class="product-price">
+                                            Rp {{ $item['price'] }}
+                                        </div><!-- End .product-price -->
+
+                                        <div class="product-nav product-nav-dots">
+                                            <p>Sold: {{ $item['sold'] }}</p>
+                                        </div>
+
+                                        <div class="product-nav product-nav-dots">
+                                            @php ($sizes = "")
+
+                                            @foreach ($itemSizeStock as $itemSizeStock)
+                                                @if ($item['id'] == $itemSizeStock['id_item'])
+                                                    @php ($sizes.$itemSizeStock['size'].',')
+                                                @endif
+                                            @endforeach
+                                            @php (rtrim($sizes, ","))
+
+                                            <p>Size: {{ $sizes }}</p>
+                                        </div><!-- End .product-nav -->
 
 
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
+                        @endforeach
 
-                                        {{-- sold dan size --}}
-
-
-
-                                    </div><!-- End .product-nav -->
-                                </div><!-- End .product-body -->
-                            </div><!-- End .product -->
-                        </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
                     </div><!-- End .row -->
 
 
