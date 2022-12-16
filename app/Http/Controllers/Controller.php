@@ -113,8 +113,11 @@ class Controller extends BaseController
 
     public function adminItem_requests()
     {
+        $item_requests = DB::table('item_requests')
+        ->get();
         return view('admin-item_requests', [
-            'pagetitle' => 'Admin Item Requests'
+            'pagetitle' => 'Admin Item Requests',
+            "item_requests" => $item_requests
         ]);
     }
 
