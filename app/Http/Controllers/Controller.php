@@ -29,10 +29,32 @@ class Controller extends BaseController
     public function catalog()
     {
         return view('catalog', [
+            $itemSizeStocks = DB::table('item_size_stocks')->get(),
             'pagetitle' => 'Catalog',
             'item' => Item::all(),    
-            'itemPicture' => item_picture::all(),      
-            'itemSizeStock' => item_size_stock::all(),       
+            'itemPictures' => item_picture::all(),      
+            'itemSizeStocks' => $itemSizeStocks
+ 
+        ]);
+    }
+
+    public function productDetails($id)
+    {
+        $items = DB::table('items')
+        ->where('id', $id)
+        ->get();
+        $pics = DB::table('item_pictures')
+        ->where('id_item', $id)
+        ->get();
+        $sizestock = DB::table('item_size_stocks')
+        ->where('id_item', $id)
+        ->get();
+
+        return view('product-details', [
+            'pagetitle' => 'Product Details',
+            'items' => $items,
+            'itemPictures' => $pics,      
+            'itemSizeStocks' => $sizestock
  
         ]);
     }

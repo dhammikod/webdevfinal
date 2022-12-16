@@ -7511,8 +7511,8 @@ p {
 
 .product-image {
     display: block;
-    width: 100%;
-    height: auto
+    width: 100vh;
+    height: 40vh;
 }
 
 .product-image-hover {

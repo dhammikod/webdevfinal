@@ -16,42 +16,42 @@ class ItemPictureSeeder extends Seeder
     {
         item_picture::create([
             'id_item' => 1,
-            'picture' => 'polo1',
+            'picture' => 'polo1.jpg',
         ]);
 
         item_picture::create([
             'id_item' => 1,
-            'picture' => 'polo2',
+            'picture' => 'polo2.jpeg',
         ]);
 
         item_picture::create([
             'id_item' => 1,
-            'picture' => 'polo3',
+            'picture' => 'polo3.jpeg',
         ]);
 
         item_picture::create([
             'id_item' => 2,
-            'picture' => 'yeezy1',
+            'picture' => 'yeezy1.jpeg',
         ]);
 
         item_picture::create([
             'id_item' => 3,
-            'picture' => 'rolex1',
+            'picture' => 'rolex1.jpeg',
         ]);
 
         item_picture::create([
             'id_item' => 4,
-            'picture' => 'casio1',
+            'picture' => 'casio1.jpg',
         ]);
 
         item_picture::create([
             'id_item' => 5,
-            'picture' => 'nike1',
+            'picture' => 'nike1.webp',
         ]);
 
         item_picture::create([
             'id_item' => 6,
-            'picture' => 'kenzo1',
+            'picture' => 'kenzo1.webp',
         ]);
     }
 }

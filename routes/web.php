@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [Controller::class, 'home']);
 
 Route::get('/catalog', [Controller::class, 'catalog']);
+Route::get('/product-details/{id}', [Controller::class, 'productDetails'])->name('product-details');
+// Route::resource('product-details', Controller::class);
 
 Route::get('/cart', [Controller::class, 'cart']);
 
