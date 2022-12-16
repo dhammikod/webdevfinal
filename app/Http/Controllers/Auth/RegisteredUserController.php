@@ -111,4 +111,37 @@ class RegisteredUserController extends Controller
 
         return redirect("/admin-profile");
     }
+
+
+
+    public function deleteAdmin(request $request)
+    {
+        
+        $user = User::findOrFail($request->input('idforDelete'));
+        
+        $user->delete();
+        
+        return redirect("/admin-manage_account");
+    }
+
+
+    public function AdminStore(Request $request)
+    {
+        // $request->validate([
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        // ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'profile_picture' => "noimgeplaceholder",
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'status' => 'admin',
+        ]);
+        event(new Registered($user));
+
+        return redirect('/admin-manage_account');
+    }
 }

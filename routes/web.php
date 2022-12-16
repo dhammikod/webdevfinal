@@ -39,6 +39,8 @@ Route::get('/admin-item_requests', [Controller::class, 'adminItem_requests'])->m
 Route::get('/admin-billing_options', [Controller::class, 'adminBilling_options'])->middleware(['auth', 'verified'])->name('admin-billing_options');;
 
 Route::get('/admin-manage_account', [Controller::class, 'adminManage_account'])->middleware(['auth', 'verified'])->name('admin-manage_account');
+Route::post('/admin-manage_accountDelete', [RegisteredUserController::class, 'deleteAdmin']);
+Route::post('/admin-manage_accountAdd', [RegisteredUserController::class, 'AdminStore']);
 
 Route::get('/admin-orders', [Controller::class, 'adminOrders'])->middleware(['auth', 'verified'])->name('admin-orders');
 
