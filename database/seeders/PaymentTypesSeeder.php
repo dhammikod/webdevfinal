@@ -15,10 +15,32 @@ class PaymentTypesSeeder extends Seeder
      */
     public function run()
     {
-        Payment_types::create([
-            'payment_type' => 'OVO',
-            'store_acc_number' => "(+52) 123123-1239",
-            'acc_name' => "hagen",
-        ]);
+        Payment_types::create(
+            [
+                'payment_type' => 'BCA Mobile',
+                'store_acc_number' => "(+52) 123123-1239",
+                'acc_name' => "Edward Wijaya",
+                'qr_code' => 'qr'
+            ]
+        );
+        
+        Payment_types::create(
+            [
+                'payment_type' => 'OVO Payment',
+                'store_acc_number' => "(+52) 123123-1239",
+                'acc_name' => "Edward Wijaya",
+                'qr_code' => 'qr'
+            ]
+        );
+
+        Payment_types::create(
+            [
+                'payment_type' => 'Go-Pay',
+                'store_acc_number' => "(+52) 123123-1239",
+                'acc_name' => "Edward Wijaya",
+                'qr_code' => 'qr'
+            ]
+        );
+
     }
 }

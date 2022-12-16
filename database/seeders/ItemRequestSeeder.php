@@ -13,14 +13,28 @@ class ItemRequestSeeder extends Seeder
      *
      * @return void
      */
+    
     public function run()
     {
-        item_request::create([
-            'user_id' => 1,
-            'request_picture' => "gambarnya di sebelah",
-            'description' => "lorem ipsum dolor siamet",
-            'status' => false,
-            'title' => "cincin nikah"
-        ]);
+        item_request::create(
+            [
+                'user_id' => 3,
+                'request_picture' => "gambarnya di sebelah",
+                'description' => "lorem ipsum dolor siamet",
+                'status' => false,
+                'title' => "cincin nikah"
+            ]
+        );
+
+        item_request::create(
+            [
+                'user_id' => 2,
+                'request_picture' => "pic",
+                'description' => "mau sepatu yang balenciaga hitam putih",
+                'status' => true,
+                'title' => "SEPATUU"
+            ]
+        );
+
     }
 }

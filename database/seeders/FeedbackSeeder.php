@@ -15,11 +15,21 @@ class FeedbackSeeder extends Seeder
      */
     public function run()
     {
-        Feedback::create([
-            'user_id' => 1,
-            'feedback' => "tokonya memiliki sangat banyak produk dan bagus-bagus",
-            'status' => true,
-            'title' => '5 bintang',
-        ]);
+        Feedback::create(
+            [
+                'user_id' => 3,
+                'feedback' => "tokonya memiliki sangat banyak produk dan bagus-bagus",
+                'status' => true,
+                'title' => '5 bintang'
+            ]
+        );
+        Feedback::create(
+            [
+                'user_id' => 3,
+                'feedback' => "Kalau bisa tokonya dikasih fitur diskon ya :)",
+                'status' => false,
+                'title' => 'Fitur Tambahan'
+            ]
+        );
     }
 }

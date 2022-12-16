@@ -11,6 +11,7 @@ class Payment_types extends Model
     protected $fillable = [
         "payment_type",
         "store_acc_number",
-        "acc_name"
+        "acc_name",
+        "qr_code"
     ];
 }

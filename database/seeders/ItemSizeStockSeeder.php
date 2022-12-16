@@ -15,10 +15,20 @@ class ItemSizeStockSeeder extends Seeder
      */
     public function run()
     {
-        item_size_stock::create([
-            'size' => 'M',
-            'stock' => 5,
-            'id_item' => 1,
-        ]);
+        item_size_stock::create(
+            [
+                'size' => 'M',
+                'stock' => 5,
+                'id_item' => 1,
+            ]
+        );
+        
+        item_size_stock::create(
+            [
+                'size' => '43',
+                'stock' => 3,
+                'id_item' => 2,
+            ]
+        );
     }
 }

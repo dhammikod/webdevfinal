@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('store_acc_number');
             $table->string('acc_name');
             $table->string('payment_type');
+            $table->string('qr_code');
         });
     }
 

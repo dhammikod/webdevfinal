@@ -20,7 +20,23 @@ class ItemSeeder extends Seeder
             'sold' => 0,
             'price' => 100000,
             'description' => 'Baju yang dapat menunjukkan otot kekar/tubuh langsing anda',
-            'category' => 'polo',
+            'category' => 'Clothes',
+        ]);
+
+        Item::create([
+            'nama' => 'Yeezy Adidas',
+            'sold' => 10,
+            'price' => 3500000,
+            'description' => 'Shiny',
+            'category' => 'Shoes',
+        ]);
+
+        Item::create([
+            'nama' => 'Rolex Gold',
+            'sold' => 0,
+            'price' => 1000000,
+            'description' => 'ROLEXXX',
+            'category' => 'Watch',
         ]);
     }
 }
