@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\shipping_address;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
 {
@@ -27,6 +29,13 @@ class Controller extends BaseController
     public function login() {
         return view('login', [
             'pagetitle' => 'Login'
+        ]);
+    }
+
+    public function makeaddress()
+    {
+        return view('makeaddress', [
+            'pagetitle' => 'makeaddress',  
         ]);
     }
 
@@ -61,9 +70,14 @@ class Controller extends BaseController
     }
 
     public function dashboard() {
+        $user = Auth::user();
+        $id = $user['id'];
+        $shipping_addresses = DB::table('shipping_addresses')
+        ->where('user_id', '=', $id)
+        ->get();
         return view('dashboard', [
             'pagetitle' => 'Dashboard',
-            "user" => $user = Auth::user(),
+            "shipping_addresses" => $shipping_addresses
         ]);
     }
 
