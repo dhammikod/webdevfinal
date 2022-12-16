@@ -163,15 +163,78 @@
 
 
                             {{-- ITEM REQUEST - DASHBOARD --}}
-                            <div class="tab-pane fade" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
-                                <p>Hello <span class="font-weight-normal text-dark">User</span> (not <span class="font-weight-normal text-dark">User</span>? <a href="#">Log out</a>) 
-                                <br>
-                                From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
-                            </div><!-- .End .tab-pane -->
+                            
 
 
                            
                         </div>
+
+                        <div class="tab-pane fade" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
+                            <form action="{{ route('item_requests.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <label>Title *</label>
+                                <input type="text" name="title" class="form-control" required>
+                                @if ($errors->has('title'))
+                                    <p class="text-danger">{{ $errors->first('title') }}</p>
+                                @endif
+                                
+                                <label>Description *</label>
+                                <input type="text" name="description" class="form-control" required>
+                                <small class="form-text">Describe the item that you want</small>
+                                @if ($errors->has('description'))
+                                    <p class="text-danger">{{ $errors->first('description') }}</p>
+                                @endif
+
+                                <label>Picture *</label>
+                                <input type="file" name="picture" class="form-control" id="img">
+                                @if ($errors->has('picture'))
+                                    <p class="text-danger">{{ $errors->first('picture') }}</p>
+                                @endif
+                                <div id="selectedBanner"></div>
+
+                                <script
+                                src="https://code.jquery.com/jquery-3.6.0.min.js"
+                                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                                crossorigin="anonymous"
+                                ></script>
+                                <script>
+                                    var selDiv = "";
+                                    var storedFiles = [];
+                                    $(document).ready(function () {
+                                      $("#img").on("change", handleFileSelect);
+                                      selDiv = $("#selectedBanner");
+                                    });
+                              
+                                    function handleFileSelect(e) {
+                                      var files = e.target.files;
+                                      var filesArr = Array.prototype.slice.call(files);
+                                      filesArr.forEach(function (f) {
+                                        if (!f.type.match("image.*")) {
+                                          return;
+                                        }
+                                        storedFiles.push(f);
+                              
+                                        var reader = new FileReader();
+                                        reader.onload = function (e) {
+                                          var html =
+                                            '<img src="' +
+                                            e.target.result +
+                                            "\" data-file='" +
+                                            f.name +
+                                            "alt='Category Image' height='200px' width='200px'>";
+                                          selDiv.html(html);
+                                        };
+                                        reader.readAsDataURL(f);
+                                      });
+                                    }
+                                  </script>
+
+                                <button type="submit" class="btn btn-outline-primary-2 mt-3">
+                                    <span>Request Item</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                </button>
+                            </form>
+                        </div><!-- .End .tab-pane -->
                     </div><!-- End .col-lg-9 -->
                 </div><!-- End .row -->
             </div><!-- End .container -->

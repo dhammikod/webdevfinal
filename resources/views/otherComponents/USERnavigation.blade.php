@@ -23,7 +23,7 @@
                     </div><!-- End .header-menu -->
                 </div><!-- End .header-dropdown -->
             </div><!-- End .header-left -->
-
+            {{-- <a href="/signin" data-toggle="modal"><i class="icon-user"></i>Login</a> --}}
             <div class="header-right">
                 <ul class="top-menu">
                     <li>
@@ -32,7 +32,7 @@
                             <li><a href="tel:#"><i class="icon-phone"></i>Call: +62 813 3663 8906</a></li>
                             @auth
                                 
-                            <li><a href="/dashboard" class="sf-with-ul"><i class="icon-user"></i>dashboard</a></li>
+                                <li><a href="/dashboard" class="sf-with-ul"><i class="icon-user"></i>dashboard</a></li>
                             @endauth
                             @guest
                                 <li><a href="/signin" data-toggle="modal"><i class="icon-user"></i>Login</a></li>

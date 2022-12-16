@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\item_request;
 use App\Http\Requests\Storeitem_requestRequest;
 use App\Http\Requests\Updateitem_requestRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ItemRequestController extends Controller
 {
@@ -36,7 +37,22 @@ class ItemRequestController extends Controller
      */
     public function store(Storeitem_requestRequest $request)
     {
-        //
+        $user = Auth::user();
+        $id = $user['id'];
+
+        $this->validate($request, [
+            "picture" => 'required',
+            "title" => 'required|string|max:155',
+            "description" => 'required|string|max:155',
+        ]);
+
+        item_request::create([
+            'user_id' => $id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'request_picture' => $request->file('picture')->store('req_picture', 'public'),
+        ]);
+        return redirect('/dashboard');
     }
 
     /**
@@ -68,9 +84,21 @@ class ItemRequestController extends Controller
      * @param  \App\Models\item_request  $item_request
      * @return \Illuminate\Http\Response
      */
-    public function update(Updateitem_requestRequest $request, item_request $item_request)
+    public function update(Updateitem_requestRequest $request, $id)
     {
-        //
+        $item_request = item_request::findOrFail($id);
+
+        if($item_request->status){
+            $item_request->status = false;
+        }else{
+            $item_request->status = true;
+        }
+
+        $item_request->update([
+            'status' => $item_request->status,
+        ]);
+
+        return redirect("/admin-item_requests");
     }
 
     /**

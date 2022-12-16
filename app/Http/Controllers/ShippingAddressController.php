@@ -96,6 +96,9 @@ class ShippingAddressController extends Controller
     public function update(Updateshipping_addressRequest $request, $id)
     {
         $shipping_address = shipping_address::findOrFail($id);
+
+        $user = Auth::user();
+        $id = $user['id'];
         $shipping_address->update([
             'user_id' => $id,
             'postal_code' => $request->postal_code,

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ItemRequestController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\UserCOntroller;
 use Illuminate\Support\Facades\Route;
@@ -61,4 +62,5 @@ Route::get('/makeaddress', [Controller::class, 'makeaddress']);
 
 Route::resource('shipping_address', ShippingAddressController::class);
 
+Route::resource('item_requests', ItemRequestController::class);
 require __DIR__.'/auth.php';
