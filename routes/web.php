@@ -28,8 +28,6 @@ Route::get('/wishlist', [Controller::class, 'wishlist']);
 
 Route::get('/aboutus', [Controller::class, 'aboutus']);
 
-// Route::get('/dashboard', [Controller::class, 'dashboard']);
-
 Route::get('/admin-dashboard', [Controller::class, 'adminDashboard']);
 
 Route::get('/admin-profile', [Controller::class, 'adminProfile']);
@@ -42,7 +40,7 @@ Route::get('/admin-manage_accounts', [Controller::class, 'adminManage_accounts']
 
 Route::get('/admin-orders', [Controller::class, 'adminOrders']);
 
-Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks']);
+Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks'])->middleware(['auth', 'verified'])->name('admin-website_feedbacks');
 
 Route::get('/dashboard', function () {
     return view('dashboard', [

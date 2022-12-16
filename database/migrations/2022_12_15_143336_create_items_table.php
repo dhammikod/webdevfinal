@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer('sold')->default(0);
             $table->string('description');
             $table->string('category');
+            $table->boolean('statusDelete');
+
         });
     }
 

@@ -15,5 +15,6 @@ class Item extends Model
         "price",
         "nama",
         "sold",
+        "statusDelete"
     ];
 }
