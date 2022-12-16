@@ -18,6 +18,7 @@ class order extends Model
         "shipment_address",
         "contact",
         "proof_of_payment",
-        "notes"
+        "notes",
+        "status"
     ];
 }

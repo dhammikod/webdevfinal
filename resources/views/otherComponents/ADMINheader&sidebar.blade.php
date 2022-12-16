@@ -90,43 +90,49 @@
                     <i class="bi bi-person"></i>
                     <span>My Profile</span>
                 </a>
-            </li><!-- End Profile Page Nav -->
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/admin-manage_account">
                     <i class="bi bi-people"></i>
                     <span>Manage Accounts</span>
                 </a>
-            </li><!-- End Contact Page Nav -->
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/admin-orders">
                     <i class="bi bi-cart2"></i>
                     <span>Orders</span>
                 </a>
-            </li><!-- End Profile Page Nav -->
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/admin-items">
+                    <i class="bi bi-box"></i>
+                    <span>Items</span>
+                </a>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/admin-billing_options">
                     <i class="bi bi-credit-card"></i>
                     <span>Billing Options</span>
                 </a>
-            </li><!-- End Profile Page Nav -->
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/admin-item_requests">
                     <i class="bi bi-inboxes"></i>
                     <span>Item Requests</span>
                 </a>
-            </li><!-- End Profile Page Nav -->
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/admin-website_feedbacks">
                     <i class="bi bi-mailbox"></i>
                     <span>Website Feedbacks</span>
                 </a>
-            </li><!-- End Profile Page Nav -->
-
+            </li>
         </ul>
 
     </aside><!-- End Sidebar-->

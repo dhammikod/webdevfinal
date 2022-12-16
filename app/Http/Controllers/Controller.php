@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\order;
 use App\Models\shipping_address;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -110,6 +111,13 @@ class Controller extends BaseController
         ]);
     }
 
+    public function adminItem()
+    {
+        return view('admin-items', [
+            'pagetitle' => 'Admin Item'
+        ]);
+    }
+
     public function adminBilling_options()
     {
         return view('admin-billing_options', [
@@ -128,7 +136,8 @@ class Controller extends BaseController
     public function adminOrders()
     {
         return view('admin-orders', [
-            'pagetitle' => 'Admin Orders'
+            'pagetitle' => 'Admin Orders',
+            'order' => order::all()          
         ]);
     }
 

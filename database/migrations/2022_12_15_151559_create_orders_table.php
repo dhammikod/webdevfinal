@@ -29,6 +29,8 @@ return new class extends Migration
             $table->string('city');
             $table->string('proof_of_payment');
             $table->string('notes');
+            $table->string('status');
+
         });
     }
 

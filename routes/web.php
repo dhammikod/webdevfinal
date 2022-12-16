@@ -36,6 +36,10 @@ Route::post('admin-profile', [RegisteredUserController::class, 'updateAdmin']);
 
 Route::get('/admin-item_requests', [Controller::class, 'adminItem_requests'])->middleware(['auth', 'verified'])->name('admin-item_requests');;
 
+
+Route::get('/admin-items', [Controller::class, 'adminItem'])->middleware(['auth', 'verified'])->name('admin-items');;
+
+
 Route::get('/admin-billing_options', [Controller::class, 'adminBilling_options'])->middleware(['auth', 'verified'])->name('admin-billing_options');;
 
 Route::get('/admin-manage_account', [Controller::class, 'adminManage_account'])->middleware(['auth', 'verified'])->name('admin-manage_account');
