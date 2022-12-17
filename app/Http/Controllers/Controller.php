@@ -31,8 +31,7 @@ class Controller extends BaseController
         return view('catalog', [
             $itemSizeStocks = DB::table('item_size_stocks')->get(),
             'pagetitle' => 'Catalog',
-            'item' => Item::all(),    
-            'itemPictures' => item_picture::all(),      
+            'items' => Item::all(),      
             'itemSizeStocks' => $itemSizeStocks
  
         ]);

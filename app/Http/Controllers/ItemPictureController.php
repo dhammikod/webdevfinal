@@ -80,7 +80,7 @@ class ItemPictureController extends Controller
             'id_item' => $request->id,
             'picture' => $request->file('picture')->store('item_picture', 'public'),
         ]);
-        return redirect('/admin-items');
+        return redirect()->back();
         
     }
 

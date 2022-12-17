@@ -5,8 +5,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemPictureController;
 use App\Http\Controllers\ItemRequestController;
+use App\Http\Controllers\ItemSizeStockController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\UserCOntroller;
+use App\Http\Controllers\WishlistController;
+use App\Models\wishlist;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,7 +33,7 @@ Route::get('/cart', [Controller::class, 'cart']);
 
 Route::get('/checkout', [Controller::class, 'checkout']);
 
-Route::get('/wishlist', [Controller::class, 'wishlist']);
+
 
 Route::get('/aboutus', [Controller::class, 'aboutus']);
 
@@ -69,5 +72,10 @@ Route::resource('item_requests', ItemRequestController::class);
 Route::resource('items', ItemController::class);
 
 Route::resource('item_pictures', ItemPictureController::class);
+
+Route::resource('item_size_stocks', ItemSizeStockController::class);
+
+// Route::get('/wishlist', [Controller::class, 'wishlist']);
+Route::resource('wishlist', WishlistController::class);
 
 require __DIR__.'/auth.php';

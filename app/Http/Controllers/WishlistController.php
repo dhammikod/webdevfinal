@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\wishlist;
 use App\Http\Requests\StorewishlistRequest;
 use App\Http\Requests\UpdatewishlistRequest;
+use Illuminate\Support\Facades\DB;
 
 class WishlistController extends Controller
 {
@@ -36,7 +37,16 @@ class WishlistController extends Controller
      */
     public function store(StorewishlistRequest $request)
     {
-        //
+        if(!DB::table('wishlists')
+        ->where('item_id', '=', $request->itemid)
+        ->where('user_id', '=', $request->userid)
+        ->exists()){
+            wishlist::create([
+                'item_id' => $request->itemid,
+                'user_id' => $request->userid,
+            ]);
+        }
+        return redirect('/catalog');
     }
 
     /**
@@ -79,8 +89,27 @@ class WishlistController extends Controller
      * @param  \App\Models\wishlist  $wishlist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(wishlist $wishlist)
+    public function destroy($id)
     {
-        //
+        $wishlist = wishlist::findOrFail($id);
+
+        $wishlist->delete();
+
+        return redirect()->back();
+    }
+
+    /**
+     * Remove all the specified resource from storage.
+     *
+     * @param  \App\Models\wishlist  $wishlist
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyall($id)
+    {
+        $wishlist = wishlist::findOrFail($id);
+
+        $wishlist->delete();
+
+        return redirect()->back();
     }
 }

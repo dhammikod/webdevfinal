@@ -13,7 +13,7 @@ class Storeitem_size_stockRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

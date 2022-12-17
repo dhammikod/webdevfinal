@@ -36,7 +36,12 @@ class ItemSizeStockController extends Controller
      */
     public function store(Storeitem_size_stockRequest $request)
     {
-        //
+        item_size_stock::create([
+            'id_item' => $request->id,
+            'stock' => $request->stock,
+            'size' => $request->SIZE,
+        ]);
+        return redirect()->back();
     }
 
     /**
@@ -68,9 +73,15 @@ class ItemSizeStockController extends Controller
      * @param  \App\Models\item_size_stock  $item_size_stock
      * @return \Illuminate\Http\Response
      */
-    public function update(Updateitem_size_stockRequest $request, item_size_stock $item_size_stock)
+    public function update(Updateitem_size_stockRequest $request, $id)
     {
-        //
+        $item_size_stocks = item_size_stock::findOrFail($id);
+        $item_size_stocks->update([
+            'id_item' => $request->id,
+            'stock' => $request->stock,
+            'size' => $request->SIZE,
+        ]);
+        return redirect()->back();
     }
 
     /**

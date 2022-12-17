@@ -1,4 +1,7 @@
 <header class="header">
+    @php
+        $user = Auth::user();
+    @endphp
     <div class="header-top">
         <div class="container">
             <div class="header-left">
@@ -31,13 +34,13 @@
                         <ul>
                             <li><a href="tel:#"><i class="icon-phone"></i>Call: +62 813 3663 8906</a></li>
                             @auth
-                                
+
                                 <li><a href="/dashboard" class="sf-with-ul"><i class="icon-user"></i>dashboard</a></li>
                             @endauth
                             @guest
                                 <li><a href="/signin" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
                             @endguest
-                            
+
                         </ul>
                     </li>
                 </ul><!-- End .top-menu -->
@@ -54,7 +57,7 @@
                 </button>
 
                 <a href="index.html" class="logo">
-                    <img src="{{asset('img/logo.jpg')}}" alt="Logo" width="105" height="25">
+                    <img src="{{ asset('img/logo.jpg') }}" alt="Logo" width="105" height="25">
                 </a>
 
                 <nav class="main-nav">
@@ -95,23 +98,48 @@
                         aria-expanded="false" data-display="static" title="Compare Products"
                         aria-label="Compare Products">
                         <i class="icon-heart-o"></i>
-                        <span class="compare-count">2</span>
+                        @php
+                            $count = DB::table('wishlists')
+                                ->where('user_id', '=', $user->id)
+                                ->count();
+                        @endphp
+                        <span class="compare-count">{{ $count }}</span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right">
                         <ul class="compare-products">
-                            <li class="compare-product">
-                                <a href="#" class="btn-remove" title="Remove Product"><i
-                                        class="icon-close"></i></a>
-                                <h4 class="compare-product-title"><a href="product.html">Blue Night Dress</a></h4>
-                            </li>
-                            <li class="compare-product">
-                                <a href="#" class="btn-remove" title="Remove Product"><i
-                                        class="icon-close"></i></a>
-                                <h4 class="compare-product-title"><a href="product.html">White Long Skirt</a></h4>
-                            </li>
+                            @php
+                                
+                                $wishlistsid = DB::table('wishlists')
+                                    ->where('user_id', '=', $user->id)
+                                    ->get();
+                                
+                            @endphp
+                            @foreach ($wishlistsid as $items)
+                                @php
+                                    $item = DB::table('items')
+                                    ->where('id', '=', $items->item_id)
+                                    ->get();
+                                @endphp
+                                @foreach ($item as $ite)
+                                <li class="compare-product">
+                                    <form action="{{ route("wishlist.destroy", 10000) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
+                                    </form>
+                                    <h4 class="compare-product-title"><a href="product.html">{{ $ite->nama }}</a></h4>
+                                </li>
+                                @endforeach
+                            @endforeach
                         </ul>
 
+                        <form action="{{ route("wishlist.destroy", $user->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="clearall" value="{{ $user->id }}">
+                            <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
+                        </form>
                         <div class="compare-actions">
                             <a href="#" class="action-link">Clear All</a>
                             <a href="/wishlist" class="btn btn-outline-primary-2"><span>View Wishlist</span><i
@@ -122,8 +150,8 @@
 
                 {{-- shopping carttt --}}
                 <div class="dropdown cart-dropdown">
-                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false" data-display="static">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" data-display="static">
                         <i class="icon-shopping-cart"></i>
                         <span class="cart-count">2</span>
                     </a>
