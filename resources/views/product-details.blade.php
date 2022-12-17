@@ -191,6 +191,7 @@
                                         to
                                         wishlist</span>
                                 </button>
+                            </form>
                         </div><!-- End .product-action -->
 
                         <div class="product-action action-icon-top">
