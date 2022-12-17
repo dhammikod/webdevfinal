@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemPictureController;
 use App\Http\Controllers\ItemRequestController;
 use App\Http\Controllers\ItemSizeStockController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentTypesController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\ShoppingCartController;
@@ -36,6 +37,7 @@ Route::get('/product-details/{id}', [Controller::class, 'productDetails'])->name
 Route::get('/cart', [Controller::class, 'cart']);
 
 Route::get('/checkout', [Controller::class, 'checkout']);
+Route::post('/checkoutProceed', [Controller::class, 'OrderaddDB']);
 
 
 

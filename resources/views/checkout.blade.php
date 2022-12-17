@@ -20,58 +20,113 @@
         <div class="page-content">
             <div class="checkout">
                 <div class="container">
-                    <form action="#">
+                    <form action="/checkoutProceed" method="POST">
+                        @csrf
                         <div class="row">
                             <div class="col-lg-9">
-                                @foreach ($userBililngDetails as $userBililngDetail)
+                                @if ($userBililngDetails->toArray() == null)
                                     <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
 
+                                    <input type="hidden" value="{{ Auth::user()->id }}" name="Id">
+
+
                                     <label>Full Name *</label>
-                                    <input type="text" class="form-control" required
-                                        value="{{ $userBililngDetail->name }}">
+                                    <input type="text" class="form-control" required name="FullName">
 
 
 
                                     <label>Street address *</label>
                                     <input type="text" class="form-control" placeholder="House number and Street name"
-                                        required value="{{ $userBililngDetail->shipment_address }}">
-                                    <label>Specific Address Notes *</label>
+                                        required name="StreetAddress">
+
+
+                                    <label>Specific Address Notes (optional)</label>
                                     <input type="text" class="form-control"
-                                        placeholder="Appartments, suite, unit etc ..." required
-                                        value="{{ $userBililngDetail->notes }}">
+                                        placeholder="Appartments, suite, unit etc ..." name="StreetAddressNotes">
 
                                     <label>City *</label>
-                                    <input type="text" class="form-control" required
-                                        value="{{ $userBililngDetail->city }}">
+                                    <input type="text" class="form-control" required name="City">
 
 
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <label>Postal Code *</label>
-                                            <input type="text" class="form-control" required
-                                                value="{{ $userBililngDetail->postal_code }}">
+                                            <input type="text" class="form-control" required name="PostalCode">
                                         </div><!-- End .col-sm-6 -->
 
                                         <div class="col-sm-6">
                                             <label>Phone Number *</label>
-                                            <input type="text" class="form-control" required
-                                                value="{{ $userBililngDetail->contact }}">
+                                            <input type="text" class="form-control" required name="Phone">
                                         </div><!-- End .col-sm-6 -->
                                     </div><!-- End .row -->
 
 
                                     <label>Email address *</label>
-                                    <input type="email" class="form-control" required
-                                        value="{{ $userBililngDetail->email }}">
+                                    <input type="email" class="form-control" required name="Email">
 
                                     <label>Proof Of Payment *</label>
                                     <img src="/img/noimgeplaceholder.jpg" alt="">
-                                    <input type="file" id="myFile" name="filename" class="form-control">
+                                    <input type="file" id="myFile" name="ProofOfPayment" class="form-control">
 
                                     <label>Order notes (optional)</label>
                                     <textarea class="form-control" cols="30" rows="4"
-                                        placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
-                                @endforeach
+                                        placeholder="Notes about your order, e.g. special notes for delivery" name="OrderNotes"></textarea>
+                                @else
+                                    @foreach ($userBililngDetails as $userBililngDetail)
+                                        <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+
+                                        <input type="hidden" value="{{ Auth::user()->id }}" name="Id">
+
+
+                                        <label>Full Name *</label>
+                                        <input type="text" class="form-control" required
+                                            value="{{ $userBililngDetail->name }}" name="FullName">
+
+
+
+                                        <label>Street address *</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="House number and Street name" required
+                                            value="{{ $userBililngDetail->shipment_address }}" name="StreetAddress">
+
+
+                                        <label>Specific Address Notes *</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="Appartments, suite, unit etc ..." required
+                                            value="{{ $userBililngDetail->notes }}" name="StreetAddressNotes">
+
+                                        <label>City *</label>
+                                        <input type="text" class="form-control" required
+                                            value="{{ $userBililngDetail->city }}" name="City">
+
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>Postal Code *</label>
+                                                <input type="text" class="form-control" required
+                                                    value="{{ $userBililngDetail->postal_code }}" name="PostalCode">
+                                            </div><!-- End .col-sm-6 -->
+
+                                            <div class="col-sm-6">
+                                                <label>Phone Number *</label>
+                                                <input type="text" class="form-control" required
+                                                    value="{{ $userBililngDetail->contact }}" name="Phone">
+                                            </div><!-- End .col-sm-6 -->
+                                        </div><!-- End .row -->
+
+                                        <label>Email address *</label>
+                                        <input type="email" class="form-control" required
+                                            value="{{ $userBililngDetail->email }}" name="Email">
+
+                                        <label>Proof Of Payment *</label>
+                                        <img src="/img/noimgeplaceholder.jpg" alt="">
+                                        <input type="file" id="myFile" name="ProofOfPayment" class="form-control">
+
+                                        <label>Order notes (optional)</label>
+                                        <textarea class="form-control" cols="30" rows="4"
+                                            placeholder="Notes about your order, e.g. special notes for delivery" name="OrderNotes"></textarea>
+                                    @endforeach
+                                @endif
                             </div><!-- End .col-lg-9 -->
 
 
@@ -88,12 +143,13 @@
                                         </thead>
 
                                         <tbody>
+                                            <input type="hidden" name="ShoppingCartLists" value="{{ $ShoppingCartLists }}">
                                             @foreach ($ShoppingCartLists as $ShoppingCartList)
                                                 <tr>
                                                     <td><a
                                                             href="#">{{ $ShoppingCartList->nama . ' (x' . $ShoppingCartList->jumlah . ')' . '(' . $ShoppingCartList->size . ')' }}</a>
                                                     </td>
-                                                    <td><a href="#">{{ $ShoppingCartList->price }}</a></td>
+                                                    <td>{{ $ShoppingCartList->price }}</td>
                                                 </tr>
                                             @endforeach
                                             <tr>
@@ -102,7 +158,7 @@
                                             </tr>
                                             <tr class="summary-total">
                                                 <td>Total:</td>
-                                                <td>{{ $TotalPrice }}</td>
+                                                <td name="totalPrice">{{ $TotalPrice }}</td>
                                             </tr><!-- End .summary-total -->
                                         </tbody>
                                     </table><!-- End .table table-summary -->
@@ -117,8 +173,7 @@
                                                             name="radioGroupPayment" data-toggle="collapse"
                                                             href="#collapse{{ $x }}" aria-expanded="false"
                                                             aria-controls="collapse{{ $x }}"
-                                                            id="{{ $paymentType->payment_type }}"
-                                                            class="collapsed" >
+                                                            id="{{ $paymentType->payment_type }}" class="collapsed">
                                                             {{ $paymentType->payment_type }}
                                                         </a>
                                                     </h2>

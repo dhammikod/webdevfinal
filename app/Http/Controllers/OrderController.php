@@ -34,9 +34,24 @@ class OrderController extends Controller
      * @param  \App\Http\Requests\StoreorderRequest  $request
      * @return \Illuminate\Http\Response
      */
+
+
     public function store(StoreorderRequest $request)
     {
-        //
+        $id = order::create([
+            'user_id' => $request->Id,
+            'postal_code' => $request->PostalCode,
+            'shipment_address' => $request->StreetAddress,
+            "city" => $request->City,
+            "contact" => $request->Phone,
+            // "proof_of_payment" => $request->,
+            "notes" => $request->OrderNotes,
+            "status" => 'pending',
+        ]);
+
+        dd($id->id);
+
+        return redirect()->back();
     }
 
     /**

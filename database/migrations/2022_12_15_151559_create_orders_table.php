@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->dateTime("order_date");
-            $table->dateTime("ship_date");
+            $table->dateTime("ship_date")->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
             ->references('id')->on('users')
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('contact');
             $table->string('city');
             $table->string('proof_of_payment');
-            $table->string('notes');
+            $table->string('notes')->nullable();
             $table->string('status');
 
         });

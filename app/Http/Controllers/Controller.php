@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\detil_order;
 use App\Models\Feedback;
 use App\Models\Item;
 use App\Models\item_picture;
@@ -9,10 +10,14 @@ use App\Models\item_size_stock;
 use App\Models\order;
 use App\Models\Payment_types;
 use App\Models\shipping_address;
+use App\Models\shopping_cart;
 use App\Models\User;
+use App\Models\wishlist;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -143,47 +148,6 @@ class Controller extends BaseController
         ]);
     }
 
-    public function checkout()
-    {
-        $userObj = Auth::user();
-        $user = $userObj->id;
-
-
-        $billingDetails = DB::table('users as user')
-            ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email')
-            ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
-                $join->on('new.user_id', '=', 'user.id');
-            })
-            ->where('user.id', '=', $user)
-            ->get();
-
-            $ShoppingCartLists = DB::table('shopping_carts as sc')
-            ->select('nameTotal.nama', 'sc.jumlah', 'iss.size', 'nameTotal.price')
-            ->join('item_size_stocks as iss', 'iss.id', '=', 'sc.item_size_stock_id')
-            ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) nameTotal'), function($join) {
-                $join->on('nameTotal.id', '=', 'sc.item_id');
-            })
-            ->where('sc.user_id', $user)
-            ->get();
-
-            $TotalPrices = DB::table(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) total'))
-            ->select(DB::raw('SUM(total.price) as Total'))
-            ->where('total.user_id', $user)
-            ->first()
-            ->Total;
-
-
-        return view('checkout', [
-            'pagetitle' => 'Checkout',
-            'userBililngDetails' => $billingDetails,
-            'TotalPrice' => $TotalPrices,
-            'ShoppingCartLists' => $ShoppingCartLists,
-            'paymentTypes' => Payment_types::all()
-
-
-        ]);
-    }
-
     public function aboutus()
     {
         return view('aboutus', [
@@ -264,6 +228,90 @@ class Controller extends BaseController
         return view('admin-orders', [
             'pagetitle' => 'Admin Orders',
             'order' => order::all()
+        ]);
+    }
+
+
+    public function OrderaddDB(Request $request)
+    {
+        $time = Carbon::now()->toDateTimeString();
+
+        $orderId = order::create([
+            'user_id' => $request->Id,
+            'postal_code' => $request->PostalCode,
+            'shipment_address' => $request->StreetAddress,
+            "city" => $request->City,
+            "contact" => $request->Phone,
+            "proof_of_payment" => "",
+            "notes" => $request->StreetAddressNotes,
+            "status" => 'pending',
+            'order_date' => $time,
+        ]);
+
+        $ShoppingCartLists = DB::table('item_size_stocks as iss')
+        ->select('nameTotal.nama', 'nameTotal.jumlah', 'iss.size', 'nameTotal.price', 'nameTotal.item_size_stock_id')
+        ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id, shopping_carts.jumlah, shopping_carts.item_size_stock_id, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) as nameTotal'), function ($join) {
+            $join->on('iss.id', '=', 'nameTotal.item_size_stock_id');
+        })
+        ->where('nameTotal.user_id', $request->Id)
+        ->get();
+
+        foreach($ShoppingCartLists as $ShoppingCartList){
+            detil_order::create([
+                'id_order' => $orderId->id,
+                'id_stocksize' => $ShoppingCartList->item_size_stock_id,
+                'transaction_time' => $time,
+                'price_bought' => $ShoppingCartList->price,
+                'total_items' => $ShoppingCartList->jumlah,
+                'total_price' => $ShoppingCartList->jumlah * $ShoppingCartList->price,
+            ]);
+        }
+
+        // delete shopping cart becuz already order
+        shopping_cart::where('user_id',$request->Id)->delete();
+
+
+        return redirect('/dashboard');
+    }
+
+    public function checkout()
+    {
+        $userObj = Auth::user();
+        $user = $userObj->id;
+
+        $billingDetails = DB::table('users as user')
+            ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email')
+            ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
+                $join->on('new.user_id', '=', 'user.id');
+            })
+            ->where('user.id', '=', $user)
+            ->get();
+
+
+        $ShoppingCartLists = DB::table('item_size_stocks as iss')
+            ->select('nameTotal.nama', 'nameTotal.jumlah', 'iss.size', 'nameTotal.price', 'nameTotal.item_size_stock_id')
+            ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id, shopping_carts.jumlah, shopping_carts.item_size_stock_id, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) as nameTotal'), function ($join) {
+                $join->on('iss.id', '=', 'nameTotal.item_size_stock_id');
+            })
+            ->where('nameTotal.user_id', $user)
+            ->get();
+
+
+
+        $TotalPrices = DB::table(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) total'))
+            ->select(DB::raw('SUM(total.price) as Total'))
+            ->where('total.user_id', $user)
+            ->first()
+            ->Total;
+
+        return view('checkout', [
+            'pagetitle' => 'Checkout',
+            'userBililngDetails' => $billingDetails,
+            'TotalPrice' => $TotalPrices,
+            'ShoppingCartLists' => $ShoppingCartLists,
+            'paymentTypes' => Payment_types::all()
+
+
         ]);
     }
 }

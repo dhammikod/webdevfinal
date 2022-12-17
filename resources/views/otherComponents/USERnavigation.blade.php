@@ -10,25 +10,15 @@
         <div class="container">
             <div class="header-left">
                 <div class="header-dropdown">
-                    <a href="#">Usd</a>
+                    <a href="#">IDR</a>
                     <div class="header-menu">
                         <ul>
-                            <li><a href="#">Eur</a></li>
-                            <li><a href="#">Usd</a></li>
+                            <li><a href="#">IDR</a></li>
+                            <li><a href="#">USD</a></li>
                         </ul>
                     </div><!-- End .header-menu -->
                 </div><!-- End .header-dropdown -->
 
-                <div class="header-dropdown">
-                    <a href="#">Eng</a>
-                    <div class="header-menu">
-                        <ul>
-                            <li><a href="#">English</a></li>
-                            <li><a href="#">French</a></li>
-                            <li><a href="#">Spanish</a></li>
-                        </ul>
-                    </div><!-- End .header-menu -->
-                </div><!-- End .header-dropdown -->
             </div><!-- End .header-left -->
             {{-- <a href="/signin" data-toggle="modal"><i class="icon-user"></i>Login</a> --}}
             <div class="header-right">
