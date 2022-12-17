@@ -179,7 +179,8 @@ class Controller extends BaseController
         ->get();
         return view('admin-items', [
             'pagetitle' => 'Admin Item',
-            "items" => $items         
+            "items" => $items,
+            'itemPictures' => item_picture::all(),
         ]);
     }
 

@@ -27,72 +27,66 @@
             <div class="row">
                 <div class="card">
                     @foreach ($items as $item)
-                        <h3 class="m-3 mb-0">item {{ $item->id }}:</h3>
-                        <div class="card m-3">
-                            <div class="row flex align-items-center">
-                                <div class="col-md-auto">
-                                    @php
-                                        $itempictures = DB::table('item_pictures')
-                                            ->where('id_item', '=', $item->id)
-                                            ->get();
-                                    @endphp
-                                    @if (!DB::table('item_pictures')->where('id_item', '=', $item->id)->exists())
-                                        <p>No pictures Available.</p>
-                                    @else
-                                        @foreach ($itempictures as $picture)
-                                        <img src="img/{{ $picture->picture}}" alt="Picture"
-                                        class="rounded-start" height=100vh>
-                                        @endforeach
-                                    @endif
+                        @if ($item->statusDelete == false)
+                            <form action="/admin-items_Deletes" method="POST">
+                                @csrf
+                                <h3 class="m-3 mb-0">item # {{ $item->id }}:</h3>
+                                <div class="card m-3">
+                                    <div class="row flex align-items-center">
+                                        <div class="col-md-auto">
+                                            @foreach ($itemPictures as $itemPicture)
+                                                @if ($item->id == $itemPicture->id_item)
+                                                    <img src="{{ asset('img/productImg/' . $itemPicture->picture) }}"
+                                                        alt="Picture" class="" height=100vh>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                        <div class="col-md-auto">
+                                            <h5 class="card-title">{{ $item->nama }}</h5>
+                                            <p class="card-text ">{{ $item->description }}</p>
+                                            <a href="{{ route('items.edit', $item->id) }}">Edit <i
+                                                    class="icon-edit"></i></a></p>
+                                        </div>
+                                        <div class="col text-end">
 
-                                   
-                                </div>
-                                <div class="col-md-auto">
-                                    <h5 class="card-title">{{ $item->nama }}</h5>
-                                    <p class="card-text ">{{ $item->description }}</p>
-                                    <a href="{{ route('items.edit', $item->id) }}">Edit <i class="icon-edit"></i></a></p>
-                                </div>
-                                <div class="col text-end">
-                                    <form action="{{ route('items.destroy', $item->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <div class="modal fade" id="areyouSureDelete" tabindex="-1">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Are You Sure?</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Once Deleted it can't be restored
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                            <div class="modal fade" id="areyouSureDelete" tabindex="-1">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Are You Sure?</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p> Once Deleted it can't be restored</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <input type="hidden" name="idforDelete" value="{{ $item->id }}">
+                                            <button type="button" class="btn btn-danger me-5" data-bs-toggle="modal"
+                                                data-bs-target="#areyouSureDelete"><i class="bi bi-trash"></i></button>
                                         </div>
-                                        <button type="button" class="btn btn-danger me-5" data-bs-toggle="modal"
-                                            data-bs-target="#areyouSureDelete"><i class="bi bi-trash"></i></button>
-                                    </form>
-                                    {{-- <button type="button" class="btn btn-danger me-5" data-bs-toggle="modal"
-                                                data-bs-target="#areyouSureDelete"><i class="bi bi-trash"></i></button> --}}
+                                        {{-- <button type="button" class="btn btn-danger me-5" data-bs-toggle="modal"
+                                        data-bs-target="#areyouSureDelete"><i class="bi bi-trash"></i></button> --}}
 
-                                </div>
-                            </div>
-                        </div><!-- End Card with an image on left -->
+                                    </div>
+                                </div><!-- End Card with an image on left -->
+                        @endif
                     @endforeach
                     </form>
-
                 </div>
-            </div>
         </section>
 
+
+
         <div class="modal fade" id="addNewAdmin" tabindex="-1">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form method="POST" action="{{ route('items.store') }}" enctype="multipart/form-data">
                         @csrf

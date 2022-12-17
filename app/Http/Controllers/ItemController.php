@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -50,6 +52,7 @@ class ItemController extends Controller
             'sold' => 0,
             'description' => $request->description,
             'category' => $request->category,
+            'statusDelete' => false
         ]);
         return redirect('/admin-items');
     }
@@ -73,9 +76,17 @@ class ItemController extends Controller
      */
     public function edit($id)
     {
+        $itempictures = DB::table('item_pictures')
+            ->where('id_item', '=', $id)
+            ->get();
+        $item_size_stocks = DB::table('item_size_stocks')
+            ->where('id_item', '=', $id)
+            ->get();
         return view("admin-update-items", [
-            "item" =>Item::findOrFail($id),
-            'pagetitle'=>"Update items",
+            "item" => Item::findOrFail($id),
+            'pagetitle' => "Update items",
+            'itemPictures' => $itempictures,
+            'item_size_stocks' => $item_size_stocks,
         ]);
     }
 
@@ -97,7 +108,7 @@ class ItemController extends Controller
             'category' => $request->category,
         ]);
 
-        
+
 
         return redirect('/admin-items');
     }
@@ -108,11 +119,15 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $item = Item::findOrFail($id);
 
-        $item->delete();
+    public function destroy(Request $request)
+    {
+
+        $item = Item::findOrFail($request->input('idforDelete'));
+        $item->update([
+            'statusDelete' => true,
+        ]);
+
 
         return redirect('/admin-items');
     }

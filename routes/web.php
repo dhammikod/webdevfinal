@@ -46,6 +46,7 @@ Route::get('/admin-item_requests', [Controller::class, 'adminItem_requests'])->m
 
 
 Route::get('/admin-items', [Controller::class, 'adminItem'])->middleware(['auth', 'verified'])->name('admin-items');;
+Route::post('/admin-items_Deletes', [ItemController::class, 'destroy'])->middleware(['auth', 'verified']);
 
 
 Route::get('/admin-billing_options', [Controller::class, 'adminBilling_options'])->middleware(['auth', 'verified'])->name('admin-billing_options');;

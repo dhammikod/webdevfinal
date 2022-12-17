@@ -26,7 +26,7 @@
     <link href="{{ asset('admin/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/vendor/simple-datatables/style.css') }}" rel="stylesheet">
 
-    
+
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('admin/styleAdmin.css') }}" rel="stylesheet">
@@ -54,7 +54,10 @@
     <script src="{{ asset('admin/vendor/php-email-form/validate.js') }}" defer></script>
     <script src="{{ asset('admin/mainAdmin.js') }}" defer></script>
 
-    <script src="{{ asset('user/js/jquery.min.js') }}" defer></script>
-    
+    <script src="{{ asset('admin/js/jquery.min.js') }}" defer></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 
 </body>
