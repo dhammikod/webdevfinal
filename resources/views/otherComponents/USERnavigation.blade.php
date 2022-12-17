@@ -98,60 +98,84 @@
                         aria-expanded="false" data-display="static" title="Compare Products"
                         aria-label="Compare Products">
                         <i class="icon-heart-o"></i>
-                        @php
-                            $count = DB::table('wishlists')
-                                ->where('user_id', '=', $user->id)
-                                ->count();
-                        @endphp
-                        <span class="compare-count">{{ $count }}</span>
+                        @auth
+                            @php
+                                $count = DB::table('wishlists')
+                                    ->where('user_id', '=', $user->id)
+                                    ->count();
+                            @endphp
+
+                            <span class="compare-count">{{ $count }}</span>
+                        @endauth
+                        @guest
+                            <span class="compare-count">0</span>
+                        @endguest
+                        
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right">
                         <ul class="compare-products">
+                            @auth
                             @php
                                 
-                                $wishlistsid = DB::table('wishlists')
-                                    ->where('user_id', '=', $user->id)
-                                    ->get();
-                                
-                            @endphp
-                            @foreach ($wishlistsid as $items)
-                                @php
-                                    $item = DB::table('items')
+                            $wishlistsid = DB::table('wishlists')
+                                ->where('user_id', '=', $user->id)
+                                ->get();
+                            
+                        @endphp
+                        @foreach ($wishlistsid as $items)
+                            @php
+                                $item = DB::table('items')
                                     ->where('id', '=', $items->item_id)
                                     ->get();
-                                @endphp
-                                @foreach ($item as $ite)
+                            @endphp
+                            @foreach ($item as $ite)
                                 <li class="compare-product">
-                                    <form action="{{ route("wishlist.destroy", 10000) }}" method="POST">
+                                    <form action="{{ route('wishlist.destroy', $items->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
+                                        <button type="submit" class="btn-remove"><i
+                                                class="icon-close"></i></button>
                                     </form>
-                                    <h4 class="compare-product-title"><a href="product.html">{{ $ite->nama }}</a></h4>
+                                    <h4 class="compare-product-title"><a href="product.html">{{ $ite->nama }}</a>
+                                    </h4>
                                 </li>
-                                @endforeach
                             @endforeach
+                        @endforeach
+                            @endauth
+                            @guest
+                            
+                            @endguest
+                            
                         </ul>
 
-                        <form action="{{ route("wishlist.destroy", $user->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <input type="hidden" name="clearall" value="{{ $user->id }}">
-                            <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
-                        </form>
+                        @auth
                         <div class="compare-actions">
                             <a href="#" class="action-link">Clear All</a>
                             <a href="/wishlist" class="btn btn-outline-primary-2"><span>View Wishlist</span><i
                                     class="icon-long-arrow-right"></i></a>
                         </div>
+                        <form action="{{ route('wishlist.destroy', 10000+$user->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="clearall" value="{{ $user->id }}">
+                            <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
+                        </form>
+                        @endauth
+                        @guest
+                        <form action="{{ route('wishlist.destroy', 10000) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
+                        </form>
+                        @endguest
                     </div><!-- End .dropdown-menu -->
                 </div><!-- End .Wishlist-dropdown -->
 
                 {{-- shopping carttt --}}
                 <div class="dropdown cart-dropdown">
-                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false" data-display="static">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" data-display="static">
                         <i class="icon-shopping-cart"></i>
                         <span class="cart-count">2</span>
                     </a>

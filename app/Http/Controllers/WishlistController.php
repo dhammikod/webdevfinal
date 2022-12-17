@@ -91,25 +91,14 @@ class WishlistController extends Controller
      */
     public function destroy($id)
     {
-        $wishlist = wishlist::findOrFail($id);
+        if($id != 10000){
+            $wishlist = wishlist::findOrFail($id);
 
-        $wishlist->delete();
-
-        return redirect()->back();
-    }
-
-    /**
-     * Remove all the specified resource from storage.
-     *
-     * @param  \App\Models\wishlist  $wishlist
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyall($id)
-    {
-        $wishlist = wishlist::findOrFail($id);
-
-        $wishlist->delete();
-
+            $wishlist->delete();
+        }else{
+            
+        }
+        
         return redirect()->back();
     }
 }
