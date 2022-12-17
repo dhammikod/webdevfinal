@@ -12,6 +12,7 @@ class shopping_cart extends Model
     protected $fillable = [
         "user_id",
         "item_id",
+        "item_size_stock_id",
         "jumlah"
     ];
 }

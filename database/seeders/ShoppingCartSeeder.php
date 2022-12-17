@@ -18,7 +18,9 @@ class ShoppingCartSeeder extends Seeder
         shopping_cart::create([
             'user_id' => 1,
             'item_id' => 1,
+            'item_size_stock_id' => 1,
             'jumlah' => 2,
+            
         ]);
     }
 }

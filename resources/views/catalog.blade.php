@@ -62,16 +62,34 @@
                                         @endif
                                     @endforeach
 
-                                    @php
-                                        $user = Auth::user();
-                                    @endphp
+                                    @auth
+                                        @php
+                                            $user = Auth::user();
+                                        @endphp
 
+                                        <div class="product-action-vertical">
+                                            <form method="POST" action="{{ route('wishlist.store') }}"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" name="itemid" value="{{ $item->id }}">
+                                                <input type="hidden" name="userid" value="{{ $user['id'] }}">
+                                                <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
+                                                    <span>add
+                                                        to
+                                                        wishlist</span>
+                                                </button>
+
+                                                </button>
+                                            </form>
+
+                                        </div><!-- End .product-action -->
+                                    @endauth
+                                    @guest
                                     <div class="product-action-vertical">
-                                        <form method="POST" action="{{ route('wishlist.store') }}"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="hidden" name="itemid" value="{{ $item->id }}">
-                                            <input type="hidden" name="userid" value="{{ $user['id'] }}">
+                                        <form method="GET" action="/login" enctype="multipart/form-data">
+                                            {{-- @csrf --}}
+                                            {{-- <input type="hidden" name="itemid" value="{{ $item->id }}">
+                                            <input type="hidden" name="userid" value="{{ 0 }}"> --}}
                                             <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
                                                 <span>add
                                                     to
@@ -82,9 +100,9 @@
                                         </form>
 
                                     </div><!-- End .product-action -->
-
+                                    @endguest
                                     <div class="product-action action-icon-top">
-                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="product-details/{{ $item->id }}" class="btn-product btn-cart"><span>add to cart</span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 

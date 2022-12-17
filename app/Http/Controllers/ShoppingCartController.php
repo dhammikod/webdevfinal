@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\shopping_cart;
 use App\Http\Requests\Storeshopping_cartRequest;
 use App\Http\Requests\Updateshopping_cartRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ShoppingCartController extends Controller
 {
@@ -36,7 +38,18 @@ class ShoppingCartController extends Controller
      */
     public function store(Storeshopping_cartRequest $request)
     {
-        //
+        if(!DB::table('shopping_carts')
+        ->where('item_id', '=', $request->itemid)
+        ->where('user_id', '=', $request->userid)
+        ->exists()){
+            shopping_cart::create([
+                'item_id' => $request->itemid,
+                'user_id' => $request->userid,
+                'jumlah' => $request->qty,
+                'item_size_stock_id' => $request->size,
+            ]);
+        }
+        return redirect('/catalog');
     }
 
     /**

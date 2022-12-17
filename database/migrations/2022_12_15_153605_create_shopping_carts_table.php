@@ -26,6 +26,11 @@ return new class extends Migration
             ->references('id')->on('items')
             ->onDelete('cascade')
             ->onUpdate('cascade');
+            $table->unsignedBigInteger('item_size_stock_id');
+            $table->foreign('item_size_stock_id')
+            ->references('id')->on('item_size_stocks')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
             $table->integer('jumlah');
         });
     }

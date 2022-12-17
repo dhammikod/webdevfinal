@@ -67,57 +67,73 @@
                                         <p>{{ $item->description }}</p>
                                     </div><!-- End .product-content -->
 
+                                    <form method="POST" action="{{ route('shoppingcart.store') }}"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="details-filter-row details-row-size">
+                                            <label for="size">Size:</label>
+                                            <div class="select-custom">
+                                                <select name="size" id="size" class="form-control" required> 
+                                                    <option value="#" selected="selected">Select a size</option>
+                                                    @foreach ($itemSizeStocks as $itemSizeStock)
+                                                        @if ($itemSizeStock->stock == 0)
+                                                            <option value="{{ $itemSizeStock->size }}" disabled>
+                                                                {{ $itemSizeStock->size }}
+                                                                ({{ $itemSizeStock->stock }})
+                                                            </option>
+                                                        @else
+                                                            <option value="{{ $itemSizeStock->id }}">
+                                                                {{ $itemSizeStock->size }}
+                                                                ({{ $itemSizeStock->stock }}) </option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                            </div><!-- End .select-custom -->
+                                        </div><!-- End .details-filter-row -->
 
-                                    <div class="details-filter-row details-row-size">
-                                        <label for="size">Size:</label>
-                                        <div class="select-custom">
-                                            <select name="size" id="size" class="form-control">
-                                                <option value="#" selected="selected">Select a size</option>
-                                                @foreach ($itemSizeStocks as $itemSizeStock)
-                                                    @if ($itemSizeStock->stock == 0)
-                                                        <option value="{{ $itemSizeStock->size }}" disabled>
-                                                            {{ $itemSizeStock->size }}
-                                                            ({{ $itemSizeStock->stock }})
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $itemSizeStock->size }}">
-                                                            {{ $itemSizeStock->size }}
-                                                            ({{ $itemSizeStock->stock }}) </option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                        </div><!-- End .select-custom -->
-                                    </div><!-- End .details-filter-row -->
-
-                                    <div class="details-filter-row details-row-size">
-                                        <label for="qty">Qty:</label>
-                                        <div class="product-details-quantity">
-                                            <input type="number" id="qty" class="form-control" value="1"
-                                                min="1" max="10" step="1" data-decimals="0" required>
-                                        </div><!-- End .product-details-quantity -->
-                                    </div><!-- End .details-filter-row -->
-
-                                    <div class="product-details-action">
-                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-
-                                        <div class="details-action-wrapper">
-                                            <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to
-                                                    Wishlist</span></a>
-                                        </div><!-- End .details-action-wrapper -->
-                                    </div><!-- End .product-details-action -->
-
-                                </div><!-- End .product-details -->
-                            </div><!-- End .col-md-6 -->
-                        </div><!-- End .row -->
-                    @endforeach
-
-                </div><!-- End .product-details-top -->
+                                        <div class="details-filter-row details-row-size">
+                                            <label for="qty">Qty:</label>
+                                            <div class="product-details-quantity">
+                                                <input type="number" name="qty" id="qty" class="form-control" value="1"
+                                                    min="1" max="10" step="1" data-decimals="0" required>
+                                            </div><!-- End .product-details-quantity -->
+                                        </div><!-- End .details-filter-row -->
+                                        @php
+                                            $user = Auth::user();
+                                            $id = $user['id'];
+                                        @endphp
+                                        <input type="hidden" value="{{ $id }}" name="userid">
+                                        <input type="hidden" value="{{ $item->id }}" name="itemid">
+                                        <div class="product-details-action">
+                                            <button type="submit" class="btn-product btn-cart"><span>add
+                                                    to cart</span></a>
+                                            </button>
+                                    </form>
+                                    <div class="details-action-wrapper">
+                                        <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to
+                                                Wishlist</span></a>
+                                    </div><!-- End .details-action-wrapper -->
+                                </div><!-- End .product-details-action -->
 
 
-                <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
 
-                <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
-                    data-owl-options='{
+
+
+
+
+
+                            </div><!-- End .product-details -->
+                        </div><!-- End .col-md-6 -->
+                </div><!-- End .row -->
+                @endforeach
+
+            </div><!-- End .product-details-top -->
+
+
+            <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
+
+            <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
+                data-owl-options='{
                     "nav": false, 
                     "dots": true,
                     "margin": 20,
@@ -143,74 +159,74 @@
                     }
                 }'>
 
-                    {{-- start of for loop --}}
-                    @foreach ($recomItems as $recomItem)
-                        <div class="product product-7 text-center">
-                            <figure class="product-media">
-                                @foreach ($itemPicturesAlls as $itemPicturesAll)
-                                    @if ($recomItem->id == $itemPicturesAll->id_item)
-                                        <a href="/product-details/{{ $recomItem->id }}">
-                                            <img src="{{ asset('img/productImg/' . $itemPicturesAll->picture) }}"
-                                                alt="Product image" class="product-image">
-                                        </a>
-                                    @break
+                {{-- start of for loop --}}
+                @foreach ($recomItems as $recomItem)
+                    <div class="product product-7 text-center">
+                        <figure class="product-media">
+                            @foreach ($itemPicturesAlls as $itemPicturesAll)
+                                @if ($recomItem->id == $itemPicturesAll->id_item)
+                                    <a href="/product-details/{{ $recomItem->id }}">
+                                        <img src="{{ asset('img/productImg/' . $itemPicturesAll->picture) }}"
+                                            alt="Product image" class="product-image">
+                                    </a>
+                                @break
+                            @endif
+                        @endforeach
+
+                        <div class="product-action-vertical">
+                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add
+                                    to
+                                    wishlist</span></a>
+                        </div><!-- End .product-action -->
+
+                        <div class="product-action action-icon-top">
+                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                        </div><!-- End .product-action -->
+                    </figure><!-- End .product-media -->
+
+                    <div class="product-body">
+                        <div class="product-cat">
+                            <p>{{ $recomItem->category }}</p>
+                        </div><!-- End .product-cat -->
+                        {{-- <h3 class="product-title"><a
+                                            href="{{ route('product-details.productDetails', $item->id) }}">{{ $item['nama'] }}</a> --}}
+                        <h3 class="product-title"><a
+                                href=""{{ route('product-details', ['id' => $recomItem->id]) }}>{{ $recomItem->nama }}</a>
+                        </h3>
+                        <!-- End .product-title -->
+                        <div class="product-price">
+                            Rp {{ $recomItem->price }}
+                        </div><!-- End .product-price -->
+
+                        <div class="product-nav product-nav-dots">
+                            <p>Sold: {{ $recomItem->sold }}</p>
+                        </div>
+
+                        <div class="product-nav product-nav-dots">
+                            @php($sizes = '')
+
+
+
+                            @foreach ($itemSizeStocksAlls as $itemSizeStocksAll)
+                                @if ($recomItem->id == $itemSizeStocksAll->id_item)
+                                    @php($sizes = $sizes . $itemSizeStocksAll->size . ',')
                                 @endif
                             @endforeach
+                            @php($sizes = rtrim($sizes, ','))
 
-                            <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add
-                                        to
-                                        wishlist</span></a>
-                            </div><!-- End .product-action -->
-
-                            <div class="product-action action-icon-top">
-                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                            </div><!-- End .product-action -->
-                        </figure><!-- End .product-media -->
-
-                        <div class="product-body">
-                            <div class="product-cat">
-                                <p>{{ $recomItem->category }}</p>
-                            </div><!-- End .product-cat -->
-                            {{-- <h3 class="product-title"><a
-                                            href="{{ route('product-details.productDetails', $item->id) }}">{{ $item['nama'] }}</a> --}}
-                            <h3 class="product-title"><a
-                                    href=""{{ route('product-details', ['id' => $recomItem->id]) }}>{{ $recomItem->nama }}</a>
-                            </h3>
-                            <!-- End .product-title -->
-                            <div class="product-price">
-                                Rp {{ $recomItem->price }}
-                            </div><!-- End .product-price -->
-
-                            <div class="product-nav product-nav-dots">
-                                <p>Sold: {{ $recomItem->sold }}</p>
-                            </div>
-
-                            <div class="product-nav product-nav-dots">
-                                @php($sizes = '')
+                            <p>Size: {{ $sizes }}</p>
+                        </div><!-- End .product-nav -->
 
 
+                    </div><!-- End .product-body -->
+                </div><!-- End .product -->
+            @endforeach
+        </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
 
-                                @foreach ($itemSizeStocksAlls as $itemSizeStocksAll)
-                                    @if ($recomItem->id == $itemSizeStocksAll->id_item)
-                                        @php($sizes = $sizes . $itemSizeStocksAll->size . ',')
-                                    @endif
-                                @endforeach
-                                @php($sizes = rtrim($sizes, ','))
-
-                                <p>Size: {{ $sizes }}</p>
-                            </div><!-- End .product-nav -->
+        {{-- for loop end sampe 5 kali --}}
 
 
-                        </div><!-- End .product-body -->
-                    </div><!-- End .product -->
-                    @endforeach
-            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-            {{-- for loop end sampe 5 kali --}}
-
-
-        </div><!-- End .owl-carousel -->
+    </div><!-- End .owl-carousel -->
 
 
     </div><!-- End .container -->

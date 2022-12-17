@@ -6,6 +6,7 @@ use App\Models\wishlist;
 use App\Http\Requests\StorewishlistRequest;
 use App\Http\Requests\UpdatewishlistRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
@@ -16,7 +17,34 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $wishlists = DB::table('wishlists')
+        ->where('user_id', '=', $user->id)
+        ->get();
+
+
+        
+        // $items = [];
+        // foreach($wishlists as $item){
+        //     array_push($items, DB::table('items')
+        //     ->where('id', '=', $item->item_id)
+        //     ->get());   
+        // }
+
+        //getting the items with extra dolomn named stocked
+        $stockeditems = [];
+        foreach($wishlists as $item){
+                array_push($stockeditems, DB::table('items')
+                ->select('items.id', 'items.nama', 'items.price', 'items.description', DB::raw('(EXISTS( SELECT 1 FROM `item_size_stocks` item_size_stocks WHERE item_size_stocks.stock > 0 AND item_size_stocks.id_item = items.id)) AS stocked'), DB::raw($item->id. " AS id_wishlist"))
+                ->where('id', '=', $item->item_id)
+                ->get()); 
+            }
+              
+        return view('wishlist', [
+            'pagetitle' => 'Wishlist',
+            'tes' => $wishlists,
+            'wishlistitems' => $stockeditems
+        ]);
     }
 
     /**
@@ -46,7 +74,7 @@ class WishlistController extends Controller
                 'user_id' => $request->userid,
             ]);
         }
-        return redirect('/catalog');
+        return redirect()->back();
     }
 
     /**
@@ -91,14 +119,10 @@ class WishlistController extends Controller
      */
     public function destroy($id)
     {
-        if($id != 10000){
-            $wishlist = wishlist::findOrFail($id);
+        $wishlist = wishlist::findOrFail($id);
 
-            $wishlist->delete();
-        }else{
-            
-        }
-        
+        $wishlist->delete();
+
         return redirect()->back();
     }
 }

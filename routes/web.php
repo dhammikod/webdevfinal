@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemPictureController;
 use App\Http\Controllers\ItemRequestController;
 use App\Http\Controllers\ItemSizeStockController;
 use App\Http\Controllers\ShippingAddressController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\UserCOntroller;
 use App\Http\Controllers\WishlistController;
 use App\Models\wishlist;
@@ -79,4 +80,5 @@ Route::resource('item_size_stocks', ItemSizeStockController::class);
 // Route::get('/wishlist', [Controller::class, 'wishlist']);
 Route::resource('wishlist', WishlistController::class);
 
+Route::resource('shoppingcart', ShoppingCartController::class);
 require __DIR__.'/auth.php';

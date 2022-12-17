@@ -83,7 +83,6 @@ class Controller extends BaseController
             'recomItems' => $recomItems,
             'itemPicturesAlls' => item_picture::all(),
             'itemSizeStocksAlls' => $itemSizeStocks
-
         ]);
     }
 
