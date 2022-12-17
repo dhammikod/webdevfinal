@@ -151,9 +151,9 @@
                                 @endforeach
                             @endauth
                             @guest
-                            <li>You must sign in first</li>
+                                <li>You must sign in first</li>
                                 <div class="compare-actions">
-                                    
+
                                     <a href="/login" class="btn btn-outline-primary-2"><span>View
                                             Wishlist</span><i class="icon-long-arrow-right"></i></a>
                                 </div>
@@ -181,58 +181,70 @@
                     <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false" data-display="static">
                         <i class="icon-shopping-cart"></i>
-                        <span class="cart-count">2</span>
+                        @auth
+                            @php
+                                $count2 = DB::table('shopping_carts')
+                                    ->where('user_id', '=', $user->id)
+                                    ->count();
+                            @endphp
+                            <span class="cart-count">{{ $count2 }}</span>
+                        @endauth
+                        @guest
+                            <span class="cart-count">0</span>
+                        @endguest
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-cart-products">
-                            <div class="product">
-                                <div class="product-cart-details">
-                                    <h4 class="product-title">
-                                        <a href="product.html">Beige knitted elastic runner shoes</a>
-                                    </h4>
+                            @php
+                                $userId = $user->id; // replace with the actual value of the user ID
+                                
+                                $shoppingcarts = DB::table('items as i')
+                                    ->select('i.id', 'i.nama', 'i.price', 'sc.jumlah')
+                                    ->join('shopping_carts as sc', function ($join) use ($userId) {
+                                        $join->on('sc.item_id', '=', 'i.id')->where('sc.user_id', '=', $userId);
+                                    })
+                                    ->whereIn('i.id', function ($query) use ($userId) {
+                                        $query
+                                            ->select('item_id')
+                                            ->from('shopping_carts')
+                                            ->where('user_id', '=', $userId);
+                                    })
+                                    ->get();
+                                
+                                    $total = 0;
+                            @endphp
 
-                                    <span class="cart-product-info">
-                                        <span class="cart-product-qty">1</span>
-                                        x $84.00
-                                    </span>
-                                </div><!-- End .product-cart-details -->
+                            @foreach ($shoppingcarts as $item)
+                                
+                            @php
+                                $total += $item->jumlah * $item->price;
+                            @endphp
+                                <div class="product">
+                                    <div class="product-cart-details">
+                                        <h4 class="product-title">
+                                            <a href="product.html">{{ $item->nama }}</a>
+                                        </h4>
+    
+                                        <span class="cart-product-info">
+                                            <span class="cart-product-qty">{{ $item->jumlah }}</span>
+                                            x {{ $item->price }}
+                                        </span>
+                                    </div><!-- End .product-cart-details -->
+    
+                                    <a href="#" class="btn-remove" title="Remove Product"><i
+                                            class="icon-close"></i></a>
+                                </div><!-- End .product -->
+                            @endforeach
 
-                                <figure class="product-image-container">
-                                    <a href="product.html" class="product-image">
-                                        <img src="assets/images/products/cart/product-1.jpg" alt="logo">
-                                    </a>
-                                </figure>
-                                <a href="#" class="btn-remove" title="Remove Product"><i
-                                        class="icon-close"></i></a>
-                            </div><!-- End .product -->
-
-                            <div class="product">
-                                <div class="product-cart-details">
-                                    <h4 class="product-title">
-                                        <a href="product.html">Blue utility pinafore denim dress</a>
-                                    </h4>
-
-                                    <span class="cart-product-info">
-                                        <span class="cart-product-qty">1</span>
-                                        x $76.00
-                                    </span>
-                                </div><!-- End .product-cart-details -->
-
-                                <figure class="product-image-container">
-                                    <a href="product.html" class="product-image">
-                                        <img src="assets/images/products/cart/product-2.jpg" alt="logo">
-                                    </a>
-                                </figure>
-                                <a href="#" class="btn-remove" title="Remove Product"><i
-                                        class="icon-close"></i></a>
-                            </div><!-- End .product -->
                         </div><!-- End .cart-product -->
+
+
 
                         <div class="dropdown-cart-total">
                             <span>Total</span>
 
-                            <span class="cart-total-price">$160.00</span>
+                            <span class="cart-total-price">{{ $total }}</span>
                         </div><!-- End .dropdown-cart-total -->
 
                         <div class="dropdown-cart-action">

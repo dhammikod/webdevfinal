@@ -118,8 +118,25 @@ class Controller extends BaseController
 
     public function cart()
     {
+        $user = Auth::user();
+        $userId = $user->id;
+        $shoppingcarts = DB::table('items')
+            ->select('items.id', 'items.nama', 'items.price', 'shopping_carts.jumlah', DB::raw('(SELECT item_pictures.picture FROM `item_pictures` item_pictures WHERE item_pictures.id_item = items.id LIMIT 1) as picture'))
+            ->join('shopping_carts', 'shopping_carts.item_id', '=', 'items.id')
+            ->whereIn('items.id', function ($query) use ($userId) {
+                $query
+                    ->select('item_id')
+                    ->from('shopping_carts')
+                    ->where('user_id', '=', $userId);
+            })
+            ->where('shopping_carts.user_id', '=', $userId)
+            ->get();
+
+        $total = 0;
         return view('cart', [
-            'pagetitle' => 'Cart'
+            'pagetitle' => 'Cart',
+            'shoppingcarts' => $shoppingcarts,
+            'total' => $total,
         ]);
     }
 
