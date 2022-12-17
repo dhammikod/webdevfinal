@@ -29,10 +29,15 @@ class Controller extends BaseController
     public function catalog()
     {
         return view('catalog', [
+            // $itempictures = DB::table('item_pictures')
+            // ->where('id_item', '=', $item->id)
+            // ->limit(1)
+            // ->get(),
             $itemSizeStocks = DB::table('item_size_stocks')->get(),
             'pagetitle' => 'Catalog',
             'items' => Item::all(),      
-            'itemSizeStocks' => $itemSizeStocks
+            'itemSizeStocks' => $itemSizeStocks,
+            'itemPictures' => item_picture::all()
 
         ]);
     }

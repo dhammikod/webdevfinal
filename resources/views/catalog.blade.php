@@ -52,199 +52,197 @@
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                 <div class="product">
                                     <figure class="product-media">
-                                        @php
-                                            $itempictures = DB::table('item_pictures')
-                                                ->where('id_item', '=', $item->id)
-                                                ->limit(1)
-                                                ->get();
-                                        @endphp
-                                        @foreach ($itempictures as $itemPicture)
-                                            <a href="/product-details/{{ $item->id }}">
-                                                {{ $itemPicture->id_item }}
-                                                <img src="img/productImg/{{ $itemPicture->picture }}" alt="Product image"
-                                                    class="product-image">
-                                            </a>
-                                        @endforeach
-                                        @php
-                                            $user = Auth::user();
-                                        @endphp
-                                        <div class="product-action-vertical">
-                                            <form method="POST" action="{{ route('wishlist.store') }}"
-                                                enctype="multipart/form-data">
-                                                @csrf
-                                                <input type="hidden" name="itemid" value="{{ $item->id }}">
-                                                <input type="hidden" name="userid" value="{{ $user['id'] }}">
-                                                <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
-                                                    <span>add
-                                                        to
-                                                        wishlist</span>
-                                                </button>
+                                        @foreach ($itemPictures as $itemPicture)
+                                            @if ($item->id == $itemPicture->id_item)
+                                                <a href="/product-details/{{ $recomItem->id }}">
+                                                    <img src="{{ asset('img/productImg/' . $itemPicture->picture) }}"
+                                                        alt="Product image" class="product-image">
+                                                </a>
+                                            @break
+                                        @endif
+                                    @endforeach
+                                    
+                                    @php
+                                        $user = Auth::user();
+                                    @endphp
 
-                                                </button>
-                                            </form>
+                                    <div class="product-action-vertical">
+                                        <form method="POST" action="{{ route('wishlist.store') }}"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="itemid" value="{{ $item->id }}">
+                                            <input type="hidden" name="userid" value="{{ $user['id'] }}">
+                                            <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
+                                                <span>add
+                                                    to
+                                                    wishlist</span>
+                                            </button>
 
-                                        </div><!-- End .product-action -->
+                                            </button>
+                                        </form>
 
-                                        <div class="product-action action-icon-top">
-                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                        </div><!-- End .product-action -->
-                                    </figure><!-- End .product-media -->
+                                    </div><!-- End .product-action -->
 
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <p>{{ $item['category'] }}</p>
-                                        </div><!-- End .product-cat -->
-                                        {{-- <h3 class="product-title"><a
+                                    <div class="product-action action-icon-top">
+                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <div class="product-cat">
+                                        <p>{{ $item['category'] }}</p>
+                                    </div><!-- End .product-cat -->
+                                    {{-- <h3 class="product-title"><a
                                             href="{{ route('product-details.productDetails', $item->id) }}">{{ $item['nama'] }}</a> --}}
-                                        <h3 class="product-title"><a
-                                                href=""{{ route('product-details', ['id' => $item['id']]) }}>{{ $item['nama'] }}</a>
+                                    <h3 class="product-title"><a
+                                            href=""{{ route('product-details', ['id' => $item['id']]) }}>{{ $item['nama'] }}</a>
 
 
 
-                                        </h3>
-                                        <!-- End .product-title -->
-                                        <div class="product-price">
-                                            Rp {{ $item['price'] }}
-                                        </div><!-- End .product-price -->
+                                    </h3>
+                                    <!-- End .product-title -->
+                                    <div class="product-price">
+                                        Rp {{ $item['price'] }}
+                                    </div><!-- End .product-price -->
 
-                                        <div class="product-nav product-nav-dots">
-                                            <p>Sold: {{ $item['sold'] }}</p>
-                                        </div>
+                                    <div class="product-nav product-nav-dots">
+                                        <p>Sold: {{ $item['sold'] }}</p>
+                                    </div>
 
-                                        <div class="product-nav product-nav-dots">
-                                            @php($sizes = '')
-
-
-
-                                            @foreach ($itemSizeStocks as $itemSizeStock)
-                                                @if ($item['id'] == $itemSizeStock->id_item)
-                                                    @php($sizes = $sizes . $itemSizeStock->size . ',')
-                                                @endif
-                                            @endforeach
-                                            @php($sizes = rtrim($sizes, ','))
-
-                                            <p>Size: {{ $sizes }}</p>
-                                        </div><!-- End .product-nav -->
-
-
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-                        @endforeach
-
-                    </div><!-- End .row -->
+                                    <div class="product-nav product-nav-dots">
+                                        @php($sizes = '')
 
 
 
-                    {{-- GANTI PAGINATION NANTI --}}
-                    <div class="load-more-container text-center">
-                        <a href="#" class="btn btn-outline-darker btn-load-more">More Products <i
-                                class="icon-refresh"></i></a>
-                    </div><!-- End .load-more-container -->
-                </div><!-- End .products -->
+                                        @foreach ($itemSizeStocks as $itemSizeStock)
+                                            @if ($item['id'] == $itemSizeStock->id_item)
+                                                @php($sizes = $sizes . $itemSizeStock->size . ',')
+                                            @endif
+                                        @endforeach
+                                        @php($sizes = rtrim($sizes, ','))
+
+                                        <p>Size: {{ $sizes }}</p>
+                                    </div><!-- End .product-nav -->
+
+
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+                        </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
+                    @endforeach
+
+                </div><!-- End .row -->
 
 
 
-                {{-- SIDE BAR --}}
-                <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
-                <aside class="sidebar-shop sidebar-filter">
-                    <div class="sidebar-filter-wrapper">
-                        <div class="widget widget-clean">
-                            <label><i class="icon-close filterclose"></i>Filters</label>
-                            <a href="#" class="sidebar-filter-clear">Clean All</a>
-                        </div><!-- End .widget -->
-                        <div class="widget widget-collapsible">
-                            <h3 class="widget-title">
-                                <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true"
-                                    aria-controls="widget-1">
-                                    Category
-                                </a>
-                            </h3><!-- End .widget-title -->
-
-                            <div class="collapse show" id="widget-1">
-                                <div class="widget-body">
-                                    <div class="filter-items filter-items-count">
+                {{-- GANTI PAGINATION NANTI --}}
+                <div class="load-more-container text-center">
+                    <a href="#" class="btn btn-outline-darker btn-load-more">More Products <i
+                            class="icon-refresh"></i></a>
+                </div><!-- End .load-more-container -->
+            </div><!-- End .products -->
 
 
 
+            {{-- SIDE BAR --}}
+            <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
+            <aside class="sidebar-shop sidebar-filter">
+                <div class="sidebar-filter-wrapper">
+                    <div class="widget widget-clean">
+                        <label><i class="icon-close filterclose"></i>Filters</label>
+                        <a href="#" class="sidebar-filter-clear">Clean All</a>
+                    </div><!-- End .widget -->
+                    <div class="widget widget-collapsible">
+                        <h3 class="widget-title">
+                            <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true"
+                                aria-controls="widget-1">
+                                Category
+                            </a>
+                        </h3><!-- End .widget-title -->
 
-
-                                        <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="cat-1">
-                                                <label class="custom-control-label" for="cat-1">Dresses</label>
-                                            </div><!-- End .custom-checkbox -->
-                                            <span class="item-count">3</span>
-                                        </div><!-- End .filter-item -->
+                        <div class="collapse show" id="widget-1">
+                            <div class="widget-body">
+                                <div class="filter-items filter-items-count">
 
 
 
 
-                                    </div><!-- End .filter-items -->
+
+                                    <div class="filter-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="cat-1">
+                                            <label class="custom-control-label" for="cat-1">Dresses</label>
+                                        </div><!-- End .custom-checkbox -->
+                                        <span class="item-count">3</span>
+                                    </div><!-- End .filter-item -->
+
+
+
+
+                                </div><!-- End .filter-items -->
+                            </div><!-- End .widget-body -->
+                        </div><!-- End .collapse -->
+                    </div><!-- End .widget -->
+
+                    <div class="widget widget-collapsible">
+                        <h3 class="widget-title">
+                            <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true"
+                                aria-controls="widget-2">
+                                Size
+                            </a>
+                        </h3><!-- End .widget-title -->
+
+                        <div class="collapse show" id="widget-2">
+                            <div class="widget-body">
+                                <div class="filter-items">
+                                    <div class="filter-item">
+
+
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="size-1">
+                                            <label class="custom-control-label" for="size-1">XS</label>
+                                        </div><!-- End .custom-checkbox -->
+
+
+
+                                    </div><!-- End .filter-item -->
+
+
+
                                 </div><!-- End .widget-body -->
                             </div><!-- End .collapse -->
                         </div><!-- End .widget -->
 
+
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
-                                <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true"
-                                    aria-controls="widget-2">
-                                    Size
+                                <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true"
+                                    aria-controls="widget-5">
+                                    Price
                                 </a>
                             </h3><!-- End .widget-title -->
 
-                            <div class="collapse show" id="widget-2">
+                            <div class="collapse show" id="widget-5">
                                 <div class="widget-body">
-                                    <div class="filter-items">
-                                        <div class="filter-item">
+                                    <div class="filter-price">
+                                        <div class="filter-price-text">
+                                            Price Range:
+                                            <span id="filter-price-range"></span>
+                                        </div><!-- End .filter-price-text -->
 
-
-
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="size-1">
-                                                <label class="custom-control-label" for="size-1">XS</label>
-                                            </div><!-- End .custom-checkbox -->
-
-
-
-                                        </div><!-- End .filter-item -->
-
-
-
-                                    </div><!-- End .widget-body -->
-                                </div><!-- End .collapse -->
-                            </div><!-- End .widget -->
-
-
-                            <div class="widget widget-collapsible">
-                                <h3 class="widget-title">
-                                    <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true"
-                                        aria-controls="widget-5">
-                                        Price
-                                    </a>
-                                </h3><!-- End .widget-title -->
-
-                                <div class="collapse show" id="widget-5">
-                                    <div class="widget-body">
-                                        <div class="filter-price">
-                                            <div class="filter-price-text">
-                                                Price Range:
-                                                <span id="filter-price-range"></span>
-                                            </div><!-- End .filter-price-text -->
-
-                                            <div id="price-slider"></div><!-- End #price-slider -->
-                                        </div><!-- End .filter-price -->
-                                    </div><!-- End .widget-body -->
-                                </div><!-- End .collapse -->
-                            </div><!-- End .widget -->
-                        </div><!-- End .sidebar-filter-wrapper -->
-                </aside><!-- End .sidebar-filter -->
+                                        <div id="price-slider"></div><!-- End #price-slider -->
+                                    </div><!-- End .filter-price -->
+                                </div><!-- End .widget-body -->
+                            </div><!-- End .collapse -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .sidebar-filter-wrapper -->
+            </aside><!-- End .sidebar-filter -->
 
 
 
 
 
-            </div><!-- End .container -->
-        </div><!-- End .page-content -->
-    </main><!-- End .main -->
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
 @endsection
