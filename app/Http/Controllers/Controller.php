@@ -33,29 +33,52 @@ class Controller extends BaseController
             'pagetitle' => 'Catalog',
             'items' => Item::all(),      
             'itemSizeStocks' => $itemSizeStocks
- 
+
         ]);
     }
 
     public function productDetails($id)
     {
         $items = DB::table('items')
-        ->where('id', $id)
-        ->get();
+            ->where('id', $id)
+            ->get();
         $pics = DB::table('item_pictures')
-        ->where('id_item', $id)
-        ->get();
+            ->where('id_item', $id)
+            ->get();
         $sizestock = DB::table('item_size_stocks')
-        ->where('id_item', $id)
-        ->get();
+            ->where('id_item', $id)
+            ->get();
+        $itemSizeStocks = DB::table('item_size_stocks')->get();
 
+
+        $range = range(1, count(DB::table('items')->get()));
+        shuffle($range);
+
+        $recomID1 = $range[0];
+        $recomID2 = $range[1];
+        $recomID3 = $range[2];
+        $recomID4 = $range[3];
+
+        $currid = array_search('green', $range);
+        unset($range[$currid]);
+
+
+        $recomItems = DB::table('items')
+            ->where('id', $recomID1)
+            ->orWhere('id', $recomID2)
+            ->orWhere('id', $recomID3)
+            ->orWhere('id', $recomID4)
+            ->get();
 
         return view('product-details', [
             'pagetitle' => 'Product Details',
             'items' => $items,
-            'itemPictures' => $pics,      
-            'itemSizeStocks' => $sizestock
- 
+            'itemPictures' => $pics,
+            'itemSizeStocks' => $sizestock,
+            'recomItems' => $recomItems,
+            'itemPicturesAlls' => item_picture::all(),
+            'itemSizeStocksAlls' => $itemSizeStocks
+
         ]);
     }
 
@@ -69,11 +92,12 @@ class Controller extends BaseController
     public function makeaddress()
     {
         return view('makeaddress', [
-            'pagetitle' => 'makeaddress',  
+            'pagetitle' => 'makeaddress',
         ]);
     }
 
-    public function signin() {
+    public function signin()
+    {
         return view('signin', [
             'pagetitle' => 'Sign In'
         ]);
@@ -107,12 +131,13 @@ class Controller extends BaseController
         ]);
     }
 
-    public function dashboard() {
+    public function dashboard()
+    {
         $user = Auth::user();
         $id = $user['id'];
         $shipping_addresses = DB::table('shipping_addresses')
-        ->where('user_id', '=', $id)
-        ->get();
+            ->where('user_id', '=', $id)
+            ->get();
         return view('dashboard', [
             'pagetitle' => 'Dashboard',
             "shipping_addresses" => $shipping_addresses
@@ -136,7 +161,7 @@ class Controller extends BaseController
     public function adminItem_requests()
     {
         $item_requests = DB::table('item_requests')
-        ->get();
+            ->get();
         return view('admin-item_requests', [
             'pagetitle' => 'Admin Item Requests',
             "item_requests" => $item_requests
@@ -172,7 +197,7 @@ class Controller extends BaseController
     {
         return view('admin-orders', [
             'pagetitle' => 'Admin Orders',
-            'order' => order::all()          
+            'order' => order::all()
         ]);
     }
 
