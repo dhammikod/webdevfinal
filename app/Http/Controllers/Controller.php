@@ -37,7 +37,7 @@ class Controller extends BaseController
             // ->get(),
             $itemSizeStocks = DB::table('item_size_stocks')->get(),
             'pagetitle' => 'Catalog',
-            'items' => Item::all(),      
+            'items' => Item::all(),
             'itemSizeStocks' => $itemSizeStocks,
             'itemPictures' => item_picture::all()
 
@@ -56,7 +56,7 @@ class Controller extends BaseController
             ->where('id_item', $id)
             ->get();
         $itemSizeStocks = DB::table('item_size_stocks')->get();
-        
+
         $user = Auth::user();
         $id = $user['id'];
 
@@ -124,7 +124,7 @@ class Controller extends BaseController
         $user = Auth::user();
         $userId = $user->id;
         $shoppingcarts = DB::table('items')
-            ->select('shopping_carts.id','items.id', 'items.nama', 'items.price', 'shopping_carts.jumlah', DB::raw('(SELECT item_pictures.picture FROM `item_pictures` item_pictures WHERE item_pictures.id_item = items.id LIMIT 1) as picture'))
+            ->select('shopping_carts.id', 'items.id', 'items.nama', 'items.price', 'shopping_carts.jumlah', DB::raw('(SELECT item_pictures.picture FROM `item_pictures` item_pictures WHERE item_pictures.id_item = items.id LIMIT 1) as picture'))
             ->join('shopping_carts', 'shopping_carts.item_id', '=', 'items.id')
             ->whereIn('items.id', function ($query) use ($userId) {
                 $query
@@ -145,8 +145,42 @@ class Controller extends BaseController
 
     public function checkout()
     {
+        $userObj = Auth::user();
+        $user = $userObj->id;
+
+
+        $billingDetails = DB::table('users as user')
+            ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email')
+            ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
+                $join->on('new.user_id', '=', 'user.id');
+            })
+            ->where('user.id', '=', $user)
+            ->get();
+
+            $ShoppingCartLists = DB::table('shopping_carts as sc')
+            ->select('nameTotal.nama', 'sc.jumlah', 'iss.size', 'nameTotal.price')
+            ->join('item_size_stocks as iss', 'iss.id', '=', 'sc.item_size_stock_id')
+            ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) nameTotal'), function($join) {
+                $join->on('nameTotal.id', '=', 'sc.item_id');
+            })
+            ->where('sc.user_id', $user)
+            ->get();
+
+            $TotalPrices = DB::table(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) total'))
+            ->select(DB::raw('SUM(total.price) as Total'))
+            ->where('total.user_id', $user)
+            ->first()
+            ->Total;
+
+
         return view('checkout', [
-            'pagetitle' => 'Checkout'
+            'pagetitle' => 'Checkout',
+            'userBililngDetails' => $billingDetails,
+            'TotalPrice' => $TotalPrices,
+            'ShoppingCartLists' => $ShoppingCartLists,
+            'paymentTypes' => Payment_types::all()
+
+
         ]);
     }
 
@@ -162,7 +196,7 @@ class Controller extends BaseController
         $user = Auth::user();
         $id = $user['id'];
         $status = DB::table('shipping_addresses')
-        ->where('user_id', '=', $id)->exists();
+            ->where('user_id', '=', $id)->exists();
 
         $shipping_addresses = DB::table('shipping_addresses')
             ->where('user_id', '=', $id)
@@ -201,7 +235,7 @@ class Controller extends BaseController
     public function adminItem()
     {
         $items = DB::table('items')
-        ->get();
+            ->get();
         return view('admin-items', [
             'pagetitle' => 'Admin Item',
             "items" => $items,
@@ -232,6 +266,4 @@ class Controller extends BaseController
             'order' => order::all()
         ]);
     }
-
-  
 }
