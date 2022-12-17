@@ -144,65 +144,76 @@
                 }'>
 
                     {{-- start of for loop --}}
-                    <div class="product product-7 text-center">
-                        <figure class="product-media">
-                            <span class="product-label label-new">New</span>
-                            <a href="product.html">
-                                <img src="assets/images/products/product-4.jpg" alt="Product image" class="product-image">
-                            </a>
+                    @foreach ($recomItems as $recomItem)
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                @foreach ($itemPicturesAlls as $itemPicturesAll)
+                                    @if ($recomItem->id == $itemPicturesAll->id_item)
+                                        <a href="/product-details/{{ $recomItem->id }}">
+                                            <img src="{{ asset('img/productImg/' . $itemPicturesAll->picture) }}"
+                                                alt="Product image" class="product-image">
+                                        </a>
+                                    @break
+                                @endif
+                            @endforeach
 
                             <div class="product-action-vertical">
-                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add
+                                        to
                                         wishlist</span></a>
-                                <a href="popup/quickView.html" class="btn-product-icon btn-quickview"
-                                    title="Quick view"><span>Quick view</span></a>
-                                <a href="#" class="btn-product-icon btn-compare"
-                                    title="Compare"><span>Compare</span></a>
-                            </div><!-- End .product-action-vertical -->
+                            </div><!-- End .product-action -->
 
-                            <div class="product-action">
+                            <div class="product-action action-icon-top">
                                 <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
                             </div><!-- End .product-action -->
                         </figure><!-- End .product-media -->
 
                         <div class="product-body">
                             <div class="product-cat">
-                                <a href="#">Women</a>
+                                <p>{{ $recomItem->category }}</p>
                             </div><!-- End .product-cat -->
-                            <h3 class="product-title"><a href="product.html">Brown paperbag waist <br>pencil skirt</a>
-                            </h3><!-- End .product-title -->
+                            {{-- <h3 class="product-title"><a
+                                            href="{{ route('product-details.productDetails', $item->id) }}">{{ $item['nama'] }}</a> --}}
+                            <h3 class="product-title"><a
+                                    href=""{{ route('product-details', ['id' => $recomItem->id]) }}>{{ $recomItem->nama }}</a>
+                            </h3>
+                            <!-- End .product-title -->
                             <div class="product-price">
-                                $60.00
+                                Rp {{ $recomItem->price }}
                             </div><!-- End .product-price -->
-                            <div class="ratings-container">
-                                <div class="ratings">
-                                    <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                                </div><!-- End .ratings -->
-                                <span class="ratings-text">( 2 Reviews )</span>
-                            </div><!-- End .rating-container -->
 
-                            <div class="product-nav product-nav-thumbs">
-                                <a href="#" class="active">
-                                    <img src="assets/images/products/product-4-thumb.jpg" alt="product desc">
-                                </a>
-                                <a href="#">
-                                    <img src="assets/images/products/product-4-2-thumb.jpg" alt="product desc">
-                                </a>
+                            <div class="product-nav product-nav-dots">
+                                <p>Sold: {{ $recomItem->sold }}</p>
+                            </div>
 
-                                <a href="#">
-                                    <img src="assets/images/products/product-4-3-thumb.jpg" alt="product desc">
-                                </a>
+                            <div class="product-nav product-nav-dots">
+                                @php($sizes = '')
+
+
+
+                                @foreach ($itemSizeStocksAlls as $itemSizeStocksAll)
+                                    @if ($recomItem->id == $itemSizeStocksAll->id_item)
+                                        @php($sizes = $sizes . $itemSizeStocksAll->size . ',')
+                                    @endif
+                                @endforeach
+                                @php($sizes = rtrim($sizes, ','))
+
+                                <p>Size: {{ $sizes }}</p>
                             </div><!-- End .product-nav -->
+
+
                         </div><!-- End .product-body -->
                     </div><!-- End .product -->
+                    @endforeach
+            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
 
-                    {{-- for loop end sampe 5 kali --}}
+            {{-- for loop end sampe 5 kali --}}
 
 
-                </div><!-- End .owl-carousel -->
+        </div><!-- End .owl-carousel -->
 
 
-            </div><!-- End .container -->
-        </div><!-- End .page-content -->
-    </main><!-- End .main -->
+    </div><!-- End .container -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
 @endsection
