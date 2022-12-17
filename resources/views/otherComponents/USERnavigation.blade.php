@@ -1,7 +1,11 @@
 <header class="header">
+
     @php
+        include resource_path('views/otherComponents/usernav.php');
+        
         $user = Auth::user();
     @endphp
+
     <div class="header-top">
         <div class="container">
             <div class="header-left">
@@ -99,11 +103,6 @@
                         aria-label="Compare Products">
                         <i class="icon-heart-o"></i>
                         @auth
-                            @php
-                                $count = DB::table('wishlists')
-                                    ->where('user_id', '=', $user->id)
-                                    ->count();
-                            @endphp
                             <span class="compare-count">{{ $count }}</span>
                         @endauth
                         @guest
@@ -116,26 +115,13 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <ul class="compare-products">
                             @auth
-                                @php
-                                    $count = DB::table('wishlists')
-                                        ->where('user_id', '=', $user->id)
-                                        ->count();
-                                @endphp
                                 @if ($count == 0)
                                     <li>You havent liked any products yet</li>
                                 @endif
-                                @php
-                                    $wishlistsid = DB::table('wishlists')
-                                        ->where('user_id', '=', $user->id)
-                                        ->get();
-                                @endphp
                                 @foreach ($wishlistsid as $items)
                                     @php
-                                        $item = DB::table('items')
-                                            ->where('id', '=', $items->item_id)
-                                            ->get();
+                                        include resource_path('views/otherComponents/usernav2.php');
                                     @endphp
-
                                     @foreach ($item as $ite)
                                         <li class="compare-product">
                                             <form action="{{ route('wishlist.destroy', $items->id) }}" method="POST">
@@ -182,11 +168,6 @@
                         aria-haspopup="true" aria-expanded="false" data-display="static">
                         <i class="icon-shopping-cart"></i>
                         @auth
-                            @php
-                                $count2 = DB::table('shopping_carts')
-                                    ->where('user_id', '=', $user->id)
-                                    ->count();
-                            @endphp
                             <span class="cart-count">{{ $count2 }}</span>
                         @endauth
                         @guest
@@ -196,65 +177,65 @@
 
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-cart-products">
-                            @php
-                                $userId = $user->id; // replace with the actual value of the user ID
-                                
-                                $shoppingcarts = DB::table('items as i')
-                                    ->select('i.id', 'i.nama', 'i.price', 'sc.jumlah', 'sc.id as shopping_id')
-                                    ->join('shopping_carts as sc', function ($join) use ($userId) {
-                                        $join->on('sc.item_id', '=', 'i.id')->where('sc.user_id', '=', $userId);
-                                    })
-                                    ->whereIn('i.id', function ($query) use ($userId) {
-                                        $query
-                                            ->select('item_id')
-                                            ->from('shopping_carts')
-                                            ->where('user_id', '=', $userId);
-                                    })
-                                    ->get();
-                                
-                                    $total = 0;
-                            @endphp
+                            @auth
+                                @foreach ($shoppingcarts as $item)
+                                    @php
+                                        $total += $item->jumlah * $item->price;
+                                    @endphp
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="product.html">{{ $item->nama }}</a>
+                                            </h4>
 
-                            @foreach ($shoppingcarts as $item)
-                                
-                            @php
-                                $total += $item->jumlah * $item->price;
-                            @endphp
-                                <div class="product">
-                                    <div class="product-cart-details">
-                                        <h4 class="product-title">
-                                            <a href="product.html">{{ $item->nama }}</a>
-                                        </h4>
-    
-                                        <span class="cart-product-info">
-                                            <span class="cart-product-qty">{{ $item->jumlah }}</span>
-                                            x Rp {{ number_format("$item->price",2,",",".") }}
-                                        </span>
-                                    </div><!-- End .product-cart-details -->
-    
-                                    <td class="remove-col"><form action="{{ route('shoppingcart.destroy', $item->shopping_id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
-                                    </form></button></td>
-                                </div><!-- End .product -->
-                            @endforeach
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">{{ $item->jumlah }}</span>
+                                                x Rp {{ number_format("$item->price", 2, ',', '.') }}
+                                            </span>
+                                        </div><!-- End .product-cart-details -->
 
-                        </div><!-- End .cart-product -->
+                                        <td class="remove-col">
+                                            <form action="{{ route('shoppingcart.destroy', $item->shopping_id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn-remove"><i
+                                                        class="icon-close"></i></button>
+                                            </form></button>
+                                        </td>
+                                    </div><!-- End .product -->
+                                @endforeach
+                            </div>
+
+                            <div class="dropdown-cart-total">
+                                <span>Total</span>
+
+                                <span class="cart-total-price">Rp {{ number_format("$total", 2, ',', '.') }}</span>
+                            </div><!-- End .dropdown-cart-total -->
+
+                            <div class="dropdown-cart-action">
+                                <a href="/cart" class="btn btn-primary">View Cart</a>
+                                <a href="/checkout" class="btn btn-outline-primary-2"><span>Checkout</span><i
+                                        class="icon-long-arrow-right"></i></a>
+                            </div><!-- End .dropdown-cart-total -->
+                        @endauth
 
 
+                        <!-- End .cart-product -->
 
-                        <div class="dropdown-cart-total">
-                            <span>Total</span>
+                        @guest
+                            <div class="dropdown-cart-total">
+                                <span>Please Log in</span>
 
-                            <span class="cart-total-price">Rp {{ number_format("$total",2,",",".") }}</span>
-                        </div><!-- End .dropdown-cart-total -->
+                            </div><!-- End .dropdown-cart-total -->
 
-                        <div class="dropdown-cart-action">
-                            <a href="/cart" class="btn btn-primary">View Cart</a>
-                            <a href="/checkout" class="btn btn-outline-primary-2"><span>Checkout</span><i
-                                    class="icon-long-arrow-right"></i></a>
-                        </div><!-- End .dropdown-cart-total -->
+                            <div class="dropdown-cart-action">
+                                <a href="/login" class="btn btn-primary">View Cart</a>
+                                <a href="/login" class="btn btn-outline-primary-2"><span>Checkout</span><i
+                                        class="icon-long-arrow-right"></i></a>
+                            </div><!-- End .dropdown-cart-total -->
+                        @endguest
+
                     </div><!-- End .dropdown-menu -->
                 </div><!-- End .cart-dropdown -->
             </div><!-- End .header-right -->
