@@ -244,7 +244,7 @@
                                         <input type="hidden" name="_method" value="PATCH">
                                         <input type="hidden" name="id" value="{{ $item->id }}">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Edit item_size_stock no {{ $i + 1 }}</h5>
+                                            <h5 class="modal-title">Edit Size and Stock</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -267,7 +267,7 @@
                                                 @endif
                                             </div><!-- End .form-group -->
                                         </div>
-                                        <div class="modal-footer">item_size_stock
+                                        <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cancel</button>
                                             <button type="submit" class="btn btn-success">Add</button>

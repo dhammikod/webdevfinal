@@ -15,7 +15,10 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin-website_feedbacks', [
+            'pagetitle' => 'Admin Website Feedbacks',
+            'feedbacks' => Feedback::all()
+        ]);
     }
 
     /**
@@ -68,9 +71,21 @@ class FeedbackController extends Controller
      * @param  \App\Models\Feedback  $feedback
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateFeedbackRequest $request, Feedback $feedback)
+    public function update(UpdateFeedbackRequest $request, Feedback $feedback, $id)
     {
-        //
+        $Feedback = Feedback::findOrFail($id);
+
+        if($Feedback->status){
+            $Feedback->status = false;
+        }else{
+            $Feedback->status = true;
+        }
+
+        $Feedback->update([
+            'status' => $Feedback->status,
+        ]);
+
+        return redirect()->back();
     }
 
     /**

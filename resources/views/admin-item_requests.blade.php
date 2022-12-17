@@ -6,11 +6,11 @@
         <div class="pagetitle">
             <div class="row justify-content-between">
                 <div class="col">
-                    <h1>Manage item_requests</h1>
+                    <h1>Manage Item Requests</h1>
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">Admin</li>
-                            <li class="breadcrumb-item active">Manage item_requests</li>
+                            <li class="breadcrumb-item active">Manage Item Requests</li>
                         </ol>
                     </nav>
                 </div>
@@ -37,13 +37,13 @@
                                 <form action="{{ route('item_requests.update', $item_request->id) }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="_method" value="PATCH">
-                                    <input type="submit" class="btn btn-danger" value="cross"></button>
+                                    <input type="submit" class="btn btn-danger" value="Reject"></button>
                                 </form>    
                                 @else
                                 <form action="{{ route('item_requests.update', $item_request->id) }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="_method" value="PATCH">
-                                    <input type="submit" class="btn btn-success" value="Check"></button>
+                                    <input type="submit" class="btn btn-success" value="Accept"></button>
                                 </form>
                                 @endif
                                 

@@ -128,7 +128,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/admin-website_feedbacks">
+                <a class="nav-link collapsed" href="{{ route('admin-website_feedbacks.index') }}">
                     <i class="bi bi-mailbox"></i>
                     <span>Website Feedbacks</span>
                 </a>

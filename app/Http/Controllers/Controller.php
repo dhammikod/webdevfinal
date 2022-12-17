@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feedback;
 use App\Models\Item;
 use App\Models\item_picture;
 use App\Models\item_size_stock;
 use App\Models\order;
+use App\Models\Payment_types;
 use App\Models\shipping_address;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -186,7 +188,8 @@ class Controller extends BaseController
     public function adminBilling_options()
     {
         return view('admin-billing_options', [
-            'pagetitle' => 'Admin Billing'
+            'pagetitle' => 'Admin Billing',
+            'paymentTypes' => Payment_types::all(),
         ]);
     }
 
@@ -206,10 +209,5 @@ class Controller extends BaseController
         ]);
     }
 
-    public function adminWebsite_feedbacks()
-    {
-        return view('admin-website_feedbacks', [
-            'pagetitle' => 'Admin Website Feedbacks'
-        ]);
-    }
+  
 }

@@ -2,14 +2,17 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemPictureController;
 use App\Http\Controllers\ItemRequestController;
 use App\Http\Controllers\ItemSizeStockController;
+use App\Http\Controllers\PaymentTypesController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\UserCOntroller;
 use App\Http\Controllers\WishlistController;
+use App\Models\Feedback;
 use App\Models\wishlist;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +54,9 @@ Route::post('/admin-items_Deletes', [ItemController::class, 'destroy'])->middlew
 
 
 Route::get('/admin-billing_options', [Controller::class, 'adminBilling_options'])->middleware(['auth', 'verified'])->name('admin-billing_options');;
+Route::post('/admin-billing_optionsEditDelete', [PaymentTypesController::class, 'PaymentUpdateDelete']);
+Route::post('/admin-billing_optionsAdd', [PaymentTypesController::class, 'PaymentAdd']);
+
 
 Route::get('/admin-manage_account', [Controller::class, 'adminManage_account'])->middleware(['auth', 'verified'])->name('admin-manage_account');
 Route::post('/admin-manage_accountDelete', [RegisteredUserController::class, 'deleteAdmin']);
@@ -58,7 +64,8 @@ Route::post('/admin-manage_accountAdd', [RegisteredUserController::class, 'Admin
 
 Route::get('/admin-orders', [Controller::class, 'adminOrders'])->middleware(['auth', 'verified'])->name('admin-orders');
 
-Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks'])->middleware(['auth', 'verified'])->name('admin-website_feedbacks');
+// Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks'])->middleware(['auth', 'verified'])->name('admin-website_feedback');
+Route::resource('admin-website_feedbacks', FeedbackController::class);
 
 Route::get('/dashboard', [Controller::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
