@@ -109,9 +109,19 @@
                                                     to cart</span></a>
                                             </button>
                                     </form>
+                                    <form method="POST" action="{{ route('wishlist.store') }}"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" name="itemid" value="{{ $item->id }}">
+                                                <input type="hidden" name="userid" value="{{ $id }}">
+                                                <button type="submit" title="Wishlist" class="btn btn-block btn-product btn-wishlist">
+                                                    <span>Add to Wishlist</span>
+                                                </button>
+
+                                                </button>
+                                            </form>
                                     <div class="details-action-wrapper">
-                                        <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to
-                                                Wishlist</span></a>
+                                        
                                     </div><!-- End .details-action-wrapper -->
                                 </div><!-- End .product-details-action -->
 
