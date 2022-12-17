@@ -51,7 +51,7 @@
                                                     </figure>
 
                                                     <h3 class="product-title">
-                                                        <a href="#">{{ $item->nama }}</a>
+                                                        <a href="product-details/{{ $item->id }}">{{ $item->nama }}</a>
                                                     </h3><!-- End .product-title -->
                                                 </div><!-- End .product -->
                                             </td>

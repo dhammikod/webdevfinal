@@ -185,7 +185,7 @@
                                     <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="product.html">{{ $item->nama }}</a>
+                                                <a href="product-details/{{ $item->id }}">{{ $item->nama }}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
