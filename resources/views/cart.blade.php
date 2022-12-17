@@ -55,16 +55,20 @@
                                                     </h3><!-- End .product-title -->
                                                 </div><!-- End .product -->
                                             </td>
-                                            <td class="price-col">{{ $item->price }}</td>
+                                            <td class="price-col">{{ number_format("$item->price",2,",",".") }}</td>
                                             <td class="quantity-col">
                                                 <div class="cart-product-quantity">
                                                     <input type="number" class="form-control" value="{{ $item->jumlah }}" min="1"
                                                         max="10" step="1" data-decimals="0" required>
                                                 </div><!-- End .cart-product-quantity -->
                                             </td>
-                                            <td class="total-col">{{ $item->price * $item->jumlah }}</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
+                                            <td class="total-col">{{ number_format($item->price * $item->jumlah,2,",",".") }}</td>
+                                            
+                                            <td class="remove-col"><form action="{{ route('shoppingcart.destroy', $item->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
+                                            </form></button></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -81,14 +85,22 @@
                                     <tbody>
                                         <tr class="summary-subtotal">
                                             <td>Subtotal:</td>
-                                            <td>{{ $total }}</td>
+                                            <td>Rp {{ number_format($total,2,",",".") }}</td>
                                         </tr><!-- End .summary-subtotal -->
                                         <tr class="summary-shipping">
                                             <td>Shipping:</td>
                                             <td>&nbsp;</td>
                                         </tr>
-
                                         <tr class="summary-shipping-row">
+                                            <td>
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" id="free-shipping" name="shipping"
+                                                        class="custom-control-input">
+                                                    <label class="custom-control-label" for="free-shipping">Ongkos akan di tanggung VIA COD</label>
+                                                </div><!-- End .custom-control -->
+                                            </td>
+                                        </tr>
+                                        {{-- <tr class="summary-shipping-row">
                                             <td>
                                                 <div class="custom-control custom-radio">
                                                     <input type="radio" id="free-shipping" name="shipping"
@@ -122,11 +134,11 @@
                                                 </div><!-- End .custom-control -->
                                             </td>
                                             <td>$20.00</td>
-                                        </tr><!-- End .summary-shipping-row -->
+                                        </tr><!-- End .summary-shipping-row --> --}}
 
                                         <tr class="summary-total">
                                             <td>Total:</td>
-                                            <td>$160.00</td>
+                                            <td>Rp {{ number_format($total,2,",",".") }}</td>
                                         </tr><!-- End .summary-total -->
                                     </tbody>
                                 </table><!-- End .table table-summary -->

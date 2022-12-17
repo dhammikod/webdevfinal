@@ -200,7 +200,7 @@
                                 $userId = $user->id; // replace with the actual value of the user ID
                                 
                                 $shoppingcarts = DB::table('items as i')
-                                    ->select('i.id', 'i.nama', 'i.price', 'sc.jumlah')
+                                    ->select('i.id', 'i.nama', 'i.price', 'sc.jumlah', 'sc.id as shopping_id')
                                     ->join('shopping_carts as sc', function ($join) use ($userId) {
                                         $join->on('sc.item_id', '=', 'i.id')->where('sc.user_id', '=', $userId);
                                     })
@@ -228,12 +228,15 @@
     
                                         <span class="cart-product-info">
                                             <span class="cart-product-qty">{{ $item->jumlah }}</span>
-                                            x {{ $item->price }}
+                                            x Rp {{ number_format("$item->price",2,",",".") }}
                                         </span>
                                     </div><!-- End .product-cart-details -->
     
-                                    <a href="#" class="btn-remove" title="Remove Product"><i
-                                            class="icon-close"></i></a>
+                                    <td class="remove-col"><form action="{{ route('shoppingcart.destroy', $item->shopping_id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
+                                    </form></button></td>
                                 </div><!-- End .product -->
                             @endforeach
 
@@ -244,7 +247,7 @@
                         <div class="dropdown-cart-total">
                             <span>Total</span>
 
-                            <span class="cart-total-price">{{ $total }}</span>
+                            <span class="cart-total-price">Rp {{ number_format("$total",2,",",".") }}</span>
                         </div><!-- End .dropdown-cart-total -->
 
                         <div class="dropdown-cart-action">

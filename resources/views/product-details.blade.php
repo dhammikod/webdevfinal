@@ -73,7 +73,7 @@
                                         <div class="details-filter-row details-row-size">
                                             <label for="size">Size:</label>
                                             <div class="select-custom">
-                                                <select name="size" id="size" class="form-control" required> 
+                                                <select name="size" id="size" class="form-control" required>
                                                     <option value="#" selected="selected">Select a size</option>
                                                     @foreach ($itemSizeStocks as $itemSizeStock)
                                                         @if ($itemSizeStock->stock == 0)
@@ -94,15 +94,12 @@
                                         <div class="details-filter-row details-row-size">
                                             <label for="qty">Qty:</label>
                                             <div class="product-details-quantity">
-                                                <input type="number" name="qty" id="qty" class="form-control" value="1"
-                                                    min="1" max="10" step="1" data-decimals="0" required>
+                                                <input type="number" name="qty" id="qty" class="form-control"
+                                                    value="1" min="1" max="10" step="1"
+                                                    data-decimals="0" required>
                                             </div><!-- End .product-details-quantity -->
                                         </div><!-- End .details-filter-row -->
-                                        @php
-                                            $user = Auth::user();
-                                            $id = $user['id'];
-                                        @endphp
-                                        <input type="hidden" value="{{ $id }}" name="userid">
+                                        <input type="hidden" value="{{ $userid }}" name="userid">
                                         <input type="hidden" value="{{ $item->id }}" name="itemid">
                                         <div class="product-details-action">
                                             <button type="submit" class="btn-product btn-cart"><span>add
@@ -110,18 +107,19 @@
                                             </button>
                                     </form>
                                     <form method="POST" action="{{ route('wishlist.store') }}"
-                                                enctype="multipart/form-data">
-                                                @csrf
-                                                <input type="hidden" name="itemid" value="{{ $item->id }}">
-                                                <input type="hidden" name="userid" value="{{ $id }}">
-                                                <button type="submit" title="Wishlist" class="btn btn-block btn-product btn-wishlist">
-                                                    <span>Add to Wishlist</span>
-                                                </button>
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="itemid" value="{{ $item->id }}">
+                                        <input type="hidden" name="userid" value="{{ $userid }}">
+                                        <button type="submit" title="Wishlist"
+                                            class="btn btn-block btn-product btn-wishlist">
+                                            <span>Add to Wishlist</span>
+                                        </button>
 
-                                                </button>
-                                            </form>
+                                        </button>
+                                    </form>
                                     <div class="details-action-wrapper">
-                                        
+
                                     </div><!-- End .details-action-wrapper -->
                                 </div><!-- End .product-details-action -->
 
@@ -175,7 +173,7 @@
                         <figure class="product-media">
                             @foreach ($itemPicturesAlls as $itemPicturesAll)
                                 @if ($recomItem->id == $itemPicturesAll->id_item)
-                                    <a href="/product-details/{{ $recomItem->id }}">
+                                    <a href="../product-details/{{ $recomItem->id }}">
                                         <img src="{{ asset('img/productImg/' . $itemPicturesAll->picture) }}"
                                             alt="Product image" class="product-image">
                                     </a>
@@ -184,13 +182,20 @@
                         @endforeach
 
                         <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add
-                                    to
-                                    wishlist</span></a>
+                            <form method="POST" action="{{ route('wishlist.store') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="itemid" value="{{ $recomItem->id }}">
+                                <input type="hidden" name="userid" value="{{ $userid }}">
+                                <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
+                                    <span>add
+                                        to
+                                        wishlist</span>
+                                </button>
                         </div><!-- End .product-action -->
 
                         <div class="product-action action-icon-top">
-                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                            <a href="../product-details/{{ $recomItem->id }}" class="btn-product btn-cart"><span>add
+                                    to cart</span></a>
                         </div><!-- End .product-action -->
                     </figure><!-- End .product-media -->
 

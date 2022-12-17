@@ -92,8 +92,12 @@ class ShoppingCartController extends Controller
      * @param  \App\Models\shopping_cart  $shopping_cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(shopping_cart $shopping_cart)
+    public function destroy($id)
     {
-        //
+        $wishlist = shopping_cart::findOrFail($id);
+
+        $wishlist->delete();
+
+        return redirect()->back();
     }
 }

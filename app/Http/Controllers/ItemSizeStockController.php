@@ -16,6 +16,7 @@ class ItemSizeStockController extends Controller
     public function index()
     {
         //
+        
     }
 
     /**

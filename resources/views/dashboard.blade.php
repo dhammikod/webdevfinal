@@ -88,12 +88,7 @@
 
                             {{-- addresses minipage --}}
                             <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
-                                @php
-                                    $user = Auth::user();
-                                    $id = $user['id'];
-                                @endphp 
-                                @if (!DB::table('shipping_addresses')
-                                ->where('user_id', '=', $id)->exists())
+                                @if (!$status)
                                     <p>No Addresses Registered yet.</p>
                                 @else
                                 <div class="row">

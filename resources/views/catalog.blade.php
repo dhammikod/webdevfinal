@@ -78,10 +78,7 @@
                                                         to
                                                         wishlist</span>
                                                 </button>
-
-                                                </button>
                                             </form>
-
                                         </div><!-- End .product-action -->
                                     @endauth
                                     @guest
@@ -120,7 +117,7 @@
                                     </h3>
                                     <!-- End .product-title -->
                                     <div class="product-price">
-                                        Rp {{ $item['price'] }}
+                                        Rp {{ number_format($item['price'],2,",",".") }}
                                     </div><!-- End .product-price -->
 
                                     <div class="product-nav product-nav-dots">
