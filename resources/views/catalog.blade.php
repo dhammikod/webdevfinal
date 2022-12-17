@@ -54,14 +54,14 @@
                                     <figure class="product-media">
                                         @foreach ($itemPictures as $itemPicture)
                                             @if ($item->id == $itemPicture->id_item)
-                                                <a href="/product-details/{{ $recomItem->id }}">
+                                                <a href="/product-details/{{ $item->id }}">
                                                     <img src="{{ asset('img/productImg/' . $itemPicture->picture) }}"
                                                         alt="Product image" class="product-image">
                                                 </a>
                                             @break
                                         @endif
                                     @endforeach
-                                    
+
                                     @php
                                         $user = Auth::user();
                                     @endphp
