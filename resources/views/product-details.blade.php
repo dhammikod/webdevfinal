@@ -99,7 +99,12 @@
                                                     data-decimals="0" required>
                                             </div><!-- End .product-details-quantity -->
                                         </div><!-- End .details-filter-row -->
-                                        <input type="hidden" value="{{ $userid }}" name="userid">
+                                        @auth
+                                        <input type="hidden" value="{{ Auth::user()->id }}" name="userid">
+                                        @endauth
+                                        @guest
+                                            
+                                        @endguest
                                         <input type="hidden" value="{{ $item->id }}" name="itemid">
                                         <div class="product-details-action">
                                             <button type="submit" class="btn-product btn-cart"><span>add
@@ -109,8 +114,11 @@
                                     <form method="POST" action="{{ route('wishlist.store') }}"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" name="itemid" value="{{ $item->id }}">
+                                        @auth
                                         <input type="hidden" name="userid" value="{{ $userid }}">
+                                        @endauth
+                                        <input type="hidden" name="itemid" value="{{ $item->id }}">
+                           
                                         <button type="submit" title="Wishlist"
                                             class="btn btn-block btn-product btn-wishlist">
                                             <span>Add to Wishlist</span>
@@ -184,8 +192,11 @@
                         <div class="product-action-vertical">
                             <form method="POST" action="{{ route('wishlist.store') }}" enctype="multipart/form-data">
                                 @csrf
-                                <input type="hidden" name="itemid" value="{{ $recomItem->id }}">
+                                @auth
                                 <input type="hidden" name="userid" value="{{ $userid }}">
+                                @endauth
+                                <input type="hidden" name="itemid" value="{{ $recomItem->id }}">
+                                
                                 <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
                                     <span>add
                                         to

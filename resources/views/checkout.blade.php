@@ -20,6 +20,22 @@
         <div class="page-content">
             <div class="checkout">
                 <div class="container">
+                    @if (!$billingDetaileds)
+                    <form action="/checkout" method="GET">
+                        <input type="hidden" name="a" id="a">
+                        <button type='submit'>
+                            <select name="chooseLocation" id="chooseLocation"
+                                class="btn btn-outline-primary btn-rounded">
+                                @foreach ($billingDetaileds as $bililngDetailed)
+                                    <option name="shipmentChosen"
+                                        value=" {{ $bililngDetailed->id }}">
+                                        {{ $bililngDetailed->shipment_address }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </button>
+                    </form>
+                    @endif  
                     <form action="/checkoutProceed" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
@@ -151,22 +167,6 @@
                                         <div class="row align-items-center">
                                             <div class="col">
                                                 <h1 class="checkout-title">Billing Details</h1><!-- End .checkout-title -->
-                                            </div>
-                                            <div class="col">
-                                                <form action="/checkout" method="GET">
-                                                    <input type="hidden" name="a" id="a">
-                                                    <button type='submit'>
-                                                        <select name="chooseLocation" id="chooseLocation"
-                                                            class="btn btn-outline-primary btn-rounded">
-                                                            @foreach ($bililngDetaileds as $bililngDetailed)
-                                                                <option name="shipmentChosen"
-                                                                    value=" {{ $bililngDetailed->id }}">
-                                                                    {{ $bililngDetailed->shipment_address }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </button>
-                                                </form>
                                             </div>
                                         </div>
 

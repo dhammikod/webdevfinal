@@ -191,7 +191,7 @@
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-remove"><i
                                                         class="icon-close"></i></button>
-                                            </form></button>
+                                            </form>
                                         </td>
                                     </div><!-- End .product -->
                                 @endforeach

@@ -64,11 +64,15 @@
                                             </td>
                                             <td class="total-col">{{ number_format($item->price * $item->jumlah,2,",",".") }}</td>
                                             
-                                            <td class="remove-col"><form action="{{ route('shoppingcart.destroy', $item->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-remove"><i class="icon-close"></i></button>
-                                            </form></button></td>
+                                            <td class="remove-col">
+                                                <form action="{{ route('shoppingcart.destroy', $item->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-remove">
+                                                        <i class="icon-close"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

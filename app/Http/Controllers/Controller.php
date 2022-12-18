@@ -77,9 +77,6 @@ class Controller extends BaseController
             ->get();
         $itemSizeStocks = DB::table('item_size_stocks')->get();
 
-        $user = Auth::user();
-        $id = $user['id'];
-
         $range = range(1, count(DB::table('items')->get()));
         shuffle($range);
 
@@ -107,7 +104,6 @@ class Controller extends BaseController
             'recomItems' => $recomItems,
             'itemPicturesAlls' => item_picture::all(),
             'itemSizeStocksAlls' => $itemSizeStocks,
-            'userid' => $id
         ]);
     }
 
@@ -144,7 +140,7 @@ class Controller extends BaseController
         $user = Auth::user();
         $userId = $user->id;
         $shoppingcarts = DB::table('items')
-            ->select('shopping_carts.id', 'items.id', 'items.nama', 'items.price', 'shopping_carts.jumlah', DB::raw('(SELECT item_pictures.picture FROM `item_pictures` item_pictures WHERE item_pictures.id_item = items.id LIMIT 1) as picture'))
+            ->select('shopping_carts.id', 'items.id as items_id', 'items.nama', 'items.price', 'shopping_carts.jumlah', DB::raw('(SELECT item_pictures.picture FROM `item_pictures` item_pictures WHERE item_pictures.id_item = items.id LIMIT 1) as picture'))
             ->join('shopping_carts', 'shopping_carts.item_id', '=', 'items.id')
             ->whereIn('items.id', function ($query) use ($userId) {
                 $query
@@ -289,6 +285,9 @@ class Controller extends BaseController
                 'status' => 'ongoing',
                 'ship_date' => $time,
             ]);
+
+            return redirect("admin-orders");
+
         }
 
         if (isset($_POST['tickongoing'])) {
@@ -297,6 +296,17 @@ class Controller extends BaseController
             $order->update([
                 'admincompleted' => 1,
             ]);
+
+            $order = order::findOrFail($_POST['id']);
+
+            if ($order->admincompleted && $order->usercompleted){
+                $order->update([
+                    'status' => "completed",
+                ]);
+            }
+
+            return redirect("admin-orders");
+
         }
 
         if (isset($_POST['delongoing'])) {
@@ -305,15 +315,8 @@ class Controller extends BaseController
             $order->update([
                 'admincompleted' => 0,
             ]);
-        }
 
-        if (isset($_POST['tickongoing'])) {
-            $order = order::findOrFail($_POST['id']);
-
-            if ($order->admincompleted && $order->usercompleted)
-                $order->update([
-                    'status' => "completed",
-                ]);
+            return redirect("admin-orders");
         }
 
         if (isset($_POST['usercancel'])) {
@@ -327,8 +330,10 @@ class Controller extends BaseController
             $order->update([
                 'usercompleted' => 1,
             ]);
+
+            return redirect("dashboard");
         }
-        return redirect("dashboard");
+        
     }
 
 
@@ -379,21 +384,21 @@ class Controller extends BaseController
         $userObj = Auth::user();
         $user = $userObj->id;
 
-        $billingDetails = DB::table('users as user')
-            ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email')
-            ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
-                $join->on('new.user_id', '=', 'user.id');
-            })
-            ->where('user.id', '=', $user)
-            ->first();
+        // $billingDetails = DB::table('users as user')
+        //     ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email')
+        //     ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
+        //         $join->on('new.user_id', '=', 'user.id');
+        //     })
+        //     ->where('user.id', '=', $user)
+        //     ->first();
 
-        $billingDetailAlls = DB::table('users as user')
-            ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
-            ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
-                $join->on('new.user_id', '=', 'user.id');
-            })
-            ->where('user.id', '=', $user)
-            ->get();
+        // $billingDetailAlls = DB::table('users as user')
+        //     ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
+        //     ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
+        //         $join->on('new.user_id', '=', 'user.id');
+        //     })
+        //     ->where('user.id', '=', $user)
+        //     ->get();
 
 
         $ShoppingCartLists = DB::table('item_size_stocks as iss')
@@ -421,41 +426,36 @@ class Controller extends BaseController
             ->where('nameTotal.user_id', $user)
             ->exists();
 
+        
 
 
         if (isset($_GET['a'])) {
-
             $billingDetailed = DB::table('users as user')
-                ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
-                ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
-                    $join->on('new.user_id', '=', 'user.id');
-                })
-                ->where('user.id', '=', $user)
-                ->where(
-                    'new.id',
-                    '=',
-                    $_GET['chooseLocation']
-                )
-                ->get();
-
+            ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
+            ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
+                $join->on('new.user_id', '=', 'user.id');
+            })
+            ->where('user.id', '=', $user)
+            ->where(
+                'new.id',
+                '=',
+                $_GET['chooseLocation']
+            )
+            ->get();
+            
             return view('checkout', [
                 'pagetitle' => 'Checkout',
-                'bililngDetaileds' => $billingDetailed,
-                'billingDetailAlls' => $billingDetailAlls,
+                'billingDetaileds' => $billingDetailed,
                 'TotalPrice' => $TotalPrices,
                 'ShoppingCartLists' => $ShoppingCartLists,
                 'paymentTypes' => Payment_types::all(),
                 'exists' => $exists,
-
-
             ]);
         } else {
 
             return view('checkout', [
                 'pagetitle' => 'Checkout',
-                'userBililngDetails' => $billingDetails,
-                'bililngDetaileds' => null,
-                'billingDetailAlls' => $billingDetailAlls,
+                'bililngDetaileds' => false,
                 'TotalPrice' => $TotalPrices,
                 'ShoppingCartLists' => $ShoppingCartLists,
                 'paymentTypes' => Payment_types::all(),
