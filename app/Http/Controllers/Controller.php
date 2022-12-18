@@ -168,12 +168,31 @@ class Controller extends BaseController
         $shipping_addresses = DB::table('shipping_addresses')
             ->where('user_id', '=', $id)
             ->get();
+
+        $pendingorders = DB::table('orders')
+        ->where('user_id', '=', $id)
+        ->where('status', '=', 'pending')
+        ->get();
+
+        $ongoingorders = DB::table('orders')
+        ->where('user_id', '=', $id)
+        ->where('status', '=', 'ongoing')
+        ->Where('usercompleted', '=', 0)
+        ->get();
+
+        $completedorders = DB::table('orders')
+        ->where('user_id', '=', $id)
+        ->Where('usercompleted', '=', true)
+        ->get();
+
         return view('dashboard', [
             'pagetitle' => 'Dashboard',
             "shipping_addresses" => $shipping_addresses,
             'status' => $status,
             'statusorder' => $statusorder,
-            'orders' => order::all()
+            'pendingorders' => $pendingorders,
+            'ongoingorders' => $ongoingorders,
+            'completedorders' => $completedorders
         ]);
     }
 
@@ -281,7 +300,20 @@ class Controller extends BaseController
                 'status' => "completed",
             ]);      
         }
-        return redirect("admin-orders");
+
+        if (isset($_POST['usercancel'])) {
+            
+            order::where('id', $_POST['id'])->delete();
+            return redirect("dashboard");
+        }
+
+        if (isset($_POST['userconfirmed'])) {
+            $order = order::findOrFail($_POST['id']);
+            $order->update([
+                'usercompleted' => 1,
+            ]);      
+        }
+        return redirect("dashboard");
     }
 
 

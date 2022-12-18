@@ -123,19 +123,19 @@
                             
                                                     <div class="row p-2">
                                                         <div class="card">
-                                                            @foreach ($orders as $order)
-                                                                @if ($order['status'] == 'pending')
+                                                            @foreach ($pendingorders as $order)
+                                                                @if ($order->status == 'pending')
                                                                     {{-- items --}}
                                                                     @php
                                                                         include resource_path('views/controlleradminorders.php');
                                                                     @endphp
                                                                     <div class="row mt-3">
-                                                                        <h5 class="m-3 mb-0">Order #{{ $order['id'] }}:</h5>
+                                                                        <h5 class="m-3 mb-0">Order #{{ $order->id}}:</h5>
                             
                                                                         <div class="row flex align-items-center col-sm-8">
                                                                             <div class="col-md-auto">
-                                                                                <h5 class="card-title">Location : {{ $order['shipment_address'] }}</h5>
-                                                                                <p class="card-text ">Notes :{{ $order['notes'] }}</p>
+                                                                                <h5 class="card-title">Location : {{ $order->shipment_address }}</h5>
+                                                                                <p class="card-text ">Notes :{{ $order->notes }}</p>
                             
                                                                                 <table class="table table-hover">
                                                                                     <thead>
@@ -168,27 +168,15 @@
                             
                                                                             </div>
                                                                         </div>
-                            
+
                                                                         <div class="row col text-end">
                                                                             <div class="col">
                                                                                 <form action="/admin-orders-update" method="POST">
                                                                                     @csrf
-                                                                                    <input type="hidden" name="tickpending" value="yes">
-                                                                                    <input type="hidden" name="id" value="{{ $order->id }}">
-                                                                                    <button type="submit" class="btn btn-success me-5"
-                                                                                        data-bs-toggle="modal"><i
-                                                                                            class="bi bi-pencil-square"></i></button>
-                                                                                </form>
-                                                                            </div>
-                                                                            <div class="col">
-                            
-                                                                                <form action="/admin-orders-reject" method="POST">
-                                                                                    @csrf
-                                                                                    <input type="hidden" name="delpending" value="yes">
+                                                                                    <input type="hidden" name="usercancel" value="yes">
                                                                                     <input type="hidden" name="id" value="{{ $order->id }}">
                                                                                     <button type="submit" class="btn btn-danger me-5"
-                                                                                        data-bs-toggle="modal" data-bs-target="#areyouSureDelete"><i
-                                                                                            class="bi bi-trash"></i></button>
+                                                                                        data-bs-toggle="modal">Cancel order</button>
                                                                                 </form>
                                                                             </div>
                                                                         </div>
@@ -206,85 +194,65 @@
                                                 <div class="tab-pane fade" id="bordered-OnGoing" role="tabpanel" aria-labelledby="OnGoing-tab">
                                                     <div class="row p-2">
                                                         <div class="card">
-                                                            @foreach ($orders as $order)
-                                                                @if ($order['status'] == 'ongoing')
-                                                                    {{-- items --}}
-                                                                    @php
-                                                                        include resource_path('views/controlleradminorders.php');
-                                                                    @endphp
-                                                                    <div class="row mt-3">
-                                                                        <h5 class="m-3 mb-0">Order #{{ $order['id'] }}:</h5>
-                            
-                                                                        <div class="row flex align-items-center col-sm-8">
-                                                                            <div class="col-md-auto">
-                                                                                <h5 class="card-title">Location : {{ $order['shipment_address'] }}
-                                                                                </h5>
-                                                                                <p class="card-text ">Notes :{{ $order['notes'] }}</p>
-                            
-                                                                                <table class="table table-hover">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th scope="col">#</th>
-                                                                                            <th scope="col">Name</th>
-                                                                                            <th scope="col">Size</th>
-                                                                                            <th scope="col">Items</th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        @php
-                                                                                            $i = 1;
-                                                                                        @endphp
-                                                                                        @foreach ($results as $item)
-                                                                                            <tr>
-                                                                                                <th scope="row">{{ $i }}</th>
-                                                                                                <td>{{ $item->nama }}</td>
-                                                                                                <td>{{ $item->size }}</td>
-                                                                                                <td>{{ $item->total_items }}</td>
-                                                                                            </tr>
-                                                                                            @php
-                                                                                                $i++;
-                                                                                            @endphp
-                                                                                        @endforeach
-                            
-                            
-                                                                                    </tbody>
-                                                                                </table>
-                            
-                                                                            </div>
-                                                                        </div>
-                            
-                                                                        <div class="col text-end">
-                            
-                            
-                                                                            @if (!$order->admincompleted)
-                                                                                <form action="/admin-orders-update" method="POST">
-                                                                                    @csrf
-                                                                                    <input type="hidden" name="tickongoing" value="yes">
-                                                                                    <input type="hidden" name="id"
-                                                                                        value="{{ $order->id }}">
-                                                                                    <button type="submit" class="btn btn-success me-5"
-                                                                                        data-bs-toggle="modal"><i
-                                                                                            class="bi bi-pencil-square"></i></button>
-                                                                                </form>
-                                                                                <p>Waiting for admin completed</p>
-                                                                            @else
-                                                                                <form action="/admin-orders-update" method="POST">
-                                                                                    @csrf
-                                                                                    <input type="hidden" name="delongoing" value="yes">
-                                                                                    <input type="hidden" name="id"
-                                                                                        value="{{ $order->id }}">
-                                                                                        <button type="submit" class="btn btn-danger me-5"
-                                                                                        data-bs-toggle="modal" data-bs-target="#areyouSureDelete"><i
-                                                                                            class="bi bi-trash">cancel shipment</i></button>
-                                                                                </form>
-                                                                            @endif
-                            
-                                                                            @if (!$order->usercompleted)
-                                                                                <p>Waiting for user completed</p>
-                                                                            @endif
-                                                                        </div>
-                                                                    </div>
+                                                            @foreach ($ongoingorders as $order)
+                                                            @php
+                                                            include resource_path('views/controlleradminorders.php');
+                                                        @endphp
+                                                        <div class="row mt-3">
+                                                            <h5 class="m-3 mb-0">Order #{{ $order->id }}:</h5>
+                
+                                                            <div class="row flex align-items-center col-sm-8">
+                                                                <div class="col-md-auto">
+                                                                    <h5 class="card-title">Location : {{ $order->shipment_address }}
+                                                                    </h5>
+                                                                    <p class="card-text ">Notes :{{ $order->notes }}</p>
+                
+                                                                    <table class="table table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">#</th>
+                                                                                <th scope="col">Name</th>
+                                                                                <th scope="col">Size</th>
+                                                                                <th scope="col">Items</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @php
+                                                                                $i = 1;
+                                                                            @endphp
+                                                                            @foreach ($results as $item)
+                                                                                <tr>
+                                                                                    <th scope="row">{{ $i }}</th>
+                                                                                    <td>{{ $item->nama }}</td>
+                                                                                    <td>{{ $item->size }}</td>
+                                                                                    <td>{{ $item->total_items }}</td>
+                                                                                </tr>
+                                                                                @php
+                                                                                    $i++;
+                                                                                @endphp
+                                                                            @endforeach
+                
+                
+                                                                        </tbody>
+                                                                    </table>
+                
+                                                                </div>
+                                                            </div>
+                
+                                                            <div class="col text-end">
+                                                                @if (!$order->usercompleted)
+                                                                    <form action="/admin-orders-update" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="userconfirmed" value="yes">
+                                                                        <input type="hidden" name="id"
+                                                                            value="{{ $order->id }}">
+                                                                            <button type="submit" class="btn btn-success me-5"
+                                                                            data-bs-toggle="modal" data-bs-target="#areyouSureDelete"><i
+                                                                                class="bi bi-trash">confim delivered</i></button>
+                                                                    </form>
                                                                 @endif
+                                                            </div>
+                                                        </div>
                                                             @endforeach
                             
                                                         </div>
@@ -294,20 +262,21 @@
                                                 <div class="tab-pane fade" id="bordered-Completed" role="tabpanel" aria-labelledby="Completed-tab">
                                                     <div class="row p-2">
                                                         <div class="card">
-                                                            @foreach ($orders as $order)
-                                                                @if ($order['status'] == 'completed')
+
+                                                            @foreach ($completedorders as $order)
+                                                                @if ($order->usercompleted)
                                                                     {{-- items --}}
                                                                     @php
                                                                         include resource_path('views/controlleradminorders.php');
                                                                     @endphp
                                                                     <div class="row mt-3">
-                                                                        <h5 class="m-3 mb-0">Order #{{ $order['id'] }}:</h5>
+                                                                        <h5 class="m-3 mb-0">Order #{{ $order->id }}:</h5>
                             
                                                                         <div class="row flex align-items-center col-sm-8">
                                                                             <div class="col-md-auto">
-                                                                                <h5 class="card-title">Location : {{ $order['shipment_address'] }}
+                                                                                <h5 class="card-title">Location : {{ $order->shipment_address }}
                                                                                 </h5>
-                                                                                <p class="card-text ">Notes :{{ $order['notes'] }}</p>
+                                                                                <p class="card-text ">Notes :{{ $order->notes }}</p>
                             
                                                                                 <table class="table table-hover">
                                                                                     <thead>

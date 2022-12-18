@@ -213,7 +213,7 @@
                     <div class="tab-pane fade" id="bordered-Completed" role="tabpanel" aria-labelledby="Completed-tab">
                         <div class="row p-2">
                             <div class="card">
-                                @foreach ($orders as $order)
+                                @foreach ($completedorders as $order)
                                     @if ($order['status'] == 'completed')
                                         {{-- items --}}
                                         @php

@@ -50,15 +50,7 @@
      <script src="{{ asset('user/js/jquery.magnific-popup.min.js') }}" defer></script>
      <script src="{{ asset('user/js/nouislider.min.js') }}" defer></script>
      <script src="{{ asset('user/js/jquery.countTo.js') }}" defer></script>
-
     <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}" defer></script>
-    <script src="{{ asset('admin/vendor/chart.js/chart.min.js') }}" defer></script>
-    <script src="{{ asset('admin/vendor/echarts/echarts.min.js') }}" defer></script>
-    <script src="{{ asset('admin/vendor/quill/quill.min.js') }}" defer></script>
-    <script src="{{ asset('admin/vendor/simple-datatables/simple-datatables.js') }}" defer></script>
-    <script src="{{ asset('admin/vendor/tinymce/tinymce.min.js') }}" defer></script>
-    <script src="{{ asset('admin/vendor/php-email-form/validate.js') }}" defer></script>
-    <script src="{{ asset('admin/mainAdmin.js') }}" defer></script>
 
     <script src="{{ asset('admin/js/jquery.min.js') }}" defer></script>
 
