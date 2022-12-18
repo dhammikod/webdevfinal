@@ -385,6 +385,14 @@ class Controller extends BaseController
                 $join->on('new.user_id', '=', 'user.id');
             })
             ->where('user.id', '=', $user)
+            ->first();
+
+        $billingDetailAlls = DB::table('users as user')
+            ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
+            ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
+                $join->on('new.user_id', '=', 'user.id');
+            })
+            ->where('user.id', '=', $user)
             ->get();
 
 
@@ -412,15 +420,49 @@ class Controller extends BaseController
             })
             ->where('nameTotal.user_id', $user)
             ->exists();
-        return view('checkout', [
-            'pagetitle' => 'Checkout',
-            'userBililngDetails' => $billingDetails,
-            'TotalPrice' => $TotalPrices,
-            'ShoppingCartLists' => $ShoppingCartLists,
-            'paymentTypes' => Payment_types::all(),
-            'exists' => $exists,
 
 
-        ]);
+
+        if (isset($_GET['a'])) {
+
+            $billingDetailed = DB::table('users as user')
+                ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
+                ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
+                    $join->on('new.user_id', '=', 'user.id');
+                })
+                ->where('user.id', '=', $user)
+                ->where(
+                    'new.id',
+                    '=',
+                    $_GET['chooseLocation']
+                )
+                ->get();
+
+            return view('checkout', [
+                'pagetitle' => 'Checkout',
+                'bililngDetaileds' => $billingDetailed,
+                'billingDetailAlls' => $billingDetailAlls,
+                'TotalPrice' => $TotalPrices,
+                'ShoppingCartLists' => $ShoppingCartLists,
+                'paymentTypes' => Payment_types::all(),
+                'exists' => $exists,
+
+
+            ]);
+        } else {
+
+            return view('checkout', [
+                'pagetitle' => 'Checkout',
+                'userBililngDetails' => $billingDetails,
+                'bililngDetaileds' => null,
+                'billingDetailAlls' => $billingDetailAlls,
+                'TotalPrice' => $TotalPrices,
+                'ShoppingCartLists' => $ShoppingCartLists,
+                'paymentTypes' => Payment_types::all(),
+                'exists' => $exists,
+
+
+            ]);
+        }
     }
 }
