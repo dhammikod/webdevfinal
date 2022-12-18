@@ -2,6 +2,23 @@
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
+//loading screen
+const loadingScreen = new THREE.LoadingManager();
+// loadingScreen.onStart = function(url, item, total){
+// 	console.log('started loading : ${url}')
+// }
+
+const progressbar = document.getElementById('progress-bar');
+loadingScreen.onProgress = function(url, loaded, total){
+	progressbar.value = (loaded / total) * 100;
+}
+let zoom = 0.0;
+const progressbardiv = document.querySelector('.progress-bar-container');
+loadingScreen.onLoad = function(){
+	progressbardiv.style.display = 'none';
+	zoom = 0.3;
+}
+
 //onclick
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -42,7 +59,20 @@ function onclick( event ) {
 		// console.log(intersects[0]['object']['name']);
 		if(intersects[0]['object']['name'] == "log_in" || intersects[0]['object']['name'] == "Cube054_2" || intersects[0]['object']['name'] == "Cube054_1"){
 			console.log("berhasil masuk page catalog");
+			window.location.assign('/catalog');
 		}
+		// console.log(intersects[0]['object']['name']);
+		if(intersects[0]['object']['name'] == "log_in001" || intersects[0]['object']['name'] == "Cube055_2" || intersects[0]['object']['name'] == "Cube055_1"){
+			console.log("berhasil masuk page login");
+			window.location.assign('/login');
+		}
+		if(intersects[0]['object']['name'] == "log_in002" || intersects[0]['object']['name'] == "Cube034_2" || intersects[0]['object']['name'] == "Cube034_1"){
+			console.log("WELLCOME TIDAK BISA DIPENCET");
+		}
+		if(intersects[0]['object']['name'] == "log_in003" || intersects[0]['object']['name'] == "Cube052_2" || intersects[0]['object']['name'] == "Cube052_1"){
+			window.location.assign('/login');
+		}
+		// console.log(scene.children)
 		// var tes = 0;
 		// while (tes < 100) {
 		// 	if(intersects[0]['object'] == scene.children[5]['children'][tes]){
@@ -79,7 +109,6 @@ orbit.minDistance = 9;
 orbit.maxDistance = 15;
 orbit.maxPolarAngle = Math.PI / 2.2;
 orbit.minPolarAngle = Math.PI / 5;
-
 
 
 //bloommm
@@ -205,7 +234,7 @@ composer.addPass(bloomPass);
 //     } );
 
 //dracoloader
-var loader = new GLTFLoader();
+var loader = new GLTFLoader(loadingScreen);
 var dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath("/3d/draco/");
 loader.setDRACOLoader( dracoLoader );
@@ -255,7 +284,7 @@ loader.load( '/3d/cybdrc.gltf', function ( GLTF ) {
 
 // tes2
 // let step = 0;
-// let speed = 0.01;
+let speed = 0.01;
 
 //refresh the page
 function animate() {
@@ -265,6 +294,12 @@ function animate() {
 	// step += speed;
 	// ril.position.y = 10 * Math.abs(Math.sin(step)); 
 
+	if(zoom < 1.2){
+		zoom += speed;
+		camera.position.y = 10 * Math.abs(Math.sin(zoom));
+		camera.position.z = 10 * Math.abs(Math.sin(zoom));
+	}
+	
 	
 
 	renderer.render( scene, camera );
