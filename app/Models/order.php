@@ -19,6 +19,8 @@ class order extends Model
         "contact",
         "proof_of_payment",
         "notes",
-        "status"
+        "status",
+        "usercompleted",
+        "admincompleted"
     ];
 }

@@ -227,8 +227,37 @@ class Controller extends BaseController
     {
         return view('admin-orders', [
             'pagetitle' => 'Admin Orders',
-            'order' => order::all()
+            'orders' => order::all()
         ]);
+    }
+
+    public function adminOrdersUpdate()
+    {
+        if (isset($_POST['tickpending'])) {
+            $order = order::findOrFail($_POST['id']);
+
+            $order->update([
+                'status' => 'ongoing'
+            ]);
+        }
+
+        if (isset($_POST['tickongoing'])) {
+            $order = order::findOrFail($_POST['id']);
+
+            $order->update([
+                'admincompleted' => 1,
+            ]);      
+        }
+
+        if (isset($_POST['tickongoing'])) {
+            $order = order::findOrFail($_POST['id']);
+
+            if($order->admincompleted && $order->usercompleted)
+            $order->update([
+                'status' => "completed",
+            ]);      
+        }
+        return redirect("admin-orders");
     }
 
 
@@ -242,21 +271,21 @@ class Controller extends BaseController
             'shipment_address' => $request->StreetAddress,
             "city" => $request->City,
             "contact" => $request->Phone,
-            "proof_of_payment" => "",
+            'proof_of_payment' => $request->file('picture')->store('payment_confirm', 'public'),
             "notes" => $request->StreetAddressNotes,
             "status" => 'pending',
             'order_date' => $time,
         ]);
 
         $ShoppingCartLists = DB::table('item_size_stocks as iss')
-        ->select('nameTotal.nama', 'nameTotal.jumlah', 'iss.size', 'nameTotal.price', 'nameTotal.item_size_stock_id')
-        ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id, shopping_carts.jumlah, shopping_carts.item_size_stock_id, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) as nameTotal'), function ($join) {
-            $join->on('iss.id', '=', 'nameTotal.item_size_stock_id');
-        })
-        ->where('nameTotal.user_id', $request->Id)
-        ->get();
+            ->select('nameTotal.nama', 'nameTotal.jumlah', 'iss.size', 'nameTotal.price', 'nameTotal.item_size_stock_id')
+            ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id, shopping_carts.jumlah, shopping_carts.item_size_stock_id, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) as nameTotal'), function ($join) {
+                $join->on('iss.id', '=', 'nameTotal.item_size_stock_id');
+            })
+            ->where('nameTotal.user_id', $request->Id)
+            ->get();
 
-        foreach($ShoppingCartLists as $ShoppingCartList){
+        foreach ($ShoppingCartLists as $ShoppingCartList) {
             detil_order::create([
                 'id_order' => $orderId->id,
                 'id_stocksize' => $ShoppingCartList->item_size_stock_id,
@@ -268,7 +297,7 @@ class Controller extends BaseController
         }
 
         // delete shopping cart becuz already order
-        shopping_cart::where('user_id',$request->Id)->delete();
+        shopping_cart::where('user_id', $request->Id)->delete();
 
 
         return redirect('/dashboard');
@@ -304,12 +333,21 @@ class Controller extends BaseController
             ->first()
             ->Total;
 
+
+            $exists = DB::table('item_size_stocks as iss')
+            ->select('nameTotal.nama', 'nameTotal.jumlah', 'iss.size', 'nameTotal.price', 'nameTotal.item_size_stock_id')
+            ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id, shopping_carts.jumlah, shopping_carts.item_size_stock_id, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) as nameTotal'), function ($join) {
+                $join->on('iss.id', '=', 'nameTotal.item_size_stock_id');
+            })
+            ->where('nameTotal.user_id', $user)
+            ->exists();
         return view('checkout', [
             'pagetitle' => 'Checkout',
             'userBililngDetails' => $billingDetails,
             'TotalPrice' => $TotalPrices,
             'ShoppingCartLists' => $ShoppingCartLists,
-            'paymentTypes' => Payment_types::all()
+            'paymentTypes' => Payment_types::all(),
+            'exists' => $exists,
 
 
         ]);

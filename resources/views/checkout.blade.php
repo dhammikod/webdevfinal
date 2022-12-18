@@ -20,7 +20,7 @@
         <div class="page-content">
             <div class="checkout">
                 <div class="container">
-                    <form action="/checkoutProceed" method="POST">
+                    <form action="/checkoutProceed" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-9">
@@ -65,8 +65,8 @@
                                     <input type="email" class="form-control" required name="Email">
 
                                     <label>Proof Of Payment *</label>
-                                    <img src="/img/noimgeplaceholder.jpg" alt="">
-                                    <input type="file" id="myFile" name="ProofOfPayment" class="form-control">
+                                    <div id="selectedBanner"></div>
+                                    <input type="file" name="picture" class="form-control" id="img">
 
                                     <label>Order notes (optional)</label>
                                     <textarea class="form-control" cols="30" rows="4"
@@ -143,7 +143,8 @@
                                         </thead>
 
                                         <tbody>
-                                            <input type="hidden" name="ShoppingCartLists" value="{{ $ShoppingCartLists }}">
+                                            <input type="hidden" name="ShoppingCartLists"
+                                                value="{{ $ShoppingCartLists }}">
                                             @foreach ($ShoppingCartLists as $ShoppingCartList)
                                                 <tr>
                                                     <td><a
@@ -191,11 +192,21 @@
                                         @endforeach
 
                                     </div><!-- End .accordion -->
+                                    
+                                    @if ($exists)
+                                        <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                            <span class="btn-text">Place Order</span>
+                                            <span class="btn-hover-text">Proceed to Checkout</span>
+                                        </button>
+                                    @else
+                                        {{-- <button
+                                            class="btn btn-outline-primary-2 btn-order btn-block disabled">
+                                            <span class="btn-text">Place Order</span>
+                                            
+                                        </button> --}}
+                                        <span class="btn-text">Your cart is empty</span>
+                                    @endif
 
-                                    <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
-                                        <span class="btn-text">Place Order</span>
-                                        <span class="btn-hover-text">Proceed to Checkout</span>
-                                    </button>
                                 </div><!-- End .summary -->
                             </aside><!-- End .col-lg-3 -->
                         </div><!-- End .row -->

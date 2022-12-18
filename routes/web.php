@@ -65,6 +65,7 @@ Route::post('/admin-manage_accountDelete', [RegisteredUserController::class, 'de
 Route::post('/admin-manage_accountAdd', [RegisteredUserController::class, 'AdminStore']);
 
 Route::get('/admin-orders', [Controller::class, 'adminOrders'])->middleware(['auth', 'verified'])->name('admin-orders');
+Route::post('/admin-orders-update', [Controller::class, 'adminOrdersupdate'])->middleware(['auth', 'verified']);
 
 // Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks'])->middleware(['auth', 'verified'])->name('admin-website_feedback');
 Route::resource('admin-website_feedbacks', FeedbackController::class);

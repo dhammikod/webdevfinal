@@ -60,7 +60,7 @@
                                     </div><!-- End .rating-container -->
 
                                     <div class="product-price">
-                                        Rp {{ $item->price }}
+                                        Rp {{ number_format("$item->price", 2, ',', '.') }}
                                     </div><!-- End .product-price -->
 
                                     <div class="product-content">
@@ -211,7 +211,7 @@
                         </h3>
                         <!-- End .product-title -->
                         <div class="product-price">
-                            Rp {{ $recomItem->price }}
+                            Rp {{ number_format("$recomItem->price", 2, ',', '.') }}
                         </div><!-- End .product-price -->
 
                         <div class="product-nav product-nav-dots">

@@ -42,27 +42,63 @@
 
                         <div class="row p-2">
                             <div class="card">
+                                @foreach ($orders as $order)
+                                    @if ($order['status'] == 'pending')
+                                        {{-- items --}}
+                                        @php
+                                            include resource_path('views/controlleradminorders.php');
+                                        @endphp
+                                        <div class="row mt-3">
+                                            <h5 class="m-3 mb-0">Order #{{ $order['id'] }}:</h5>
 
-                                <form action="/admin-items" method="POST">
-                                    @csrf
-                                    @foreach ($order as $order)
-                                        @if ($order['status'] == 'pending')
-                                            <div>
-                                                <h5 class="m-3 mb-0">Order #{{ $order['id'] }}:</h5>
+                                            <div class="row flex align-items-center col-sm-8">
+                                                <div class="col-md-auto">
+                                                    <h5 class="card-title">Location : {{ $order['shipment_address'] }}</h5>
+                                                    <p class="card-text ">Notes :{{ $order['notes'] }}</p>
 
-                                                <div class="row flex align-items-center">
-                                                    <div class="col-md-auto">
-                                                        {{-- <h5 class="card-title">{{ $order['name'] }}</h5> --}}
-                                                        {{-- <p class="card-text ">{{ $order['email'] }}</p> --}}
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Size</th>
+                                                                <th scope="col">Items</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php
+                                                                $i = 1;
+                                                            @endphp
+                                                            @foreach ($results as $item)
+                                                            <tr>
+                                                                <th scope="row">{{ $i }}</th>
+                                                                <td>{{ $item->nama }}</td>
+                                                                <td>{{ $item->size }}</td>
+                                                                <td>{{ $item->total_items }}</td>
+                                                            </tr>
+                                                            @php
+                                                                $i++;
+                                                            @endphp
+                                                            @endforeach
+                                                            
 
-                                                        <input type="hidden" name="idforAccept"
-                                                            value="{{ $order['id'] }}">
-                                                    </div>
+                                                        </tbody>
+                                                    </table>
+
                                                 </div>
                                             </div>
-                                        @endif
-                                    @endforeach
-                                </form>
+
+                                            <div class="col text-end">
+                                                <form action="/admin-orders-update" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="tickpending" value="yes">
+                                                    <input type="hidden" name="id" value="{{ $order->id }}">
+                                                    <button type="submit" class="btn btn-success me-5" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
 
                             </div>
                         </div>
@@ -72,15 +108,133 @@
                     </div>
 
                     <div class="tab-pane fade" id="bordered-OnGoing" role="tabpanel" aria-labelledby="OnGoing-tab">
-                        Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio
-                        omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate
-                        nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+                        <div class="row p-2">
+                            <div class="card">
+                                @foreach ($orders as $order)
+                                    @if ($order['status'] == 'ongoing')
+                                        {{-- items --}}
+                                        @php
+                                            include resource_path('views/controlleradminorders.php');
+                                        @endphp
+                                        <div class="row mt-3">
+                                            <h5 class="m-3 mb-0">Order #{{ $order['id'] }}:</h5>
+
+                                            <div class="row flex align-items-center col-sm-8">
+                                                <div class="col-md-auto">
+                                                    <h5 class="card-title">Location : {{ $order['shipment_address'] }}</h5>
+                                                    <p class="card-text ">Notes :{{ $order['notes'] }}</p>
+
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Size</th>
+                                                                <th scope="col">Items</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php
+                                                                $i = 1;
+                                                            @endphp
+                                                            @foreach ($results as $item)
+                                                            <tr>
+                                                                <th scope="row">{{ $i }}</th>
+                                                                <td>{{ $item->nama }}</td>
+                                                                <td>{{ $item->size }}</td>
+                                                                <td>{{ $item->total_items }}</td>
+                                                            </tr>
+                                                            @php
+                                                                $i++;
+                                                            @endphp
+                                                            @endforeach
+                                                            
+
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col text-end">
+                                                <form action="/admin-orders-update" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="tickongoing" value="yes">
+                                                    <input type="hidden" name="id" value="{{ $order->id }}">
+                                                    <button type="submit" class="btn btn-success me-5" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
+                                                </form>
+
+                                                @if (!$order->admincompleted)
+                                                    <p>Waiting for admin completed</p>
+                                                @endif
+                                               
+                                                @if (!$order->usercompleted)
+                                                    <p>Waiting for user completed</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+
+                            </div>
+                        </div>
                     </div>
 
                     <div class="tab-pane fade" id="bordered-Completed" role="tabpanel" aria-labelledby="Completed-tab">
-                        Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium
-                        quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam.
-                        Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                        <div class="row p-2">
+                            <div class="card">
+                                @foreach ($orders as $order)
+                                    @if ($order['status'] == 'completed')
+                                        {{-- items --}}
+                                        @php
+                                            include resource_path('views/controlleradminorders.php');
+                                        @endphp
+                                        <div class="row mt-3">
+                                            <h5 class="m-3 mb-0">Order #{{ $order['id'] }}:</h5>
+
+                                            <div class="row flex align-items-center col-sm-8">
+                                                <div class="col-md-auto">
+                                                    <h5 class="card-title">Location : {{ $order['shipment_address'] }}</h5>
+                                                    <p class="card-text ">Notes :{{ $order['notes'] }}</p>
+
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Size</th>
+                                                                <th scope="col">Items</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php
+                                                                $i = 1;
+                                                            @endphp
+                                                            @foreach ($results as $item)
+                                                            <tr>
+                                                                <th scope="row">{{ $i }}</th>
+                                                                <td>{{ $item->nama }}</td>
+                                                                <td>{{ $item->size }}</td>
+                                                                <td>{{ $item->total_items }}</td>
+                                                            </tr>
+                                                            @php
+                                                                $i++;
+                                                            @endphp
+                                                            @endforeach
+                                                            
+
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+
+                                            
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
 
                 </div><!-- End Bordered Tabs -->
