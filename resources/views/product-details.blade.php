@@ -21,9 +21,8 @@
                                 <div class="product-gallery product-gallery-vertical">
                                     <div class="row">
                                         <figure class="product-main-image">
-                                            <img id="product-zoom"
-                                                src="{{ asset('storage/'.$itemPictures[0]->picture) }}"
-                                                data-zoom-image="{{ asset('storage/'.$itemPictures[0]->picture) }}"
+                                            <img id="product-zoom" src="{{ asset('storage/' . $itemPictures[0]->picture) }}"
+                                                data-zoom-image="{{ asset('storage/' . $itemPictures[0]->picture) }}"
                                                 alt="product image">
 
                                             <a href="#" id="btn-product-gallery" class="btn-product-gallery">
@@ -35,9 +34,9 @@
                                         <div id="product-zoom-gallery" class="product-image-gallery">
                                             @foreach ($itemPictures as $itemPicture)
                                                 <a class="product-gallery-item" href="#"
-                                                    data-image="{{ asset('storage/'.$itemPicture->picture) }}"
-                                                    data-zoom-image="{{ asset('storage/'.$itemPicture->picture) }}">
-                                                    <img src="{{ asset('storage/'.$itemPicture->picture) }}"
+                                                    data-image="{{ asset('storage/' . $itemPicture->picture) }}"
+                                                    data-zoom-image="{{ asset('storage/' . $itemPicture->picture) }}">
+                                                    <img src="{{ asset('storage/' . $itemPicture->picture) }}"
                                                         alt="product side">
                                                     {{-- <img src="img/productImg/{{ $itemPicture->picture }}"
                                                         alt="product side"> --}}
@@ -67,65 +66,82 @@
                                         <p>{{ $item->description }}</p>
                                     </div><!-- End .product-content -->
 
+                                    
+                                    @auth
                                     <form method="POST" action="{{ route('shoppingcart.store') }}"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="details-filter-row details-row-size">
-                                            <label for="size">Size:</label>
-                                            <div class="select-custom">
-                                                <select name="size" id="size" class="form-control" required>
-                                                    <option value="#" selected="selected">Select a size</option>
-                                                    @foreach ($itemSizeStocks as $itemSizeStock)
-                                                        @if ($itemSizeStock->stock == 0)
-                                                            <option value="{{ $itemSizeStock->size }}" disabled>
-                                                                {{ $itemSizeStock->size }}
-                                                                ({{ $itemSizeStock->stock }})
-                                                            </option>
-                                                        @else
-                                                            <option value="{{ $itemSizeStock->id }}">
-                                                                {{ $itemSizeStock->size }}
-                                                                ({{ $itemSizeStock->stock }}) </option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-                                            </div><!-- End .select-custom -->
-                                        </div><!-- End .details-filter-row -->
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="details-filter-row details-row-size">
+                                        <label for="size">Size:</label>
+                                        <div class="select-custom">
+                                            <select name="size" id="size" class="form-control" required>
+                                                <option value="#" selected="selected">Select a size</option>
+                                                @foreach ($itemSizeStocks as $itemSizeStock)
+                                                    @if ($itemSizeStock->stock == 0)
+                                                        <option value="{{ $itemSizeStock->size }}" disabled>
+                                                            {{ $itemSizeStock->size }}
+                                                            ({{ $itemSizeStock->stock }})
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $itemSizeStock->id }}">
+                                                            {{ $itemSizeStock->size }}
+                                                            ({{ $itemSizeStock->stock }}) </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div><!-- End .select-custom -->
+                                    </div><!-- End .details-filter-row -->
 
-                                        <div class="details-filter-row details-row-size">
-                                            <label for="qty">Qty:</label>
-                                            <div class="product-details-quantity">
-                                                <input type="number" name="qty" id="qty" class="form-control"
-                                                    value="1" min="1" max="10" step="1"
-                                                    data-decimals="0" required>
-                                            </div><!-- End .product-details-quantity -->
-                                        </div><!-- End .details-filter-row -->
-                                        @auth
-                                        <input type="hidden" value="{{ Auth::user()->id }}" name="userid">
-                                        @endauth
-                                        @guest
-                                            
-                                        @endguest
-                                        <input type="hidden" value="{{ $item->id }}" name="itemid">
-                                        <div class="product-details-action">
-                                            <button type="submit" class="btn-product btn-cart"><span>add
-                                                    to cart</span></a>
+                                    <div class="details-filter-row details-row-size">
+                                        <label for="qty">Qty:</label>
+                                        <div class="product-details-quantity">
+                                            <input type="number" name="qty" id="qty" class="form-control"
+                                                value="1" min="1" max="10" step="1"
+                                                data-decimals="0" required>
+                                        </div><!-- End .product-details-quantity -->
+                                    </div><!-- End .details-filter-row -->
+                                    <input type="hidden" value="{{ Auth::user()->id }}" name="userid">
+                                    <input type="hidden" value="{{ $item->id }}" name="itemid">
+                                    <div class="product-details-action">
+                                        <button type="submit" class="btn-product btn-cart"><span>add
+                                                to cart</span></a>
+                                        </button>
+                                </form>
+                                    @endauth
+                                    @guest
+                                    <form method="get" action="/login" enctype="multipart/form-data">
+                                    <div class="product-details-action">
+                                        <button type="submit" class="btn-product btn-cart"><span>add
+                                                to cart</span></a>
+                                        </button>
+                                </form>
+                                    @endguest
+                                    @auth
+                                        <form method="POST" action="{{ route('wishlist.store') }}"
+                                            enctype="multipart/form-data">
+                                            @csrf
+
+                                            <input type="hidden" name="userid" value="{{ $userid }}">
+                                            <input type="hidden" name="itemid" value="{{ $item->id }}">
+
+                                            <button type="submit" title="Wishlist"
+                                                class="btn btn-block btn-product btn-wishlist">
+                                                <span>Add to Wishlist</span>
                                             </button>
-                                    </form>
-                                    <form method="POST" action="{{ route('wishlist.store') }}"
-                                        enctype="multipart/form-data">
-                                        @csrf
-                                        @auth
-                                        <input type="hidden" name="userid" value="{{ $userid }}">
-                                        @endauth
-                                        <input type="hidden" name="itemid" value="{{ $item->id }}">
-                           
-                                        <button type="submit" title="Wishlist"
-                                            class="btn btn-block btn-product btn-wishlist">
-                                            <span>Add to Wishlist</span>
-                                        </button>
 
-                                        </button>
-                                    </form>
+                                            </button>
+                                        </form>
+                                    @endauth
+                                    @guest
+                                        <form method="get" action="/login" enctype="multipart/form-data">
+                                            <button type="submit" title="Wishlist"
+                                                class="btn btn-block btn-product btn-wishlist">
+                                                <span>Add to Wishlist</span>
+                                            </button>
+
+                                            </button>
+                                        </form>
+                                    @endguest
                                     <div class="details-action-wrapper">
 
                                     </div><!-- End .details-action-wrapper -->
@@ -182,27 +198,36 @@
                             @foreach ($itemPicturesAlls as $itemPicturesAll)
                                 @if ($recomItem->id == $itemPicturesAll->id_item)
                                     <a href="../product-details/{{ $recomItem->id }}">
-                                        <img src="{{ asset('storage/'.$itemPicturesAll->picture) }}"
-                                            alt="Product image" class="product-image">
+                                        <img src="{{ asset('storage/' . $itemPicturesAll->picture) }}" alt="Product image"
+                                            class="product-image">
                                     </a>
                                 @break
                             @endif
                         @endforeach
 
                         <div class="product-action-vertical">
-                            <form method="POST" action="{{ route('wishlist.store') }}" enctype="multipart/form-data">
-                                @csrf
-                                @auth
-                                <input type="hidden" name="userid" value="{{ $userid }}">
-                                @endauth
-                                <input type="hidden" name="itemid" value="{{ $recomItem->id }}">
-                                
-                                <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
-                                    <span>add
-                                        to
-                                        wishlist</span>
-                                </button>
-                            </form>
+                            @auth
+                                <form method="POST" action="{{ route('wishlist.store') }}"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="itemid" value="{{ $recomItem->id }}">
+                                    <input type="hidden" name="userid" value="{{ $userid }}">
+                                    <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
+                                        <span>add
+                                            to
+                                            wishlist</span>
+                                    </button>
+                                </form>
+                            @endauth
+                            @guest
+                                <form method="get" action="/login" enctype="multipart/form-data">
+                                    <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
+                                        <span>add
+                                            to
+                                            wishlist</span>
+                                    </button>
+                                </form>
+                            @endguest
                         </div><!-- End .product-action -->
 
                         <div class="product-action action-icon-top">
