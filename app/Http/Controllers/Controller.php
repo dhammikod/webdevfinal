@@ -116,17 +116,18 @@ class Controller extends BaseController
 
 
                         $i = 0;
+                        $stringconcat = "";
                         foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
                             echo ($i);
                             if ($i == 0) {
-                                $filterResult = $filterResult->Where('category', 'like', "$cateogryCheckBox");
+                                $stringconcat =  $stringconcat."(`category` like '".$cateogryCheckBox;
                             } else {
                                 $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
                             }
                             $i++;
                         }
 
-                        Where(DB::raw("(`category` like '$cateogryCheckBox' OR `category` like '$cateogryCheckBox')"));
+                        $filterResult = $filterResult->Where(DB::raw("(`category` like '' OR `category` like '$cateogryCheckBox')"));
 
                         $filterResult = $filterResult->get();
                     }
@@ -168,7 +169,7 @@ class Controller extends BaseController
 
             ]);
         }
-        
+
         if (isset($_GET['search'])) {
             $search = $_GET['search'];
             $results = DB::table('items')
@@ -182,6 +183,8 @@ class Controller extends BaseController
             return view('catalog', [
                 'pagetitle' => 'Catalog',
                 'items' => $results,
+                'filterCategory' => $filterCategory,
+
                 'itemSizeStocks' => $itemSizeStocks,
                 'itemPictures' => item_picture::all()
 
@@ -191,6 +194,7 @@ class Controller extends BaseController
                 $itemSizeStocks = DB::table('item_size_stocks')->get(),
                 'pagetitle' => 'Catalog',
                 'items' => Item::all(),
+                'filterCategory' => $filterCategory,
                 'itemSizeStocks' => $itemSizeStocks,
                 'itemPictures' => item_picture::all()
 
