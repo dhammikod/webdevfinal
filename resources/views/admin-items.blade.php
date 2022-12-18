@@ -36,7 +36,7 @@
                                         <div class="col-md-auto">
                                             @foreach ($itemPictures as $itemPicture)
                                                 @if ($item->id == $itemPicture->id_item)
-                                                    <img src="{{ asset('img/productImg/' . $itemPicture->picture) }}"
+                                                    <img src="{{ asset('storage/'.$itemPicture->picture) }}"
                                                         alt="Picture" class="" height=100vh>
                                                 @endif
                                             @endforeach

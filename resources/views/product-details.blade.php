@@ -22,8 +22,8 @@
                                     <div class="row">
                                         <figure class="product-main-image">
                                             <img id="product-zoom"
-                                                src="{{ asset('img/productImg/' . $itemPictures[0]->picture) }}"
-                                                data-zoom-image="{{ asset('img/productImg/' . $itemPictures[0]->picture) }}"
+                                                src="{{ asset('storage/'.$itemPictures[0]->picture) }}"
+                                                data-zoom-image="{{ asset('storage/'.$itemPictures[0]->picture) }}"
                                                 alt="product image">
 
                                             <a href="#" id="btn-product-gallery" class="btn-product-gallery">
@@ -35,9 +35,9 @@
                                         <div id="product-zoom-gallery" class="product-image-gallery">
                                             @foreach ($itemPictures as $itemPicture)
                                                 <a class="product-gallery-item" href="#"
-                                                    data-image="{{ asset('img/productImg/' . $itemPicture->picture) }}"
-                                                    data-zoom-image="{{ asset('img/productImg/' . $itemPicture->picture) }}">
-                                                    <img src="{{ asset('img/productImg/' . $itemPicture->picture) }}"
+                                                    data-image="{{ asset('storage/'.$itemPicture->picture) }}"
+                                                    data-zoom-image="{{ asset('storage/'.$itemPicture->picture) }}">
+                                                    <img src="{{ asset('storage/'.$itemPicture->picture) }}"
                                                         alt="product side">
                                                     {{-- <img src="img/productImg/{{ $itemPicture->picture }}"
                                                         alt="product side"> --}}
@@ -174,7 +174,7 @@
                             @foreach ($itemPicturesAlls as $itemPicturesAll)
                                 @if ($recomItem->id == $itemPicturesAll->id_item)
                                     <a href="../product-details/{{ $recomItem->id }}">
-                                        <img src="{{ asset('img/productImg/' . $itemPicturesAll->picture) }}"
+                                        <img src="{{ asset('storage/'.$itemPicturesAll->picture) }}"
                                             alt="Product image" class="product-image">
                                     </a>
                                 @break

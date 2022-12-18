@@ -55,7 +55,8 @@
                                         @foreach ($itemPictures as $itemPicture)
                                             @if ($item->id == $itemPicture->id_item)
                                                 <a href="/product-details/{{ $item->id }}">
-                                                    <img src="{{ asset('img/productImg/' . $itemPicture->picture) }}"
+                                                    
+                                                    <img src="{{ asset('storage/'.$itemPicture->picture) }}"
                                                         alt="Product image" class="product-image">
                                                 </a>
                                             @break

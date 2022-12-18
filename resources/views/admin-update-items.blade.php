@@ -98,7 +98,7 @@
 
                         <div class="row align-items-center">
                             <div class="col">
-                                <img src="{{ asset('storage/' . $picture->picture) }}" alt="Picture" class="rounded-start"
+                                <img src="{{ asset('storage/'.$picture->picture) }}" alt="Picture" class="rounded-start"
                                     height=100vh>
                             </div>
                             {{-- edit this picture --}}
