@@ -287,7 +287,6 @@ class Controller extends BaseController
             ]);
 
             return redirect("admin-orders");
-
         }
 
         if (isset($_POST['tickongoing'])) {
@@ -299,14 +298,13 @@ class Controller extends BaseController
 
             $order = order::findOrFail($_POST['id']);
 
-            if ($order->admincompleted && $order->usercompleted){
+            if ($order->admincompleted && $order->usercompleted) {
                 $order->update([
                     'status' => "completed",
                 ]);
             }
 
             return redirect("admin-orders");
-
         }
 
         if (isset($_POST['delongoing'])) {
@@ -333,7 +331,6 @@ class Controller extends BaseController
 
             return redirect("dashboard");
         }
-        
     }
 
 
@@ -381,9 +378,7 @@ class Controller extends BaseController
 
     public function checkout()
     {
-        $userObj = Auth::user();
-        $user = $userObj->id;
-
+        $userId = Auth::user()->id;
         // $billingDetails = DB::table('users as user')
         //     ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email')
         //     ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
@@ -406,62 +401,70 @@ class Controller extends BaseController
             ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id, shopping_carts.jumlah, shopping_carts.item_size_stock_id, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) as nameTotal'), function ($join) {
                 $join->on('iss.id', '=', 'nameTotal.item_size_stock_id');
             })
-            ->where('nameTotal.user_id', $user)
+            ->where('nameTotal.user_id', $userId)
             ->get();
 
 
 
         $TotalPrices = DB::table(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) total'))
             ->select(DB::raw('SUM(total.price) as Total'))
-            ->where('total.user_id', $user)
+            ->where('total.user_id', $userId)
             ->first()
             ->Total;
 
+        $shippingAddressesEXIST = DB::table('shipping_addresses')
+            ->where('user_id', $userId)
+            ->exists();
+
+        $shippingAddresses = DB::table('shipping_addresses')
+            ->where('user_id', $userId)
+            ->get();
 
         $exists = DB::table('item_size_stocks as iss')
             ->select('nameTotal.nama', 'nameTotal.jumlah', 'iss.size', 'nameTotal.price', 'nameTotal.item_size_stock_id')
             ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id, shopping_carts.jumlah, shopping_carts.item_size_stock_id, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) as nameTotal'), function ($join) {
                 $join->on('iss.id', '=', 'nameTotal.item_size_stock_id');
             })
-            ->where('nameTotal.user_id', $user)
+            ->where('nameTotal.user_id', $userId)
             ->exists();
 
-        
-
-
+        $shippingAddressesSELECTED = false;
         if (isset($_GET['a'])) {
-            $billingDetailed = DB::table('users as user')
-            ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
-            ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $user . ') as new', [$user]), function ($join) {
-                $join->on('new.user_id', '=', 'user.id');
-            })
-            ->where('user.id', '=', $user)
-            ->where(
-                'new.id',
-                '=',
-                $_GET['chooseLocation']
-            )
-            ->get();
+            $shippingAddressesSELECTED = true;
             
+            $shippingAddressId = $_GET['chooseLocation'];
+            
+            $selectedinfo = DB::table('users as user')
+                                  ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
+                                  ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $userId . ') as new'), function($join) {
+                                        $join->on('new.user_id', '=', 'user.id');
+                                  })
+                                  ->where('user.id', '=', $userId)
+                                  ->where('new.id', '=', $shippingAddressId)
+                                  ->get();
+            
+
             return view('checkout', [
                 'pagetitle' => 'Checkout',
-                'billingDetaileds' => $billingDetailed,
+                'selectedforms' => $selectedinfo,
                 'TotalPrice' => $TotalPrices,
                 'ShoppingCartLists' => $ShoppingCartLists,
                 'paymentTypes' => Payment_types::all(),
                 'exists' => $exists,
+                'shippingAddressesEXIST' => $shippingAddressesEXIST,
+                'shippingaddresses' => $shippingAddresses,
+                'shippingAddressesSELECTED' => $shippingAddressesSELECTED
             ]);
         } else {
-
             return view('checkout', [
                 'pagetitle' => 'Checkout',
-                'bililngDetaileds' => false,
+                'shippingaddresses' => $shippingAddresses,
                 'TotalPrice' => $TotalPrices,
                 'ShoppingCartLists' => $ShoppingCartLists,
                 'paymentTypes' => Payment_types::all(),
                 'exists' => $exists,
-
-
+                'shippingAddressesEXIST' => $shippingAddressesEXIST,
+                'shippingAddressesSELECTED' => $shippingAddressesSELECTED
             ]);
         }
     }

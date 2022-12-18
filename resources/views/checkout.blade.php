@@ -20,27 +20,28 @@
         <div class="page-content">
             <div class="checkout">
                 <div class="container">
-                    @if (!$billingDetaileds)
-                    <form action="/checkout" method="GET">
-                        <input type="hidden" name="a" id="a">
-                        <button type='submit'>
-                            <select name="chooseLocation" id="chooseLocation"
-                                class="btn btn-outline-primary btn-rounded">
-                                @foreach ($billingDetaileds as $bililngDetailed)
-                                    <option name="shipmentChosen"
-                                        value=" {{ $bililngDetailed->id }}">
-                                        {{ $bililngDetailed->shipment_address }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </button>
-                    </form>
-                    @endif  
+                    @if ($shippingAddressesEXIST)
+                        <form action="/checkout" method="GET">
+                            <input type="hidden" name="a" value="asdfa" id="a">
+                            
+                                <select name="chooseLocation" id="chooseLocation"
+                                    class="btn btn-outline-primary btn-rounded">
+                                    @foreach ($shippingaddresses as $shippingaddress)
+                                        <option name="shipmentChosen" value=" {{ $shippingaddress->id }}">
+                                            {{ $shippingaddress->shipment_address }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button type='submit'>
+                            </button>
+                        </form>
+                    @endif
+
                     <form action="/checkoutProceed" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-9">
-                                @if ($userBililngDetails == null)
+                                @if (!$shippingAddressesSELECTED)
                                     <div>
                                         <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
                                     </div>
@@ -89,139 +90,64 @@
                                     <textarea class="form-control" cols="30" rows="4"
                                         placeholder="Notes about your order, e.g. special notes for delivery" name="OrderNotes"></textarea>
                                 @else
-                                    @if ($bililngDetaileds == null)
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <h1 class="checkout-title">Billing Details</h1><!-- End .checkout-title -->
-                                            </div>
-                                            <div class="col">
-                                                <form action="/checkout" method="GET">
-                                                    <input type="hidden" name="a" id="a">
-                                                    <button type='submit'>
-                                                        <select name="chooseLocation" id="chooseLocation"
-                                                            class="btn btn-outline-primary btn-rounded">
-                                                            @foreach ($billingDetailAlls as $billingDetailAll)
-                                                                <option name="shipmentChosen"
-                                                                    value=" {{ $billingDetailAll->id }}">
-                                                                    {{ $billingDetailAll->shipment_address }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </button>
-                                                </form>
-                                            </div>
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h1 class="checkout-title">Billing Details</h1><!-- End .checkout-title -->
                                         </div>
+                                    </div>
 
 
-                                        <input type="hidden" value="{{ Auth::user()->id }}" name="Id">
+                                    <input type="hidden" value="{{ Auth::user()->id }}" name="Id">
 
-
+                                    @foreach ($selectedforms as $selectedform)
                                         <label>Full Name *</label>
-                                        <input type="text" class="form-control" required
-                                            value="{{ $userBililngDetails->name }}" name="FullName">
+                                    <input type="text" class="form-control" required value="{{ $selectedform->name }}"
+                                        name="FullName">
 
 
 
-                                        <label>Street address *</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="House number and Street name" required
-                                            value="{{ $userBililngDetails->shipment_address }}" name="StreetAddress">
+                                    <label>Street address *</label>
+                                    <input type="text" class="form-control" placeholder="House number and Street name"
+                                        required value="{{ $selectedform->shipment_address }}" name="StreetAddress">
 
 
-                                        <label>Specific Address Notes *</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="Appartments, suite, unit etc ..." required
-                                            value="{{ $userBililngDetails->notes }}" name="StreetAddressNotes">
+                                    <label>Specific Address Notes *</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="Appartments, suite, unit etc ..." required
+                                        value="{{ $selectedform->notes }}" name="StreetAddressNotes">
 
-                                        <label>City *</label>
-                                        <input type="text" class="form-control" required
-                                            value="{{ $userBililngDetails->city }}" name="City">
-
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label>Postal Code *</label>
-                                                <input type="text" class="form-control" required
-                                                    value="{{ $userBililngDetails->postal_code }}" name="PostalCode">
-                                            </div><!-- End .col-sm-6 -->
-
-                                            <div class="col-sm-6">
-                                                <label>Phone Number *</label>
-                                                <input type="text" class="form-control" required
-                                                    value="{{ $userBililngDetails->contact }}" name="Phone">
-                                            </div><!-- End .col-sm-6 -->
-                                        </div><!-- End .row -->
-
-                                        <label>Email address *</label>
-                                        <input type="email" class="form-control" required
-                                            value="{{ $userBililngDetails->email }}" name="Email">
-
-                                        <label>Proof Of Payment *</label>
-                                        <img src="/img/noimgeplaceholder.jpg" alt="">
-                                        <input type="file" id="myFile" name="picture" class="form-control">
-
-                                        <label>Order notes (optional)</label>
-                                        <textarea class="form-control" cols="30" rows="4"
-                                            placeholder="Notes about your order, e.g. special notes for delivery" name="OrderNotes"></textarea>
-                                    @else
-                                        <div class="row align-items-center">
-                                            <div class="col">
-                                                <h1 class="checkout-title">Billing Details</h1><!-- End .checkout-title -->
-                                            </div>
-                                        </div>
+                                    <label>City *</label>
+                                    <input type="text" class="form-control" required value="{{ $selectedform->city }}"
+                                        name="City">
 
 
-                                        <input type="hidden" value="{{ Auth::user()->id }}" name="Id">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label>Postal Code *</label>
+                                            <input type="text" class="form-control" required
+                                                value="{{ $selectedform->postal_code }}" name="PostalCode">
+                                        </div><!-- End .col-sm-6 -->
 
+                                        <div class="col-sm-6">
+                                            <label>Phone Number *</label>
+                                            <input type="text" class="form-control" required
+                                                value="{{ $selectedform->contact }}" name="Phone">
+                                        </div><!-- End .col-sm-6 -->
+                                    </div><!-- End .row -->
 
-                                        <label>Full Name *</label>
-                                        <input type="text" class="form-control" required
-                                            value="{{ $bililngDetailed->name }}" name="FullName">
+                                    <label>Email address *</label>
+                                    <input type="email" class="form-control" required
+                                        value="{{ $selectedform->email }}" name="Email">
+                                    @endforeach
+                                    
 
+                                    <label>Proof Of Payment *</label>
+                                    <img src="/img/noimgeplaceholder.jpg" alt="">
+                                    <input type="file" id="myFile" name="picture" class="form-control">
 
-
-                                        <label>Street address *</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="House number and Street name" required
-                                            value="{{ $bililngDetailed->shipment_address }}" name="StreetAddress">
-
-
-                                        <label>Specific Address Notes *</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="Appartments, suite, unit etc ..." required
-                                            value="{{ $bililngDetailed->notes }}" name="StreetAddressNotes">
-
-                                        <label>City *</label>
-                                        <input type="text" class="form-control" required
-                                            value="{{ $bililngDetailed->city }}" name="City">
-
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <label>Postal Code *</label>
-                                                <input type="text" class="form-control" required
-                                                    value="{{ $bililngDetailed->postal_code }}" name="PostalCode">
-                                            </div><!-- End .col-sm-6 -->
-
-                                            <div class="col-sm-6">
-                                                <label>Phone Number *</label>
-                                                <input type="text" class="form-control" required
-                                                    value="{{ $bililngDetailed->contact }}" name="Phone">
-                                            </div><!-- End .col-sm-6 -->
-                                        </div><!-- End .row -->
-
-                                        <label>Email address *</label>
-                                        <input type="email" class="form-control" required
-                                            value="{{ $bililngDetailed->email }}" name="Email">
-
-                                        <label>Proof Of Payment *</label>
-                                        <img src="/img/noimgeplaceholder.jpg" alt="">
-                                        <input type="file" id="myFile" name="picture" class="form-control">
-
-                                        <label>Order notes (optional)</label>
-                                        <textarea class="form-control" cols="30" rows="4"
-                                            placeholder="Notes about your order, e.g. special notes for delivery" name="OrderNotes"></textarea>
-                                    @endif
+                                    <label>Order notes (optional)</label>
+                                    <textarea class="form-control" cols="30" rows="4"
+                                        placeholder="Notes about your order, e.g. special notes for delivery" name="OrderNotes"></textarea>
                                 @endif
                             </div><!-- End .col-lg-9 -->
 
