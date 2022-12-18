@@ -26,20 +26,12 @@
 
                     <div class="toolbox-center">
                         <div class="toolbox-info">
-                            Showing <span>12 of 56</span> Products
                         </div><!-- End .toolbox-info -->
                     </div><!-- End .toolbox-center -->
 
                     <div class="toolbox-right">
                         <div class="toolbox-sort">
-                            <label for="sortby">Sort by:</label>
-                            <div class="select-custom">
-                                <select name="sortby" id="sortby" class="form-control">
-                                    <option value="popularity" selected="selected">Most Popular</option>
-                                    <option value="rating">Price Up</option>
-                                    <option value="date">Price Down</option>
-                                </select>
-                            </div>
+                               <a href="">Clear Filter</a>
                         </div><!-- End .toolbox-sort -->
                     </div><!-- End .toolbox-right -->
                 </div><!-- End .toolbox -->
@@ -55,8 +47,8 @@
                                         @foreach ($itemPictures as $itemPicture)
                                             @if ($item->id == $itemPicture->id_item)
                                                 <a href="/product-details/{{ $item->id }}">
-                                                    
-                                                    <img src="{{ asset('storage/'.$itemPicture->picture) }}"
+
+                                                    <img src="{{ asset('storage/' . $itemPicture->picture) }}"
                                                         alt="Product image" class="product-image">
                                                 </a>
                                             @break
@@ -83,24 +75,25 @@
                                         </div><!-- End .product-action -->
                                     @endauth
                                     @guest
-                                    <div class="product-action-vertical">
-                                        <form method="GET" action="/login" enctype="multipart/form-data">
-                                            {{-- @csrf --}}
-                                            {{-- <input type="hidden" name="itemid" value="{{ $item->id }}">
+                                        <div class="product-action-vertical">
+                                            <form method="GET" action="/login" enctype="multipart/form-data">
+                                                {{-- @csrf --}}
+                                                {{-- <input type="hidden" name="itemid" value="{{ $item->id }}">
                                             <input type="hidden" name="userid" value="{{ 0 }}"> --}}
-                                            <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
-                                                <span>add
-                                                    to
-                                                    wishlist</span>
-                                            </button>
+                                                <button type="submit" class="btn-product-icon btn-wishlist btn-expandable">
+                                                    <span>add
+                                                        to
+                                                        wishlist</span>
+                                                </button>
 
-                                            </button>
-                                        </form>
+                                                </button>
+                                            </form>
 
-                                    </div><!-- End .product-action -->
+                                        </div><!-- End .product-action -->
                                     @endguest
                                     <div class="product-action action-icon-top">
-                                        <a href="product-details/{{ $item->id }}" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="product-details/{{ $item->id }}"
+                                            class="btn-product btn-cart"><span>add to cart</span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
@@ -118,7 +111,7 @@
                                     </h3>
                                     <!-- End .product-title -->
                                     <div class="product-price">
-                                        Rp {{ number_format($item->price,2,",",".") }}
+                                        Rp {{ number_format($item->price, 2, ',', '.') }}
                                     </div><!-- End .product-price -->
 
                                     <div class="product-nav product-nav-dots">
@@ -150,115 +143,92 @@
 
 
 
-                {{-- GANTI PAGINATION NANTI --}}
-                <div class="load-more-container text-center">
-                    <a href="#" class="btn btn-outline-darker btn-load-more">More Products <i
-                            class="icon-refresh"></i></a>
-                </div><!-- End .load-more-container -->
-            </div><!-- End .products -->
 
 
 
-            {{-- SIDE BAR --}}
-            <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
-            <aside class="sidebar-shop sidebar-filter">
-                <div class="sidebar-filter-wrapper">
-                    <div class="widget widget-clean">
-                        <label><i class="icon-close filterclose"></i>Filters</label>
-                        <a href="#" class="sidebar-filter-clear">Clean All</a>
-                    </div><!-- End .widget -->
-                    <div class="widget widget-collapsible">
-                        <h3 class="widget-title">
-                            <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true"
-                                aria-controls="widget-1">
-                                Category
-                            </a>
-                        </h3><!-- End .widget-title -->
+                {{-- SIDE BAR --}}
+                <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
+                <aside class="sidebar-shop sidebar-filter">
+                    {{-- DINSIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII FORM --}}
+                    <form action="/catalog" method="get">
+                        <div class="sidebar-filter-wrapper">
+                            <div class="widget widget-clean">
+                                <label><i class="icon-close filterclose"></i>Filters</label>
+                                <a href="#" class="sidebar-filter-clear">Clean All</a>
+                            </div><!-- End .widget -->
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true"
+                                        aria-controls="widget-1">
+                                        Category
+                                    </a>
+                                </h3><!-- End .widget-title -->
 
-                        <div class="collapse show" id="widget-1">
-                            <div class="widget-body">
-                                <div class="filter-items filter-items-count">
+                                <div class="collapse show" id="widget-1">
+                                    <div class="widget-body">
+                                        <div class="filter-items filter-items-count">
 
+                                            @foreach ($filterCategory as $FC)
+                                                <div class="filter-item">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox"
+                                                            class="custom-control-input checkboxFilter"
+                                                            name="checkboxFilter[]" id='{{ $FC->category }}'
+                                                            value="{{ $FC->category }}">
+                                                        <label class="custom-control-label"
+                                                            for="{{ $FC->category }}">{{ $FC->category }}</label>
+                                                    </div><!-- End .custom-checkbox -->
+                                                    <span class="item-count">{{ $FC->jumlah }}</span>
+                                                </div><!-- End .filter-item -->
+                                            @endforeach
 
-
-
-
-                                    <div class="filter-item">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="cat-1">
-                                            <label class="custom-control-label" for="cat-1">Dresses</label>
-                                        </div><!-- End .custom-checkbox -->
-                                        <span class="item-count">3</span>
-                                    </div><!-- End .filter-item -->
-
-
-
-
-                                </div><!-- End .filter-items -->
-                            </div><!-- End .widget-body -->
-                        </div><!-- End .collapse -->
-                    </div><!-- End .widget -->
-
-                    <div class="widget widget-collapsible">
-                        <h3 class="widget-title">
-                            <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true"
-                                aria-controls="widget-2">
-                                Size
-                            </a>
-                        </h3><!-- End .widget-title -->
-
-                        <div class="collapse show" id="widget-2">
-                            <div class="widget-body">
-                                <div class="filter-items">
-                                    <div class="filter-item">
+                                        </div><!-- End .filter-items -->
+                                    </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                            </div><!-- End .widget -->
 
 
+                            <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true"
+                                        aria-controls="widget-5">
+                                        Price
+                                    </a>
+                                </h3><!-- End .widget-title -->
 
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="size-1">
-                                            <label class="custom-control-label" for="size-1">XS</label>
-                                        </div><!-- End .custom-checkbox -->
+                                <div class="collapse show" id="widget-5">
+                                    <div class="widget-body">
+                                        <div class="filter-price">
+                                            <div class="filter-price-text">
+                                                Price Min:
+                                                <div class="col">
+                                                    <input type="number" name="priceMIN" id="priceMIN">
+                                                </div>
+                                            </div><!-- End .filter-price-text -->
 
+                                            <div>
+                                                Price Max:
+                                                <div class="col">
+                                                    <input type="number" name="priceMAX" id="priceMAX">
+                                                </div>
+                                            </div>
 
+                                        </div><!-- End .filter-price -->
+                                    </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                            </div><!-- End .widget -->
+                            <button class="btn btn-primary btn-rounded" type="submit" name="filterButton">Apply
+                                Filter</button>
+                        </div><!-- End .sidebar-filter-wrapper -->
+                    </form>
+                    {{-- DINSIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII FORM --}}
 
-                                    </div><!-- End .filter-item -->
-
-
-
-                                </div><!-- End .widget-body -->
-                            </div><!-- End .collapse -->
-                        </div><!-- End .widget -->
-
-
-                        <div class="widget widget-collapsible">
-                            <h3 class="widget-title">
-                                <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true"
-                                    aria-controls="widget-5">
-                                    Price
-                                </a>
-                            </h3><!-- End .widget-title -->
-
-                            <div class="collapse show" id="widget-5">
-                                <div class="widget-body">
-                                    <div class="filter-price">
-                                        <div class="filter-price-text">
-                                            Price Range:
-                                            <span id="filter-price-range"></span>
-                                        </div><!-- End .filter-price-text -->
-
-                                        <div id="price-slider"></div><!-- End #price-slider -->
-                                    </div><!-- End .filter-price -->
-                                </div><!-- End .widget-body -->
-                            </div><!-- End .collapse -->
-                        </div><!-- End .widget -->
-                    </div><!-- End .sidebar-filter-wrapper -->
-            </aside><!-- End .sidebar-filter -->
+                </aside><!-- End .sidebar-filter -->
 
 
 
 
-
-        </div><!-- End .container -->
-    </div><!-- End .page-content -->
+            </div><!-- End .container -->
+        </div><!-- End .page-content -->
 </main><!-- End .main -->
 @endsection

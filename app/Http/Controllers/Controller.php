@@ -35,6 +35,140 @@ class Controller extends BaseController
 
     public function catalog()
     {
+        $filterCategory = Item::select('category', DB::raw('count(category) as jumlah'))
+            ->groupBy('category')
+            ->get();
+
+        if (isset($_GET['filterButton'])) {
+            $priceMIN = $_GET['priceMIN'];
+            $priceMAX = $_GET['priceMAX'];
+            $cateogryCheckBoxs = null;
+
+            if (isset($_GET['checkboxFilter'])) {
+                $cateogryCheckBoxs = $_GET['checkboxFilter'];
+            }
+
+            if ($priceMAX != null) {
+                if ($priceMAX < $priceMIN) {
+                    $priceMIN = null;
+                    $priceMAX = null;
+                }
+            }
+
+            // dd($priceMIN . ' min ;' . $priceMAX . ' max ; ' . print_r($cateogryCheckBoxs) . ' cat');
+
+
+            if ($priceMAX != null) {
+                //max not null
+                if ($priceMIN != null) {
+                    //min not null
+                    if ($cateogryCheckBoxs != null) {
+                        //checkbox not null
+                        $filterResult = Item::where('price', '>', $priceMIN)
+                            ->where('price', '<', $priceMAX);
+                        $i = 0;
+                        foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
+                            if ($i == 0) {
+                                $filterResult = $filterResult->Where('category', 'like', "$cateogryCheckBox");
+                            } else {
+                                $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
+                            }
+                            $i++;
+                        }
+
+                        $filterResult = $filterResult->get();
+                    } else {
+                        //checkbox null
+                        $filterResult = Item::where('price', '>', $priceMIN)
+                            ->where('price', '<', $priceMAX)
+                            ->get();
+                    }
+                } else {
+                    // min null
+                    if ($cateogryCheckBoxs != null) {
+                        //checkbox not null
+                        $filterResult = Item::where('price', '<', $priceMAX);
+                        $i = 0;
+                        foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
+                            if ($i == 0) {
+                                $filterResult = $filterResult->Where('category', 'like', "$cateogryCheckBox");
+                            } else {
+                                $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
+                            }
+                            $i++;
+                        }
+                        dd($filterResult->toSql());
+
+                        $filterResult = $filterResult->get();
+                    } else {
+                        $filterResult = Item::where('price', '<', $priceMAX)
+                            ->get();
+                    }
+                }
+            } else {
+                //max null
+                if ($priceMIN != null) {
+                    //min not null
+                    if ($cateogryCheckBoxs != null) {
+                        //checkbox not null
+
+                        $filterResult = Item::where('price', '>', $priceMIN);
+
+
+                        $i = 0;
+                        foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
+                            echo ($i);
+                            if ($i == 0) {
+                                $filterResult = $filterResult->Where('category', 'like', "$cateogryCheckBox");
+                            } else {
+                                $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
+                            }
+                            $i++;
+                        }
+
+                        Where(DB::raw("(`category` like '$cateogryCheckBox' OR `category` like '$cateogryCheckBox')"));
+
+                        $filterResult = $filterResult->get();
+                    }
+                } else {
+                    //min null
+                    if ($cateogryCheckBoxs != null) {
+                        $filterResult = DB::table('items')
+                            ->select('id')
+                            ->select('price')
+                            ->select('nama')
+                            ->select('sold')
+                            ->select('description')
+                            ->select('category')
+                            ->select('statusDelete');
+
+                        $i = 0;
+                        foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
+                            if ($i = 0) {
+                                $filterResult = $filterResult->Where('category', 'like', "$cateogryCheckBox");
+                            } else {
+                                $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
+                            }
+                            $i++;
+                        }
+                        $filterResult = $filterResult->get();
+                    }
+                }
+            }
+
+            return view('catalog', [
+
+                $itemSizeStocks = DB::table('item_size_stocks')->get(),
+                'pagetitle' => 'Catalog',
+                'items' => $filterResult,
+                'filterCategory' => $filterCategory,
+                'itemSizeStocks' => $itemSizeStocks,
+                'itemPictures' => item_picture::all()
+
+
+            ]);
+        }
+        
         if (isset($_GET['search'])) {
             $search = $_GET['search'];
             $results = DB::table('items')
