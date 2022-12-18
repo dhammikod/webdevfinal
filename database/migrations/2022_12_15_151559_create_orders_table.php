@@ -30,7 +30,8 @@ return new class extends Migration
             $table->string('proof_of_payment');
             $table->string('notes')->nullable();
             $table->string('status');
-
+            $table->boolean('usercompleted')->default(false);
+            $table->boolean('admincompleted')->default(false);
         });
     }
 
