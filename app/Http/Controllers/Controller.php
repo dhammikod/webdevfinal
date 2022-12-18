@@ -35,18 +35,33 @@ class Controller extends BaseController
 
     public function catalog()
     {
-        return view('catalog', [
-            // $itempictures = DB::table('item_pictures')
-            // ->where('id_item', '=', $item->id)
-            // ->limit(1)
-            // ->get(),
-            $itemSizeStocks = DB::table('item_size_stocks')->get(),
-            'pagetitle' => 'Catalog',
-            'items' => Item::all(),
-            'itemSizeStocks' => $itemSizeStocks,
-            'itemPictures' => item_picture::all()
+        if (isset($_GET['search'])) {
+            $search = $_GET['search'];
+            $results = DB::table('items')
+                ->where('nama', 'LIKE', "%{$search}%")
+                ->orWhere('description', 'LIKE', "%{$search}%")
+                ->orWhere('category', 'LIKE', "%{$search}%")
+                ->get();
 
-        ]);
+            $itemSizeStocks = DB::table('item_size_stocks')->get();
+
+            return view('catalog', [
+                'pagetitle' => 'Catalog',
+                'items' => $results,
+                'itemSizeStocks' => $itemSizeStocks,
+                'itemPictures' => item_picture::all()
+
+            ]);
+        } else {
+            return view('catalog', [
+                $itemSizeStocks = DB::table('item_size_stocks')->get(),
+                'pagetitle' => 'Catalog',
+                'items' => Item::all(),
+                'itemSizeStocks' => $itemSizeStocks,
+                'itemPictures' => item_picture::all()
+
+            ]);
+        }
     }
 
     public function productDetails($id)
@@ -170,20 +185,20 @@ class Controller extends BaseController
             ->get();
 
         $pendingorders = DB::table('orders')
-        ->where('user_id', '=', $id)
-        ->where('status', '=', 'pending')
-        ->get();
+            ->where('user_id', '=', $id)
+            ->where('status', '=', 'pending')
+            ->get();
 
         $ongoingorders = DB::table('orders')
-        ->where('user_id', '=', $id)
-        ->where('status', '=', 'ongoing')
-        ->Where('usercompleted', '=', 0)
-        ->get();
+            ->where('user_id', '=', $id)
+            ->where('status', '=', 'ongoing')
+            ->Where('usercompleted', '=', 0)
+            ->get();
 
         $completedorders = DB::table('orders')
-        ->where('user_id', '=', $id)
-        ->Where('usercompleted', '=', true)
-        ->get();
+            ->where('user_id', '=', $id)
+            ->Where('usercompleted', '=', true)
+            ->get();
 
         return view('dashboard', [
             'pagetitle' => 'Dashboard',
@@ -258,7 +273,7 @@ class Controller extends BaseController
     public function adminOrdersdelete()
     {
         if (isset($_POST['delpending'])) {
-            
+
             order::where('id', $_POST['id'])->delete();
             return redirect("admin-orders");
         }
@@ -281,7 +296,7 @@ class Controller extends BaseController
 
             $order->update([
                 'admincompleted' => 1,
-            ]);      
+            ]);
         }
 
         if (isset($_POST['delongoing'])) {
@@ -289,20 +304,20 @@ class Controller extends BaseController
 
             $order->update([
                 'admincompleted' => 0,
-            ]);      
+            ]);
         }
 
         if (isset($_POST['tickongoing'])) {
             $order = order::findOrFail($_POST['id']);
 
-            if($order->admincompleted && $order->usercompleted)
-            $order->update([
-                'status' => "completed",
-            ]);      
+            if ($order->admincompleted && $order->usercompleted)
+                $order->update([
+                    'status' => "completed",
+                ]);
         }
 
         if (isset($_POST['usercancel'])) {
-            
+
             order::where('id', $_POST['id'])->delete();
             return redirect("dashboard");
         }
@@ -311,7 +326,7 @@ class Controller extends BaseController
             $order = order::findOrFail($_POST['id']);
             $order->update([
                 'usercompleted' => 1,
-            ]);      
+            ]);
         }
         return redirect("dashboard");
     }
@@ -390,7 +405,7 @@ class Controller extends BaseController
             ->Total;
 
 
-            $exists = DB::table('item_size_stocks as iss')
+        $exists = DB::table('item_size_stocks as iss')
             ->select('nameTotal.nama', 'nameTotal.jumlah', 'iss.size', 'nameTotal.price', 'nameTotal.item_size_stock_id')
             ->join(DB::raw('(SELECT shopping_carts.jumlah*items.price as price, items.nama, items.id, shopping_carts.jumlah, shopping_carts.item_size_stock_id, shopping_carts.user_id FROM shopping_carts, items WHERE items.id = shopping_carts.item_id) as nameTotal'), function ($join) {
                 $join->on('iss.id', '=', 'nameTotal.item_size_stock_id');

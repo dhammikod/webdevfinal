@@ -106,23 +106,23 @@
 
                                 <div class="product-body">
                                     <div class="product-cat">
-                                        <p>{{ $item['category'] }}</p>
+                                        <p>{{ $item->category }}</p>
                                     </div><!-- End .product-cat -->
                                     {{-- <h3 class="product-title"><a
                                             href="{{ route('product-details.productDetails', $item->id) }}">{{ $item['nama'] }}</a> --}}
                                     <h3 class="product-title"><a
-                                            href=""{{ route('product-details', ['id' => $item['id']]) }}>{{ $item['nama'] }}</a>
+                                            href=""{{ route('product-details', ['id' => $item->id]) }}>{{ $item->nama }}</a>
 
 
 
                                     </h3>
                                     <!-- End .product-title -->
                                     <div class="product-price">
-                                        Rp {{ number_format($item['price'],2,",",".") }}
+                                        Rp {{ number_format($item->price,2,",",".") }}
                                     </div><!-- End .product-price -->
 
                                     <div class="product-nav product-nav-dots">
-                                        <p>Sold: {{ $item['sold'] }}</p>
+                                        <p>Sold: {{ $item->sold }}</p>
                                     </div>
 
                                     <div class="product-nav product-nav-dots">
@@ -131,7 +131,7 @@
 
 
                                         @foreach ($itemSizeStocks as $itemSizeStock)
-                                            @if ($item['id'] == $itemSizeStock->id_item)
+                                            @if ($item->id == $itemSizeStock->id_item)
                                                 @php($sizes = $sizes . $itemSizeStock->size . ',')
                                             @endif
                                         @endforeach

@@ -75,12 +75,12 @@
 
             <div class="header-right">
                 <div class="header-search">
-                    <a href="#" class="search-toggle" role="button" title="Search"><i
+                    <a class="search-toggle" role="button" title="Search"><i
                             class="icon-search"></i></a>
-                    <form action="#" method="get">
+                    <form action="/catalog" method="get">
                         <div class="header-search-wrapper">
                             <label for="q" class="sr-only">Search</label>
-                            <input type="search" class="form-control" name="q" id="q"
+                            <input type="search" class="form-control" name="search" id="q"
                                 placeholder="Search in..." required>
                         </div><!-- End .header-search-wrapper -->
                     </form>
@@ -242,9 +242,9 @@
     <div class="mobile-menu-wrapper">
         <span class="mobile-menu-close"><i class="icon-close"></i></span>
 
-        <form action="#" method="get" class="mobile-search">
+        <form action="/catalog" method="get" class="mobile-search">
             <label for="mobile-search" class="sr-only">Search</label>
-            <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+            <input type="search" class="form-control" name="search" id="mobile-search"
                 placeholder="Search in..." required>
             <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
         </form>
