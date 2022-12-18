@@ -6,7 +6,7 @@
 
         <div class="pagetitle">
             <div class="col">
-                <h1>Manage Accounts</h1>
+                <h1>Manage Orders</h1>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">Admin</li>
@@ -70,17 +70,17 @@
                                                                 $i = 1;
                                                             @endphp
                                                             @foreach ($results as $item)
-                                                            <tr>
-                                                                <th scope="row">{{ $i }}</th>
-                                                                <td>{{ $item->nama }}</td>
-                                                                <td>{{ $item->size }}</td>
-                                                                <td>{{ $item->total_items }}</td>
-                                                            </tr>
-                                                            @php
-                                                                $i++;
-                                                            @endphp
+                                                                <tr>
+                                                                    <th scope="row">{{ $i }}</th>
+                                                                    <td>{{ $item->nama }}</td>
+                                                                    <td>{{ $item->size }}</td>
+                                                                    <td>{{ $item->total_items }}</td>
+                                                                </tr>
+                                                                @php
+                                                                    $i++;
+                                                                @endphp
                                                             @endforeach
-                                                            
+
 
                                                         </tbody>
                                                     </table>
@@ -88,13 +88,28 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col text-end">
-                                                <form action="/admin-orders-update" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="tickpending" value="yes">
-                                                    <input type="hidden" name="id" value="{{ $order->id }}">
-                                                    <button type="submit" class="btn btn-success me-5" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
-                                                </form>
+                                            <div class="row col text-end">
+                                                <div class="col">
+                                                    <form action="/admin-orders-update" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="tickpending" value="yes">
+                                                        <input type="hidden" name="id" value="{{ $order->id }}">
+                                                        <button type="submit" class="btn btn-success me-5"
+                                                            data-bs-toggle="modal"><i
+                                                                class="bi bi-pencil-square"></i></button>
+                                                    </form>
+                                                </div>
+                                                <div class="col">
+
+                                                    <form action="/admin-orders-reject" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="delpending" value="yes">
+                                                        <input type="hidden" name="id" value="{{ $order->id }}">
+                                                        <button type="submit" class="btn btn-danger me-5"
+                                                            data-bs-toggle="modal" data-bs-target="#areyouSureDelete"><i
+                                                                class="bi bi-trash"></i></button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
@@ -121,7 +136,8 @@
 
                                             <div class="row flex align-items-center col-sm-8">
                                                 <div class="col-md-auto">
-                                                    <h5 class="card-title">Location : {{ $order['shipment_address'] }}</h5>
+                                                    <h5 class="card-title">Location : {{ $order['shipment_address'] }}
+                                                    </h5>
                                                     <p class="card-text ">Notes :{{ $order['notes'] }}</p>
 
                                                     <table class="table table-hover">
@@ -138,17 +154,17 @@
                                                                 $i = 1;
                                                             @endphp
                                                             @foreach ($results as $item)
-                                                            <tr>
-                                                                <th scope="row">{{ $i }}</th>
-                                                                <td>{{ $item->nama }}</td>
-                                                                <td>{{ $item->size }}</td>
-                                                                <td>{{ $item->total_items }}</td>
-                                                            </tr>
-                                                            @php
-                                                                $i++;
-                                                            @endphp
+                                                                <tr>
+                                                                    <th scope="row">{{ $i }}</th>
+                                                                    <td>{{ $item->nama }}</td>
+                                                                    <td>{{ $item->size }}</td>
+                                                                    <td>{{ $item->total_items }}</td>
+                                                                </tr>
+                                                                @php
+                                                                    $i++;
+                                                                @endphp
                                                             @endforeach
-                                                            
+
 
                                                         </tbody>
                                                     </table>
@@ -157,17 +173,31 @@
                                             </div>
 
                                             <div class="col text-end">
-                                                <form action="/admin-orders-update" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="tickongoing" value="yes">
-                                                    <input type="hidden" name="id" value="{{ $order->id }}">
-                                                    <button type="submit" class="btn btn-success me-5" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
-                                                </form>
+
 
                                                 @if (!$order->admincompleted)
+                                                    <form action="/admin-orders-update" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="tickongoing" value="yes">
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $order->id }}">
+                                                        <button type="submit" class="btn btn-success me-5"
+                                                            data-bs-toggle="modal"><i
+                                                                class="bi bi-pencil-square"></i></button>
+                                                    </form>
                                                     <p>Waiting for admin completed</p>
+                                                @else
+                                                    <form action="/admin-orders-update" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="delongoing" value="yes">
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $order->id }}">
+                                                            <button type="submit" class="btn btn-danger me-5"
+                                                            data-bs-toggle="modal" data-bs-target="#areyouSureDelete"><i
+                                                                class="bi bi-trash">cancel confirmation</i></button>
+                                                    </form>
                                                 @endif
-                                               
+
                                                 @if (!$order->usercompleted)
                                                     <p>Waiting for user completed</p>
                                                 @endif
@@ -194,7 +224,8 @@
 
                                             <div class="row flex align-items-center col-sm-8">
                                                 <div class="col-md-auto">
-                                                    <h5 class="card-title">Location : {{ $order['shipment_address'] }}</h5>
+                                                    <h5 class="card-title">Location : {{ $order['shipment_address'] }}
+                                                    </h5>
                                                     <p class="card-text ">Notes :{{ $order['notes'] }}</p>
 
                                                     <table class="table table-hover">
@@ -211,17 +242,17 @@
                                                                 $i = 1;
                                                             @endphp
                                                             @foreach ($results as $item)
-                                                            <tr>
-                                                                <th scope="row">{{ $i }}</th>
-                                                                <td>{{ $item->nama }}</td>
-                                                                <td>{{ $item->size }}</td>
-                                                                <td>{{ $item->total_items }}</td>
-                                                            </tr>
-                                                            @php
-                                                                $i++;
-                                                            @endphp
+                                                                <tr>
+                                                                    <th scope="row">{{ $i }}</th>
+                                                                    <td>{{ $item->nama }}</td>
+                                                                    <td>{{ $item->size }}</td>
+                                                                    <td>{{ $item->total_items }}</td>
+                                                                </tr>
+                                                                @php
+                                                                    $i++;
+                                                                @endphp
                                                             @endforeach
-                                                            
+
 
                                                         </tbody>
                                                     </table>
@@ -229,7 +260,7 @@
                                                 </div>
                                             </div>
 
-                                            
+
                                         </div>
                                     @endif
                                 @endforeach

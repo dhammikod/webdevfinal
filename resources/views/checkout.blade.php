@@ -66,7 +66,7 @@
 
                                     <label>Proof Of Payment *</label>
                                     <div id="selectedBanner"></div>
-                                    <input type="file" name="picture" class="form-control" id="img">
+                                    <input type="file" name="picture" class="form-control" id="img" required>
 
                                     <label>Order notes (optional)</label>
                                     <textarea class="form-control" cols="30" rows="4"
@@ -120,7 +120,7 @@
 
                                         <label>Proof Of Payment *</label>
                                         <img src="/img/noimgeplaceholder.jpg" alt="">
-                                        <input type="file" id="myFile" name="ProofOfPayment" class="form-control">
+                                        <input type="file" id="myFile" name="picture" class="form-control">
 
                                         <label>Order notes (optional)</label>
                                         <textarea class="form-control" cols="30" rows="4"

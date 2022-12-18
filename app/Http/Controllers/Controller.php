@@ -159,6 +159,9 @@ class Controller extends BaseController
     {
         $user = Auth::user();
         $id = $user['id'];
+        $statusorder = DB::table('orders')
+            ->where('user_id', '=', $id)->exists();
+
         $status = DB::table('shipping_addresses')
             ->where('user_id', '=', $id)->exists();
 
@@ -168,7 +171,9 @@ class Controller extends BaseController
         return view('dashboard', [
             'pagetitle' => 'Dashboard',
             "shipping_addresses" => $shipping_addresses,
-            'status' => $status
+            'status' => $status,
+            'statusorder' => $statusorder,
+            'orders' => order::all()
         ]);
     }
 
@@ -231,13 +236,24 @@ class Controller extends BaseController
         ]);
     }
 
+    public function adminOrdersdelete()
+    {
+        if (isset($_POST['delpending'])) {
+            
+            order::where('id', $_POST['id'])->delete();
+            return redirect("admin-orders");
+        }
+    }
+
     public function adminOrdersUpdate()
     {
+        $time = Carbon::now()->toDateTimeString();
         if (isset($_POST['tickpending'])) {
             $order = order::findOrFail($_POST['id']);
 
             $order->update([
-                'status' => 'ongoing'
+                'status' => 'ongoing',
+                'ship_date' => $time,
             ]);
         }
 
@@ -246,6 +262,14 @@ class Controller extends BaseController
 
             $order->update([
                 'admincompleted' => 1,
+            ]);      
+        }
+
+        if (isset($_POST['delongoing'])) {
+            $order = order::findOrFail($_POST['id']);
+
+            $order->update([
+                'admincompleted' => 0,
             ]);      
         }
 

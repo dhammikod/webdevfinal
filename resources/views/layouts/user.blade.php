@@ -51,6 +51,20 @@
      <script src="{{ asset('user/js/nouislider.min.js') }}" defer></script>
      <script src="{{ asset('user/js/jquery.countTo.js') }}" defer></script>
 
+    <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/chart.js/chart.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/echarts/echarts.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/quill/quill.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/simple-datatables/simple-datatables.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/tinymce/tinymce.min.js') }}" defer></script>
+    <script src="{{ asset('admin/vendor/php-email-form/validate.js') }}" defer></script>
+    <script src="{{ asset('admin/mainAdmin.js') }}" defer></script>
+
+    <script src="{{ asset('admin/js/jquery.min.js') }}" defer></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
      <!-- Main JS File -->
      <script src="{{ asset('user/js/main.js') }}" defer></script>
 </body>
