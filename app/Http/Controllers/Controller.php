@@ -120,14 +120,13 @@ class Controller extends BaseController
                         foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
                             echo ($i);
                             if ($i == 0) {
+                                $filterResult = $filterResult->Where(DB::raw("(`category` like '$cateogryCheckBox' OR `category` like '$cateogryCheckBox')"));
                                 $stringconcat =  $stringconcat."(`category` like '".$cateogryCheckBox;
                             } else {
                                 $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
                             }
                             $i++;
                         }
-
-                        $filterResult = $filterResult->Where(DB::raw("(`category` like '' OR `category` like '$cateogryCheckBox')"));
 
                         $filterResult = $filterResult->get();
                     }
@@ -234,11 +233,27 @@ class Controller extends BaseController
             ->orWhere('id', $recomID4)
             ->get();
 
+        $recomItems = DB::table('items')
+            ->select(
+                'items.id',
+                'items.nama',
+                'items.price',
+                'items.sold',
+                'items.category',
+                DB::raw('(SELECT item_pictures.picture FROM `item_pictures` item_pictures WHERE item_pictures.id_item = items.id LIMIT 1) as item_picture')
+            )
+            ->where('id', $recomID1)
+            ->orWhere('id', $recomID2)
+            ->orWhere('id', $recomID3)
+            ->orWhere('id', $recomID4)
+            ->get();
+
         return view('product-details', [
             'pagetitle' => 'Product Details',
             'items' => $items,
             'itemPictures' => $pics,
             'itemSizeStocks' => $sizestock,
+            'userid' => Auth::user()->id,
             'recomItems' => $recomItems,
             'itemPicturesAlls' => item_picture::all(),
             'itemSizeStocksAlls' => $itemSizeStocks,
@@ -569,18 +584,18 @@ class Controller extends BaseController
         $shippingAddressesSELECTED = false;
         if (isset($_GET['a'])) {
             $shippingAddressesSELECTED = true;
-            
+
             $shippingAddressId = $_GET['chooseLocation'];
-            
+
             $selectedinfo = DB::table('users as user')
-                                  ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
-                                  ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $userId . ') as new'), function($join) {
-                                        $join->on('new.user_id', '=', 'user.id');
-                                  })
-                                  ->where('user.id', '=', $userId)
-                                  ->where('new.id', '=', $shippingAddressId)
-                                  ->get();
-            
+                ->select('user.name', 'new.shipment_address', 'new.notes', 'new.city', 'new.postal_code', 'new.contact', 'user.email', 'new.id')
+                ->join(DB::raw('(SELECT * FROM shipping_addresses WHERE user_id = ' . $userId . ') as new'), function ($join) {
+                    $join->on('new.user_id', '=', 'user.id');
+                })
+                ->where('user.id', '=', $userId)
+                ->where('new.id', '=', $shippingAddressId)
+                ->get();
+
 
             return view('checkout', [
                 'pagetitle' => 'Checkout',

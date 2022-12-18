@@ -195,15 +195,10 @@
                 @foreach ($recomItems as $recomItem)
                     <div class="product product-7 text-center">
                         <figure class="product-media">
-                            @foreach ($itemPicturesAlls as $itemPicturesAll)
-                                @if ($recomItem->id == $itemPicturesAll->id_item)
-                                    <a href="../product-details/{{ $recomItem->id }}">
-                                        <img src="{{ asset('storage/' . $itemPicturesAll->picture) }}" alt="Product image"
-                                            class="product-image">
-                                    </a>
-                                @break
-                            @endif
-                        @endforeach
+                            <a href="../product-details/{{ $recomItem->id }}">
+                                <img src="{{ asset('storage/' . $recomItem->item_picture) }}" alt="Product image"
+                                    class="product-image">
+                            </a>
 
                         <div class="product-action-vertical">
                             @auth
