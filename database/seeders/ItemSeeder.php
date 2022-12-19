@@ -68,5 +68,59 @@ class ItemSeeder extends Seeder
             'category' => 'Clothes',
             'statusDelete' => false
         ]);
+
+        Item::create([
+            'nama' => 'Yeezy deset sage',
+            'sold' => 0,
+            'price' => 3600000,
+            'description' => 'VVNDS LIKE NEW, Surabaya',
+            'category' => 'shoes',
+            'statusDelete' => false
+        ]);
+
+        Item::create([
+            'nama' => 'Air jordan signal blue',
+            'sold' => 0,
+            'price' => 2000000,
+            'description' => 'Sepatu yang nyaman untuk dipakai',
+            'category' => 'shoes',
+            'statusDelete' => false
+        ]);
+
+        Item::create([
+            'nama' => 'ADLV Astronaut boy',
+            'sold' => 0,
+            'price' => 850000,
+            'description' => 'Baju ADLV yang bergambar astronaut anak',
+            'category' => 'Clothes',
+            'statusDelete' => false
+        ]);
+
+        Item::create([
+            'nama' => 'Ricky is clown Tee',
+            'sold' => 0,
+            'price' => 700000,
+            'description' => 'Baju tee yang bermotif clown',
+            'category' => 'Clothes',
+            'statusDelete' => false
+        ]);
+
+        Item::create([
+            'nama' => 'ADLV Fireworks',
+            'sold' => 0,
+            'price' => 900000,
+            'description' => 'Baju ADLV yang bergambar kembang api',
+            'category' => 'Clothes',
+            'statusDelete' => false
+        ]);
+
+        Item::create([
+            'nama' => 'Ricky is clown Blue Galaxy',
+            'sold' => 0,
+            'price' => 650000,
+            'description' => 'Baju Ricky is Clown yang bergambar blue galaxy',
+            'category' => 'Clothes',
+            'statusDelete' => false
+        ]);
     }
 }

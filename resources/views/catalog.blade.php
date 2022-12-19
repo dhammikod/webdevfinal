@@ -26,6 +26,7 @@
 
                     <div class="toolbox-center">
                         <div class="toolbox-info">
+                           
                         </div><!-- End .toolbox-info -->
                     </div><!-- End .toolbox-center -->
 
@@ -34,6 +35,7 @@
                             <a href="/catalog">Clear Filter</a>
                         </div><!-- End .toolbox-sort -->
                     </div><!-- End .toolbox-right -->
+                    
                 </div><!-- End .toolbox -->
 
 
@@ -132,12 +134,29 @@
 
 
                                 </div><!-- End .product-body -->
+                                
                             </div><!-- End .product -->
+                            
                         </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
                     @endforeach
-
                 </div><!-- End .row -->
+                <div class="toolbox">
+                    <div class="toolbox-left">
+                    </div><!-- End .toolbox-left -->
 
+                    <div class="toolbox-center">
+                        <div class="toolbox-info">
+                            {{ $items->links() }}
+                        </div><!-- End .toolbox-info -->
+                    </div><!-- End .toolbox-center -->
+
+                    <div class="toolbox-right">
+                        <div class="toolbox-sort">
+                        </div><!-- End .toolbox-sort -->
+                    </div><!-- End .toolbox-right -->
+                    
+                </div><!-- End .toolbox -->
+                
 
 
 

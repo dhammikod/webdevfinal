@@ -101,5 +101,61 @@ class ItemSizeStockSeeder extends Seeder
                 'id_item' => 6,
             ]
         );
+
+        item_size_stock::create(
+            [
+                'size' => 'US 10,5',
+                'stock' => 1,
+                'id_item' => 7,
+            ]
+        );
+
+        item_size_stock::create(
+            [
+                'size' => 'US 9,5',
+                'stock' => 1,
+                'id_item' => 8,
+            ]
+        );
+
+        item_size_stock::create(
+            [
+                'size' => '1 size',
+                'stock' => 1,
+                'id_item' => 9,
+            ]
+        );
+
+        item_size_stock::create(
+            [
+                'size' => 'M',
+                'stock' => 1,
+                'id_item' => 10,
+            ]
+        );
+
+        item_size_stock::create(
+            [
+                'size' => '1 size',
+                'stock' => 1,
+                'id_item' => 11,
+            ]
+        );
+
+        item_size_stock::create(
+            [
+                'size' => 'L',
+                'stock' => 2,
+                'id_item' => 12,
+            ]
+        );
+
+        item_size_stock::create(
+            [
+                'size' => 'XL',
+                'stock' => 2,
+                'id_item' => 12,
+            ]
+        );
     }
 }

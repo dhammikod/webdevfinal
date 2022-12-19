@@ -162,7 +162,7 @@ class Controller extends BaseController
             return view('catalog', [
                 $itemSizeStocks = DB::table('item_size_stocks')->get(),
                 'pagetitle' => 'Catalog',
-                'items' => Item::all(),
+                'items' => Item::paginate(8),
                 'filterCategory' => $filterCategory,
                 'itemSizeStocks' => $itemSizeStocks,
                 'itemPictures' => item_picture::all()
