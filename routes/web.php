@@ -71,8 +71,6 @@ Route::post('/admin-orders-reject', [Controller::class, 'adminOrdersdelete'])->m
 // Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks'])->middleware(['auth', 'verified'])->name('admin-website_feedback');
 Route::resource('admin-website_feedbacks', FeedbackController::class);
 
-Route::get('/dashboard', [Controller::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::post('dashboard', [RegisteredUserController::class, 'update']);
 
 Route::get('/makeaddress', [Controller::class, 'makeaddress']);

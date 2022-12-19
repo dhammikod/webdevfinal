@@ -6,24 +6,24 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="#" class="logo d-flex align-items-center">
-                <img src="{{asset('img/logo.jpg')}}" alt="product">
+                <img src="{{ asset('img/logo.jpg') }}" alt="product">
                 <span class="d-none d-lg-block">Admin</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
 
-      
+
 
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
 
-                
+
 
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                         data-bs-toggle="dropdown">
-                        <img src="{{asset('img/noimgeplaceholder.jpg')}}" alt="Profile" class="rounded-circle">
+                        <img src="{{ asset('img/noimgeplaceholder.jpg') }}" alt="Profile" class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2">H&D Webmaker</span>
                     </a><!-- End Profile Iamge Icon -->
 
@@ -67,15 +67,6 @@
     <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/admin-dashboard">
-                    <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li><!-- End Dashboard Nav -->
-
-
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/admin-profile">
                     <i class="bi bi-person"></i>
