@@ -43,7 +43,6 @@ Route::post('/checkoutProceed', [Controller::class, 'OrderaddDB']);
 
 Route::get('/aboutus', [Controller::class, 'aboutus']);
 
-Route::get('/admin-dashboard', [Controller::class, 'adminDashboard'])->middleware(['auth', 'verified'])->name('admin-dashboard');;
 
 Route::get('/admin-profile', [Controller::class, 'adminProfile'])->middleware(['auth', 'verified'])->name('admin-profile');;
 Route::post('admin-profile', [RegisteredUserController::class, 'updateAdmin']);
@@ -71,7 +70,8 @@ Route::post('/admin-orders-reject', [Controller::class, 'adminOrdersdelete'])->m
 // Route::get('/admin-website_feedbacks', [Controller::class, 'adminWebsite_feedbacks'])->middleware(['auth', 'verified'])->name('admin-website_feedback');
 Route::resource('admin-website_feedbacks', FeedbackController::class);
 
-Route::post('dashboard', [RegisteredUserController::class, 'update']);
+Route::get('/checkout', [Controller::class, 'checkout']);
+Route::get('/dashboard', [Controller::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/makeaddress', [Controller::class, 'makeaddress']);
 // Route::post('/makeaddress', [ShippingAddressController::class, 'store']);
