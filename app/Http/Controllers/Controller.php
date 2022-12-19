@@ -73,12 +73,12 @@ class Controller extends BaseController
                                     $query->orWhere('category', 'like', $category);
                                 }
                             })
-                            ->get();
+                            ->paginate(8);
                     } else {
                         //checkbox null
                         $filterResult = Item::where('price', '>', $priceMIN)
                             ->where('price', '<', $priceMAX)
-                            ->get();
+                            ->paginate(8);
                     }
                 } else {
                     // min null
@@ -90,10 +90,10 @@ class Controller extends BaseController
                                     $query->orWhere('category', 'like', $category);
                                 }
                             })
-                            ->get();
+                            ->paginate(8);
                     } else {
                         $filterResult = Item::where('price', '<', $priceMAX)
-                            ->get();
+                            ->paginate(8);
                     }
                 }
             } else {
@@ -108,10 +108,10 @@ class Controller extends BaseController
                                     $query->orWhere('category', 'like', $category);
                                 }
                             })
-                            ->get();
+                            ->paginate(8);
                     } else {
                         $filterResult = Item::where('price', '>', $priceMIN)
-                            ->get();
+                            ->paginate(8);
                     }
                 }
             }
@@ -120,7 +120,7 @@ class Controller extends BaseController
                 return view('catalog', [
                     $itemSizeStocks = DB::table('item_size_stocks')->get(),
                     'pagetitle' => 'Catalog',
-                    'items' => Item::all(),
+                    'items' => Item::paginate(8),
                     'filterCategory' => $filterCategory,
                     'itemSizeStocks' => $itemSizeStocks,
                     'itemPictures' => item_picture::all()
@@ -145,7 +145,7 @@ class Controller extends BaseController
                 ->where('nama', 'LIKE', "%{$search}%")
                 ->orWhere('description', 'LIKE', "%{$search}%")
                 ->orWhere('category', 'LIKE', "%{$search}%")
-                ->get();
+                ->paginate(8);
 
             $itemSizeStocks = DB::table('item_size_stocks')->get();
 
