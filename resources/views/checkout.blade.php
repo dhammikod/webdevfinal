@@ -171,7 +171,7 @@
                                                     <td><a
                                                             href="#">{{ $ShoppingCartList->nama . ' (x' . $ShoppingCartList->jumlah . ')' . '(' . $ShoppingCartList->size . ')' }}</a>
                                                     </td>
-                                                    <td>{{ $ShoppingCartList->price }}</td>
+                                                    <td>{{ number_format($ShoppingCartList->price,2,",",".") }}</td>
                                                 </tr>
                                             @endforeach
                                             <tr>
@@ -180,7 +180,7 @@
                                             </tr>
                                             <tr class="summary-total">
                                                 <td>Total:</td>
-                                                <td name="totalPrice">{{ $TotalPrice }}</td>
+                                                <td name="totalPrice">{{ number_format($TotalPrice,2,",",".") }}</td>
                                             </tr><!-- End .summary-total -->
                                         </tbody>
                                     </table><!-- End .table table-summary -->

@@ -31,7 +31,7 @@
 
                     <div class="toolbox-right">
                         <div class="toolbox-sort">
-                               <a href="">Clear Filter</a>
+                            <a href="/catalog">Clear Filter</a>
                         </div><!-- End .toolbox-sort -->
                     </div><!-- End .toolbox-right -->
                 </div><!-- End .toolbox -->
@@ -152,9 +152,9 @@
                     {{-- DINSIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII FORM --}}
                     <form action="/catalog" method="get">
                         <div class="sidebar-filter-wrapper">
-                            <div class="widget widget-clean">
+                            <div class="widget widget-clean d-flex justify-content-between">
                                 <label><i class="icon-close filterclose"></i>Filters</label>
-                                <a href="#" class="sidebar-filter-clear">Clean All</a>
+                                <input type="reset" class="btn btn-primary btn-rounded" value="Clean All">
                             </div><!-- End .widget -->
                             <div class="widget widget-collapsible">
                                 <h3 class="widget-title">

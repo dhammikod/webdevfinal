@@ -57,7 +57,7 @@
                 <nav class="main-nav">
                     <ul class="menu">
                         {{-- jangan lupa ganti active di web tertentu --}}
-                        <li class="active">
+                        <li >
                             <a href="/" class="sf-with-ul">Home</a>
                         </li>
 

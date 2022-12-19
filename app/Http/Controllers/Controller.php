@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Constraint\Count;
 
 class Controller extends BaseController
 {
@@ -48,125 +49,94 @@ class Controller extends BaseController
                 $cateogryCheckBoxs = $_GET['checkboxFilter'];
             }
 
+            if ($priceMIN == null) {
+                $priceMIN = 0;
+            }
+            
             if ($priceMAX != null) {
                 if ($priceMAX < $priceMIN) {
-                    $priceMIN = null;
+                    $priceMIN = 0;
                     $priceMAX = null;
                 }
             }
 
-            // dd($priceMIN . ' min ;' . $priceMAX . ' max ; ' . print_r($cateogryCheckBoxs) . ' cat');
-
-
             if ($priceMAX != null) {
                 //max not null
-                if ($priceMIN != null) {
+                if ($priceMIN != -1) {
                     //min not null
                     if ($cateogryCheckBoxs != null) {
                         //checkbox not null
                         $filterResult = Item::where('price', '>', $priceMIN)
-                            ->where('price', '<', $priceMAX);
-                        $i = 0;
-                        foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
-                            if ($i == 0) {
-                                $filterResult = $filterResult->Where('category', 'like', "$cateogryCheckBox");
-                            } else {
-                                $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
+                        ->where('price', '<', $priceMAX)
+                        ->where(function ($query) use ($cateogryCheckBoxs) {
+                            foreach ($cateogryCheckBoxs as $category) {
+                                $query->orWhere('category', 'like', $category);
                             }
-                            $i++;
-                        }
-
-                        $filterResult = $filterResult->get();
+                        })
+                        ->get();
                     } else {
                         //checkbox null
                         $filterResult = Item::where('price', '>', $priceMIN)
-                            ->where('price', '<', $priceMAX)
-                            ->get();
+                        ->where('price', '<', $priceMAX)
+                        ->get();
                     }
                 } else {
                     // min null
                     if ($cateogryCheckBoxs != null) {
                         //checkbox not null
-                        $filterResult = Item::where('price', '<', $priceMAX);
-                        $i = 0;
-                        foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
-                            if ($i == 0) {
-                                $filterResult = $filterResult->Where('category', 'like', "$cateogryCheckBox");
-                            } else {
-                                $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
+                        $filterResult = Item::where('price', '<', $priceMAX)
+                        ->where(function ($query) use ($cateogryCheckBoxs) {
+                            foreach ($cateogryCheckBoxs as $category) {
+                                $query->orWhere('category', 'like', $category);
                             }
-                            $i++;
-                        }
-                        dd($filterResult->toSql());
-
-                        $filterResult = $filterResult->get();
+                        })
+                        ->get();
                     } else {
                         $filterResult = Item::where('price', '<', $priceMAX)
-                            ->get();
+                        ->get();
                     }
                 }
             } else {
                 //max null
-                if ($priceMIN != null) {
+                if ($priceMIN != -1) {
                     //min not null
                     if ($cateogryCheckBoxs != null) {
-                        //checkbox not null
-
-                        $filterResult = Item::where('price', '>', $priceMIN);
-
-
-                        $i = 0;
-                        $stringconcat = "";
-                        foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
-                            echo ($i);
-                            if ($i == 0) {
-                                $filterResult = $filterResult->Where(DB::raw("(`category` like '$cateogryCheckBox' OR `category` like '$cateogryCheckBox')"));
-                                $stringconcat =  $stringconcat."(`category` like '".$cateogryCheckBox;
-                            } else {
-                                $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
-                            }
-                            $i++;
-                        }
-
-                        $filterResult = $filterResult->get();
-                    }
-                } else {
-                    //min null
-                    if ($cateogryCheckBoxs != null) {
-                        $filterResult = DB::table('items')
-                            ->select('id')
-                            ->select('price')
-                            ->select('nama')
-                            ->select('sold')
-                            ->select('description')
-                            ->select('category')
-                            ->select('statusDelete');
-
-                        $i = 0;
-                        foreach ($cateogryCheckBoxs as $cateogryCheckBox) {
-                            if ($i = 0) {
-                                $filterResult = $filterResult->Where('category', 'like', "$cateogryCheckBox");
-                            } else {
-                                $filterResult = $filterResult->orWhere('category', 'like', "$cateogryCheckBox");
-                            }
-                            $i++;
-                        }
-                        $filterResult = $filterResult->get();
+                        //checkbox not nul
+                        $filterResult = Item::where('price', '>', $priceMIN)
+                            ->where(function ($query) use ($cateogryCheckBoxs) {
+                                foreach ($cateogryCheckBoxs as $category) {
+                                    $query->orWhere('category', 'like', $category);
+                                }
+                            })
+                            ->get();
+                    } else{
+                        $filterResult = Item::where('price', '>', $priceMIN)
+                        ->get();
                     }
                 }
             }
 
-            return view('catalog', [
+            if ($priceMIN == 0 && $priceMAX == null && $cateogryCheckBoxs == null) {
+                return view('catalog', [
+                    $itemSizeStocks = DB::table('item_size_stocks')->get(),
+                    'pagetitle' => 'Catalog',
+                    'items' => Item::all(),
+                    'filterCategory' => $filterCategory,
+                    'itemSizeStocks' => $itemSizeStocks,
+                    'itemPictures' => item_picture::all()
 
-                $itemSizeStocks = DB::table('item_size_stocks')->get(),
-                'pagetitle' => 'Catalog',
-                'items' => $filterResult,
-                'filterCategory' => $filterCategory,
-                'itemSizeStocks' => $itemSizeStocks,
-                'itemPictures' => item_picture::all()
+                ]);
+            } {
+                return view('catalog', [
 
-
-            ]);
+                    $itemSizeStocks = DB::table('item_size_stocks')->get(),
+                    'pagetitle' => 'Catalog',
+                    'items' => $filterResult,
+                    'filterCategory' => $filterCategory,
+                    'itemSizeStocks' => $itemSizeStocks,
+                    'itemPictures' => item_picture::all()
+                ]);
+            }
         }
 
         if (isset($_GET['search'])) {
