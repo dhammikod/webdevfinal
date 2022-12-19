@@ -77,7 +77,7 @@
                                             <select name="size" id="size" class="form-control" required>
                                                 <option value="#" selected="selected">Select a size</option>
                                                 @foreach ($itemSizeStocks as $itemSizeStock)
-                                                    @if ($itemSizeStock->stock == 0)
+                                                    @if ($itemSizeStock->stock <= 0)
                                                         <option value="{{ $itemSizeStock->size }}" disabled>
                                                             {{ $itemSizeStock->size }}
                                                             ({{ $itemSizeStock->stock }})

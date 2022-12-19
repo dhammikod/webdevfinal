@@ -105,9 +105,6 @@
                                             href="{{ route('product-details.productDetails', $item->id) }}">{{ $item['nama'] }}</a> --}}
                                     <h3 class="product-title"><a
                                             href=""{{ route('product-details', ['id' => $item->id]) }}>{{ $item->nama }}</a>
-
-
-
                                     </h3>
                                     <!-- End .product-title -->
                                     <div class="product-price">

@@ -52,7 +52,7 @@ class Controller extends BaseController
             if ($priceMIN == null) {
                 $priceMIN = 0;
             }
-            
+
             if ($priceMAX != null) {
                 if ($priceMAX < $priceMIN) {
                     $priceMIN = 0;
@@ -67,33 +67,33 @@ class Controller extends BaseController
                     if ($cateogryCheckBoxs != null) {
                         //checkbox not null
                         $filterResult = Item::where('price', '>', $priceMIN)
-                        ->where('price', '<', $priceMAX)
-                        ->where(function ($query) use ($cateogryCheckBoxs) {
-                            foreach ($cateogryCheckBoxs as $category) {
-                                $query->orWhere('category', 'like', $category);
-                            }
-                        })
-                        ->get();
+                            ->where('price', '<', $priceMAX)
+                            ->where(function ($query) use ($cateogryCheckBoxs) {
+                                foreach ($cateogryCheckBoxs as $category) {
+                                    $query->orWhere('category', 'like', $category);
+                                }
+                            })
+                            ->get();
                     } else {
                         //checkbox null
                         $filterResult = Item::where('price', '>', $priceMIN)
-                        ->where('price', '<', $priceMAX)
-                        ->get();
+                            ->where('price', '<', $priceMAX)
+                            ->get();
                     }
                 } else {
                     // min null
                     if ($cateogryCheckBoxs != null) {
                         //checkbox not null
                         $filterResult = Item::where('price', '<', $priceMAX)
-                        ->where(function ($query) use ($cateogryCheckBoxs) {
-                            foreach ($cateogryCheckBoxs as $category) {
-                                $query->orWhere('category', 'like', $category);
-                            }
-                        })
-                        ->get();
+                            ->where(function ($query) use ($cateogryCheckBoxs) {
+                                foreach ($cateogryCheckBoxs as $category) {
+                                    $query->orWhere('category', 'like', $category);
+                                }
+                            })
+                            ->get();
                     } else {
                         $filterResult = Item::where('price', '<', $priceMAX)
-                        ->get();
+                            ->get();
                     }
                 }
             } else {
@@ -109,9 +109,9 @@ class Controller extends BaseController
                                 }
                             })
                             ->get();
-                    } else{
+                    } else {
                         $filterResult = Item::where('price', '>', $priceMIN)
-                        ->get();
+                            ->get();
                     }
                 }
             }
@@ -293,6 +293,24 @@ class Controller extends BaseController
     {
         $user = Auth::user();
         $id = $user['id'];
+
+
+        $ChangeActiveTabToOngoing = false;
+
+
+        if (isset($_GET['userconfirmed'])) {
+            $order = order::findOrFail($_GET['id']);
+            $order->update([
+                'usercompleted' => 1,
+            ]);
+            $ChangeActiveTabToOngoing = true;
+        }
+
+        $completedorders = DB::table('orders')
+            ->where('user_id', '=', $id)
+            ->Where('usercompleted', '=', true)
+            ->get();
+
         $statusorder = DB::table('orders')
             ->where('user_id', '=', $id)->exists();
 
@@ -314,11 +332,6 @@ class Controller extends BaseController
             ->Where('usercompleted', '=', 0)
             ->get();
 
-        $completedorders = DB::table('orders')
-            ->where('user_id', '=', $id)
-            ->Where('usercompleted', '=', true)
-            ->get();
-
         return view('dashboard', [
             'pagetitle' => 'Dashboard',
             "shipping_addresses" => $shipping_addresses,
@@ -326,7 +339,8 @@ class Controller extends BaseController
             'statusorder' => $statusorder,
             'pendingorders' => $pendingorders,
             'ongoingorders' => $ongoingorders,
-            'completedorders' => $completedorders
+            'completedorders' => $completedorders,
+            'ChangeActiveTabToOngoing' => $ChangeActiveTabToOngoing,
         ]);
     }
 
@@ -401,6 +415,7 @@ class Controller extends BaseController
     public function adminOrdersUpdate()
     {
         $time = Carbon::now()->toDateTimeString();
+
         if (isset($_POST['tickpending'])) {
             $order = order::findOrFail($_POST['id']);
 
@@ -408,6 +423,23 @@ class Controller extends BaseController
                 'status' => 'ongoing',
                 'ship_date' => $time,
             ]);
+
+            $tempID = $order->id;
+            $detilOrderMinusStock = detil_order::where('id_order', $tempID)->get();
+
+            foreach ($detilOrderMinusStock as $d) {
+                $stockuntukDikurangi = $d->total_items;
+                $imtemsizeObj = item_size_stock::where('id', $d->id_stocksize)->get();
+                foreach ($imtemsizeObj as $s) {
+                    $stocks = $s->stock;
+                }
+
+                foreach ($imtemsizeObj as $s) {
+                    $s->update([
+                        'stock' => $stocks - $stockuntukDikurangi
+                    ]);
+                }
+            }
 
             return redirect("admin-orders");
         }
@@ -443,15 +475,6 @@ class Controller extends BaseController
         if (isset($_POST['usercancel'])) {
 
             order::where('id', $_POST['id'])->delete();
-            return redirect("dashboard");
-        }
-
-        if (isset($_POST['userconfirmed'])) {
-            $order = order::findOrFail($_POST['id']);
-            $order->update([
-                'usercompleted' => 1,
-            ]);
-
             return redirect("dashboard");
         }
     }

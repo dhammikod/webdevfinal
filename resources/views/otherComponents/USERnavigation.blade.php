@@ -14,7 +14,6 @@
                     <div class="header-menu">
                         <ul>
                             <li><a href="#">IDR</a></li>
-                            <li><a href="#">USD</a></li>
                         </ul>
                     </div><!-- End .header-menu -->
                 </div><!-- End .header-dropdown -->
