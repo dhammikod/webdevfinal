@@ -24,15 +24,14 @@
                         <form action="/checkout" method="GET">
                             <input type="hidden" name="a" value="asdfa" id="a">
                             
-                                <select name="chooseLocation" id="chooseLocation"
-                                    class="btn btn-outline-primary btn-rounded">
+                                <select name="chooseLocation" id="chooseLocation" class="btn btn-outline-primary btn-rounded" onchange="this.form.submit()">
+                                    <option selected>Choose your saved address</option>
                                     @foreach ($shippingaddresses as $shippingaddress)
-                                        <option name="shipmentChosen" value=" {{ $shippingaddress->id }}">
+                                        <option  name="shipmentChosen" value=" {{ $shippingaddress->id }}">
                                             {{ $shippingaddress->shipment_address }}
                                         </option>
                                     @endforeach
                                 </select>
-                                <button type='submit'>
                             </button>
                         </form>
                     @endif

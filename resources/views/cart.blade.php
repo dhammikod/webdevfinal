@@ -37,35 +37,37 @@
 
                                     {{-- loop --}}
                                     @foreach ($shoppingcarts as $item)
-                                    @php
-                                        $total += $item->price * $item->jumlah;
-                                    @endphp
+                                        @php
+                                            $total += $item->price * $item->jumlah;
+                                        @endphp
                                         <tr>
                                             <td class="product-col">
                                                 <div class="product">
                                                     <figure class="product-media">
                                                         <a href="#">
-                                                            <img src="{{ asset('storage/'.$item->picture) }}"
+                                                            <img src="{{ asset('storage/' . $item->picture) }}"
                                                                 alt="Product image">
                                                         </a>
                                                     </figure>
 
                                                     <h3 class="product-title">
-                                                        <a href="product-details/{{ $item->id }}">{{ $item->nama }}</a>
+                                                        <a
+                                                            href="product-details/{{ $item->id }}">{{ $item->nama }}</a>
                                                     </h3><!-- End .product-title -->
                                                 </div><!-- End .product -->
                                             </td>
-                                            <td class="price-col">{{ number_format("$item->price",2,",",".") }}</td>
-                                            <td class="quantity-col">
+                                            <td class="price-col">{{ number_format("$item->price", 2, ',', '.') }}</td>
+                                            <td class="quantity-col text-center">
                                                 <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="{{ $item->jumlah }}" min="1"
-                                                        max="10" step="1" data-decimals="0" required>
+                                                    {{ $item->jumlah }}
                                                 </div><!-- End .cart-product-quantity -->
                                             </td>
-                                            <td class="total-col">{{ number_format($item->price * $item->jumlah,2,",",".") }}</td>
-                                            
+                                            <td class="total-col">
+                                                {{ number_format($item->price * $item->jumlah, 2, ',', '.') }}</td>
+
                                             <td class="remove-col">
-                                                <form action="{{ route('shoppingcart.destroy', $item->id) }}" method="POST">
+                                                <form action="{{ route('shoppingcart.destroy', $item->id) }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn-remove">
@@ -89,7 +91,7 @@
                                     <tbody>
                                         <tr class="summary-subtotal">
                                             <td>Subtotal:</td>
-                                            <td>Rp {{ number_format($total,2,",",".") }}</td>
+                                            <td>Rp {{ number_format($total, 2, ',', '.') }}</td>
                                         </tr><!-- End .summary-subtotal -->
                                         <tr class="summary-shipping">
                                             <td>Shipping:</td>
@@ -100,7 +102,8 @@
                                                 <div class="custom-control custom-radio">
                                                     <input type="radio" id="free-shipping" name="shipping"
                                                         class="custom-control-input">
-                                                    <label class="custom-control-label" for="free-shipping">Ongkos akan di tanggung VIA COD</label>
+                                                    <label class="custom-control-label" for="free-shipping">Ongkos akan di
+                                                        tanggung VIA COD</label>
                                                 </div><!-- End .custom-control -->
                                             </td>
                                         </tr>
@@ -142,7 +145,7 @@
 
                                         <tr class="summary-total">
                                             <td>Total:</td>
-                                            <td>Rp {{ number_format($total,2,",",".") }}</td>
+                                            <td>Rp {{ number_format($total, 2, ',', '.') }}</td>
                                         </tr><!-- End .summary-total -->
                                     </tbody>
                                 </table><!-- End .table table-summary -->
